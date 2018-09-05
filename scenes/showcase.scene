@@ -1,0 +1,123 @@
+#SCENE SHOWCASE
+CAMERA
+{
+    position 0 0 0
+    rotation 0 0 0
+    lookat 0 0 1
+    focal 1
+}
+
+OBJECT
+{
+    name SPHERE0
+    type SPHERE
+    position -10 0 100
+    rotation 0 0 0
+    radius 3
+    ambient 5
+    specular 500 500 500
+    color 255 120 255
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -15 12 135
+    rotation 0 0 0
+    radius 10
+    ambient 5
+    specular 200 200 200
+    color 255 170 150
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 20 10 150
+    rotation 0 0 0
+    radius 5
+    ambient 5
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name CONE0
+    type CONE
+    position -10 -10 100
+    rotation 160 0 90
+    radius 10
+    ambient 5
+    specular 200 200 200
+    color 40 210 150
+}
+
+OBJECT
+{
+    name CYL0
+    type CYLINDER
+    position 30 0 150
+    rotation 30 0 50
+    radius 4
+    ambient 5
+    specular 300 300 300
+    color 0 120 255
+}
+
+OBJECT
+{
+    name CYL0
+    type CYLINDER
+    position 30 -20 130
+    rotation 30 0 70
+    radius 4
+    ambient 5
+    specular 300 300 300
+    color 100 120 20
+}
+
+OBJECT
+{
+    name PLANE0
+    type PLANE
+    position 0 -30 300
+    rotation 80 0 0
+    ambient 5
+    specular 255 10 10
+    color 0 255 255
+}
+
+OBJECT
+{
+    name PLANE1
+    type PLANE
+    position 0 -35 250
+    rotation 90 0 -45
+    ambient 5
+    specular 255 10 10
+    color 255 30 60
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position 0 0 80
+    color 255 255 255
+    specular 255 255 255
+    ambient 8
+}
+
+SPOT
+{
+    name SPOT1
+    type SPOT
+    position 0 20 130
+    color 255 0 255
+    specular 255 255 255
+    ambient 8
+}
+#ENDSCENE

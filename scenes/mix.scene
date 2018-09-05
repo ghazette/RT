@@ -1,0 +1,66 @@
+#SCENE TEST0
+CAMERA
+{
+    position 0 0 0
+    rotation 0 0 0
+    lookat 0 0 15
+	focal 1
+}
+
+OBJECT
+{
+    name Posay
+    type SPHERE
+    position 0 0 100
+    rotation 0 0 0
+    radius 5
+    ambient 1
+    specular 200 200 200
+    color 140 180 100
+}
+
+OBJECT
+{
+    name rektnoob
+    type CYLINDER
+    position -500 0 0
+    rotation 0 0 0
+    radius 5
+    ambient 1
+    specular 200 0 0
+    color 50 50 200
+}
+
+OBJECT
+{
+    name 125BB
+    type CONE
+    position 500 0 0
+    rotation 0 0 0
+    radius 30
+    ambient 1
+    specular 255 255 255
+    color 15 97 120
+}
+
+OBJECT
+{
+    name cabugpa
+    type PLANE
+    position 0 0 -2000
+    rotation 0 0 0
+    ambient 1
+    specular 255 255 255
+    color 15 97 120
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position 50 150 0
+    color 255 254 233
+    specular 140 180 100
+    ambient 4
+}
+#ENDSCENE

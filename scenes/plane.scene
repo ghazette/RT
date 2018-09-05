@@ -1,0 +1,146 @@
+#SCENE TEST0
+CAMERA
+{
+    position -150 100 -1800
+    rotation 0 6 0
+    lookat 0 100 -1
+    focal 1
+}
+
+OBJECT
+{
+    name PLANE2
+    type PLANE
+    position 0 0 200
+    rotation 0 0 0
+    ambient 5
+    specular 85 70 15
+    color 125 100 25
+}
+
+OBJECT
+{
+    name PLANE
+    type PLANE
+    position 0 0 -1000
+    rotation 90 0 0
+    ambient 5
+    specular 85 70 15
+    color 125 100 25
+}
+
+OBJECT
+{
+    name PLANE3
+    type PLANE
+    position -200 0 -500
+    rotation 0 -90 0
+    ambient 5
+    specular 85 70 15
+    color 125 100 25
+}
+
+OBJECT
+{
+    name PLANE3
+    type PLANE
+    position 200 0 -500
+    rotation 0 90 0
+    ambient 5
+    specular 85 70 15
+    color 125 100 25
+}
+
+OBJECT
+{
+    name PLANE4
+    type PLANE
+    position 0 200 -500
+    rotation -90 0 0
+    ambient 5
+    specular 85 70 15
+    color 125 100 25
+}
+
+OBJECT
+{
+    name CYL1
+    type CYLINDER
+    position -40 100 -60
+    rotation 0 0 0
+    radius 6
+    ambient 15
+    specular 255 255 255
+    color 255 0 0
+}
+
+OBJECT
+{
+    name CONE
+    type CONE
+    position 0 100 -100
+    radius 25
+    radius 15
+    ambient 5
+    specular 0 200 100
+    color 0 0 255
+}
+
+OBJECT
+{
+    name CYL3
+    type CYLINDER
+    position -100 100 -180
+    rotation 0 0 0
+    radius 6
+    ambient 5
+    specular 255 255 255
+    color 125 181 237
+}
+
+OBJECT
+{
+    name CYL4
+    type CYLINDER
+    position 100 100 -180
+    rotation 70 0 0
+    radius 6
+    ambient5
+    specular 255 255 255
+    color 125 181 237
+}
+
+OBJECT
+{
+    name CYL5
+    type CYLINDER
+    position 100 130 -180
+    rotation 90 70 0
+    radius 6
+    ambient 5
+    specular 255 255 255
+    color 125 181 237
+}
+
+OBJECT
+{
+    name sphere
+    type SPHERE
+    position 0 100 -800
+    rotation 0 0 0
+    radius 20
+    ambient 5
+    specular 255 0 0
+    color 180 20 20
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position 150 180 -350
+    specular 255 255 255
+    color 255 255 255
+    ambient 5
+}
+#ENDSCENE
