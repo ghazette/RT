@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 17:15:22 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/05 15:23:18 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:56:30 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,6 +24,11 @@ int	render_plane(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)
 	vec3_add(view, vec3_scale(&vdir, t, MULT, &interinfo->intersect),
 		&interinfo->intersect);
 	vector3d(&interinfo->normal, obj->dir.x, obj->dir.y, obj->dir.z);
-	vec3_normalize(&interinfo->normal);
+	t_vec3 test;
+	vec3_sub(&interinfo->intersect, &obj->dir, &test);
+	double a = vec3_length(&interinfo->intersect, view);
+	double b = vec3_length(&test, view);
+	if (a > b)
+		vec3_reverse(&interinfo->normal);
 	return (1);
 }

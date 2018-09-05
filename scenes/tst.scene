@@ -1,0 +1,42 @@
+#SCENE TEST0
+CAMERA
+{
+    position 0 0 500
+    rotation 0 0 0
+    lookat 0 0 -1
+    focal 1
+}
+
+OBJECT
+{
+    name PLANE
+    type PLANE
+    position 0 0 -500
+    rotation 0 0 0
+    ambient 5
+    specular 255 100 100
+    color 255 0 0
+}
+
+OBJECT
+{
+    name SPHERE
+    type SPHERE
+    position 10 0 -525
+    rotation 0 0 0
+    radius 5
+    ambient 5
+    specular 255 100 100
+    color 255 0 0
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position 0 0 -600
+    specular 120 120 120
+    color 255 255 255
+    ambient 5
+}
+

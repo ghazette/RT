@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:21:54 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 10:34:57 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:45:33 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,7 +46,10 @@ void	key_down(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.y--;
+				vec3_reverse(&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.y--;

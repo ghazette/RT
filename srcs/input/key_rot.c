@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/08 06:13:06 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 16:29:27 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 16:11:13 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,17 +24,17 @@ static void	reset_rot(t_cam *cam, t_obj *obj)
 static void	rot_object(t_obj *obj, int key)
 {
 	if (key == 86)
-		obj->rot.y = -2;
+		obj->rot.y = -10;
 	if (key == 88)
-		obj->rot.y = 2;
+		obj->rot.y = 10;
 	if (key == 91)
-		obj->rot.x = -2;
+		obj->rot.x = -10;
 	if (key == 84)
-		obj->rot.x = 2;
+		obj->rot.x = 10;
 	if (key == 89)
-		obj->rot.z = 2;
+		obj->rot.z = 10;
 	if (key == 92)
-		obj->rot.z = -2;
+		obj->rot.z = -10;
 }
 
 static void	rot_camera(t_cam *cam, int key)

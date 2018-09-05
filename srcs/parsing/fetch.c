@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 14:52:11 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:56:13 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,7 @@ static int		type_define(char *type, t_obj *obj)
 	if (!ft_strcmp("PLANE", type))
 	{
 		obj->render_func = render_plane;
-		vector3d(&obj->dir, 0, 0, -1);
+		vector3d(&obj->dir, 0, 0, 1);
 		return (PLANE);
 	}
 	return (0);

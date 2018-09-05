@@ -13,7 +13,8 @@ OBJECT
     type PLANE
     position 0 0 200
     rotation 0 0 0
-    ambient 5
+    direction 0 0 -1
+    ambient 0
     specular 85 70 15
     color 125 100 25
 }
@@ -24,7 +25,7 @@ OBJECT
     type PLANE
     position 0 0 -1000
     rotation 90 0 0
-    ambient 5
+    ambient 0
     specular 85 70 15
     color 125 100 25
 }
@@ -35,18 +36,18 @@ OBJECT
     type PLANE
     position -200 0 -500
     rotation 0 -90 0
-    ambient 5
+    ambient 0
     specular 85 70 15
     color 125 100 25
 }
 
 OBJECT
 {
-    name PLANE3
+    name PLANE4
     type PLANE
     position 200 0 -500
     rotation 0 90 0
-    ambient 5
+    ambient 0
     specular 85 70 15
     color 125 100 25
 }
@@ -57,7 +58,7 @@ OBJECT
     type PLANE
     position 0 200 -500
     rotation -90 0 0
-    ambient 5
+    ambient 0
     specular 85 70 15
     color 125 100 25
 }
@@ -69,7 +70,7 @@ OBJECT
     position -40 100 -60
     rotation 0 0 0
     radius 6
-    ambient 15
+    ambient 0
     specular 255 255 255
     color 255 0 0
 }
@@ -81,7 +82,7 @@ OBJECT
     position 0 100 -100
     radius 25
     radius 15
-    ambient 5
+    ambient 0
     specular 0 200 100
     color 0 0 255
 }
@@ -93,7 +94,7 @@ OBJECT
     position -100 100 -180
     rotation 0 0 0
     radius 6
-    ambient 5
+    ambient 0
     specular 255 255 255
     color 125 181 237
 }
@@ -105,7 +106,7 @@ OBJECT
     position 100 100 -180
     rotation 70 0 0
     radius 6
-    ambient5
+    ambient 0
     specular 255 255 255
     color 125 181 237
 }
@@ -117,7 +118,7 @@ OBJECT
     position 100 130 -180
     rotation 90 70 0
     radius 6
-    ambient 5
+    ambient 0
     specular 255 255 255
     color 125 181 237
 }
@@ -129,7 +130,7 @@ OBJECT
     position 0 100 -800
     rotation 0 0 0
     radius 20
-    ambient 5
+    ambient 0
     specular 255 0 0
     color 180 20 20
 }
@@ -138,9 +139,9 @@ SPOT
 {
     name SPOT0
     type SPOT
-    position 150 180 -350
+    position 150 100 -350
     specular 255 255 255
     color 255 255 255
-    ambient 5
+    ambient 0
 }
-#ENDSCENE
+

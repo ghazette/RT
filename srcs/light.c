@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 16:24:31 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/08 16:27:20 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 14:38:25 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,7 @@ static int	is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
 		{
 			tmplen = vec3_length(&inter_tmp.intersect, view);
 			if (tmplen - 0.0001 < len)
-				lightblocked = 1.0;
+				lightblocked = 1;
 		}
 		i++;
 	}

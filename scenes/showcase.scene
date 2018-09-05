@@ -1,7 +1,7 @@
 #SCENE SHOWCASE
 CAMERA
 {
-    position 0 0 0
+    position 0 0 -100
     rotation 0 0 0
     lookat 0 0 1
     focal 1
@@ -120,4 +120,3 @@ SPOT
     specular 255 255 255
     ambient 8
 }
-#ENDSCENE
