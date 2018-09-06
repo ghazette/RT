@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:56:13 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 13:04:22 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -78,11 +78,7 @@ static int		fetch_object_array(t_obj *obj, char **split)
 	{
 		if (!(init_vec(&obj->rot, split)))
 			return (0);
-		rotate(obj);
 	}
-	if (!ft_strcmp(split[0], "direction"))
-		if (!(init_vec(&obj->dir, split)))
-			return (0);
 	if (!ft_strcmp(split[0], "color"))
 	{
 		if (!(init_vec(&obj->color, split)))
@@ -120,6 +116,8 @@ int				fetch_object(t_mlx *mlx, int fd)
 			mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
 			if (!check_object(mlx->scene->objs[mlx->scene->nb_obj]))
 				return (0);
+			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= 0x101)
+				rotate(mlx->scene->objs[mlx->scene->nb_obj]);
 			mlx->scene->nb_obj++;
 			ft_strdel(&line);
 			return (1);

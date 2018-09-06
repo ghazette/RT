@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:36:37 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 11:35:51 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,9 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <time.h>
+# define PI 3.14159265359
 # define MAX(A, B) (A < B ? B : A)
+# define DEGTORAD(DEG) (DEG * PI / 180)
 # define WIN_W 1280
 # define WIN_H 960
 # define INTER_WIDTH 250
@@ -31,7 +33,6 @@
 # define PLANE 0x101
 # define CYLINDER 0x102
 # define CONE 0x103
-# define PI 3.14
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 
