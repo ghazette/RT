@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 16:26:31 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 11:10:20 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,7 +42,7 @@ t_obj		*new_object(void)
 	t_obj *obj;
 
 	if (!(obj = malloc(sizeof(t_obj))))
-		return (0);
+		return (NULL);
 	obj->id = 0;
 	obj->name = NULL;
 	obj->type = 0;
