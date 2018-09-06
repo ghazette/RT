@@ -47,6 +47,7 @@ t_obj		*new_object(void)
 	obj->name = NULL;
 	obj->type = 0;
 	obj->radius = 0;
+	obj->shape.len = 0;
 	vector3d(&obj->pos, 0, 0, 0);
 	vector3d(&obj->rot, 0, 0, 0);
 	vector3d(&obj->dir, 0, 0, 0);

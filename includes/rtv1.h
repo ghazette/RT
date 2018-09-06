@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 16:32:39 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:36:37 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,6 +62,17 @@ typedef struct		s_material
 	double			ambient;
 }					t_material;
 
+typedef struct		s_shape
+{
+	int				len;
+	t_vec3			v0;
+	t_vec3			v1;
+	t_vec3			v2;
+	t_vec3			v3;
+	t_vec3			e0;
+	t_vec3			e1;
+}					t_shape;
+
 typedef struct		s_obj
 {
 	int				id;
@@ -73,6 +84,7 @@ typedef struct		s_obj
 	t_vec3			rot;
 	t_vec3			color;
 	t_material		material;
+	t_shape			shape;
 	int				(*render_func)(t_interinfo *interinfo, t_vec3 *view,
 		struct s_obj*, t_vec3);
 }					t_obj;

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 14:52:11 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:56:13 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,10 +35,50 @@ static int		type_define(char *type, t_obj *obj)
 	if (!ft_strcmp("PLANE", type))
 	{
 		obj->render_func = render_plane;
-		vector3d(&obj->dir, 0, 0, -1);
+		vector3d(&obj->dir, 0, 0, 1);
 		return (PLANE);
 	}
 	return (0);
+}
+
+int			init_shape(t_shape *shape, char *str)
+{
+	char **split;
+	char **vsplit;
+
+	split = ft_strsplit(str, ';');
+	shape->len = ft_heightlen(split);
+	if (shape->len >= 3)
+	{
+		vsplit = ft_strsplit(split[0], '-');
+		shape->v0.x = ft_atoi(vsplit[0]);
+		shape->v0.y = ft_atoi(vsplit[1]);
+		shape->v0.z = ft_atoi(vsplit[2]);
+		vsplit = ft_strsplit(split[1], '-');
+		shape->v1.x = ft_atoi(vsplit[0]);
+		shape->v1.y = ft_atoi(vsplit[1]);
+		shape->v1.z = ft_atoi(vsplit[2]);
+		vsplit = ft_strsplit(split[2], '-');
+		shape->v2.x = ft_atoi(vsplit[0]);
+		shape->v2.y = ft_atoi(vsplit[1]);
+		shape->v2.z = ft_atoi(vsplit[2]);
+		if (shape->len > 3)
+		{
+			vsplit = ft_strsplit(split[3], '-');
+			shape->v3.x = ft_atoi(vsplit[0]);
+			shape->v3.y = ft_atoi(vsplit[1]);
+			shape->v3.z = ft_atoi(vsplit[2]);
+		}
+	}
+	return (1);
+}
+
+int				calc_n(t_obj **obj)
+{
+	vec3_sub(&(*obj)->shape.v0, &(*obj)->shape.v1, &(*obj)->shape.e0);
+	vec3_sub(&(*obj)->shape.v0, &(*obj)->shape.v2, &(*obj)->shape.e1);
+	vec3_crossproduct(&(*obj)->shape.e0, &(*obj)->shape.e1, &(*obj)->dir);
+	return (1);
 }
 
 static int		fetch_object_array_help(t_obj *obj, char **split)
@@ -65,6 +105,12 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 	if (!ft_strcmp(split[0], "ambient"))
 		if ((obj->material.ambient = (double)ft_atoi(split[1]) / 100.0) < 0)
 			return (0);
+	if (!ft_strcmp(split[0], "shape"))
+	{
+		init_shape(&obj->shape, split[1]);
+		calc_n(&obj);
+		// printf("%s\n", parse_vec(obj->dir));
+	}
 	ft_free2d(&split);
 	return (1);
 }
