@@ -2,7 +2,7 @@
 CAMERA
 {
     position -150 100 -1800
-    rotation 0 6 0
+    rotation 0 0 0
     lookat 0 100 -1
     focal 1
 }
@@ -35,7 +35,7 @@ OBJECT
     name PLANE3
     type PLANE
     position -200 0 -500
-    rotation 0 -90 0
+    rotation 0 85 0
     ambient 0
     specular 85 70 15
     color 125 100 25
@@ -139,7 +139,7 @@ SPOT
 {
     name SPOT0
     type SPOT
-    position 150 100 -350
+    position -50 100 -350
     specular 255 255 255
     color 255 255 255
     ambient 0
