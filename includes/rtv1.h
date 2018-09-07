@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 11:35:51 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 19:08:01 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,20 +35,19 @@
 # define CONE 0x103
 # define BTNHEIGHT 40
 # define SUN_POWER 80
-# define THREADS 8
 
 typedef struct		s_interface
 {
 	int				width;
-	int				focus;
 	int				offset;
+	int				focus;
 	int				id_select_obj;
 }					t_interface;
 
 typedef struct		s_intersectinfo
 {
-	t_vec3			normal;
 	t_vec3			intersect;
+	t_vec3			normal;
 }					t_interinfo;
 
 typedef union		u_color
@@ -59,9 +58,9 @@ typedef union		u_color
 
 typedef struct		s_material
 {
-	double			ambient;
 	t_vec3			color;
 	t_vec3			specular;
+	double			ambient;
 }					t_material;
 
 typedef struct		s_shape
@@ -75,17 +74,27 @@ typedef struct		s_shape
 	t_vec3			e1;
 }					t_shape;
 
+typedef struct		s_texture
+{
+	size_t			width;
+	size_t			height;
+	double			u;
+	double			v;
+	char			*data;
+}					t_texture;
+
 typedef struct		s_obj
 {
 	int				id;
-	int				type;
 	char			*name;
+	int				type;
 	double			radius;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			color;
 	t_material		material;
+	t_texture		texture;
 	t_shape			shape;
 	int				(*render_func)(t_interinfo *interinfo, t_vec3 *view,
 		struct s_obj*, t_vec3);
@@ -94,19 +103,19 @@ typedef struct		s_obj
 typedef struct		s_cam
 {
 	int				res[2];
-	double			x_indent;
-	double			y_indent;
-	double			viewplane_dist;
-	double			viewplane_width;
-	double			viewplane_height;
 	t_vec3			pos;
-	t_vec3			rot;
 	t_vec3			npos;
-	t_vec3			lookat;
-	t_vec3			up_vec;
+	t_vec3			rot;
 	t_vec3			dir_vec;
+	t_vec3			up_vec;
 	t_vec3			right_vec;
 	t_vec3			viewplaneupleft_vec;
+	t_vec3			lookat;
+	double			viewplane_width;
+	double			viewplane_height;
+	double			viewplane_dist;
+	double			x_indent;
+	double			y_indent;
 }					t_cam;
 
 typedef struct		s_spot
@@ -114,40 +123,39 @@ typedef struct		s_spot
 	int				id;
 	char			*name;
 	t_vec3			pos;
-	t_vec3			color;
 	t_vec3			dir_vec;
+	t_vec3			color;
 	t_material		material;
 }					t_spot;
 
 typedef struct		s_scene
 {
-	int				light;
+	char			*name;
+	t_interinfo		*interinfo;
 	int				nb_obj;
 	int				nb_spot;
-	char			*name;
+	int				light;
 	t_obj			**objs;
 	t_cam			*cam;
 	t_spot			**spot;
-	t_interinfo		*interinfo;
-
 }					t_sce;
 
 typedef struct		s_mlx
 {
-	int				ed;
-	int				bpp;
-	int				line;
-	int				endx;
-	int				endy;
-	int				startx;
-	int				starty;
-	int				line_cnt;
 	void			*mlx;
 	void			*win;
 	void			*img;
 	char			*pixel_img;
+	int				bpp;
+	int				line;
+	int				ed;
 	t_sce			*scene;
 	t_interface		*interf;
+	int				line_cnt;
+	int				starty;
+	int				endy;
+	int				startx;
+	int				endx;
 }					t_mlx;
 
 typedef struct		s_calc
@@ -166,42 +174,42 @@ typedef struct		s_calc
 
 typedef struct		s_phong
 {
-	int				rm_specular;
-	double			is_shadow;
-	t_obj			*obj;
-	t_spot			*spot;
-	t_vec3			vdir;
 	t_vec3			*normal;
 	t_vec3			*light_vec;
+	t_spot			*spot;
+	t_obj			*obj;
+	int				is_shadow;
+	t_vec3			vdir;
 	t_color			fcolor;
 	t_material		material;
+	int				rm_specular;
 }					t_phong;
 
 typedef struct		s_rt
 {
+	t_vec3			vdir;
 	int				id;
 	int				i;
 	int				savex;
 	t_mlx			*mlx;
-	t_vec3			vdir;
 }					t_rt;
 
 /*
 ** GENERAL
 */
 
-int					get_thread_number(char *th);
-char				*rand_string(int len);
+t_mlx				*mlx_init_all(char *window_name);
+t_mlx				*mlx_cpy(t_mlx *src);
+double				is_sphere(t_obj *obj, t_vec3 *c2);
 void				init_camera(t_mlx *mlx);
 void				draw_point(int x, int y, t_mlx *mlx, unsigned char *color);
 void				render(t_mlx *mlx);
+t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
 void				usage(void);
+char				*rand_string(int len);
 void				inter_cpy(t_interinfo *dest, t_interinfo *src);
 void				rotate(t_obj *obj);
-double				is_sphere(t_obj *obj, t_vec3 *c2);
-t_mlx				*mlx_cpy(t_mlx *src);
-t_mlx				*mlx_init_all(char *window_name);
-t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
+int					get_thread_number(char *th);
 
 /*
 ** OBJECT RENDER
@@ -234,14 +242,13 @@ int					get_nb_obj(char *fn, int ret[2]);
 int					fetch_camera(t_mlx *mlx, int fd);
 int					fetch_object(t_mlx *mlx, int fd);
 int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
-int					new_camera(t_mlx *mlx);
 t_obj				*new_object();
+int					new_camera(t_mlx *mlx);
 t_spot				*new_spot();
 
 /*
 ** LIGHT
 */
-
 void				phong_calcfinal(t_phong *phong, int nbspot);
 void				phong_calc(t_phong *phong);
 void				light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
@@ -253,13 +260,13 @@ void				light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 
 int					display_interface(t_mlx *mlx);
 int					display_spot(t_mlx *mlx, t_spot *obj, char *str, int y);
+void				export_button(t_mlx *mlx, int color);
+char				*parse_vec(t_vec3 v);
+char				*get_type(int type);
+void				clear_interface(t_mlx *mlx);
+void				display_focus(t_mlx *mlx);
 int					inter_select_up(t_mlx *mlx);
 int					inter_select_down(t_mlx *mlx);
-char				*get_type(int type);
-char				*parse_vec(t_vec3 v);
-void				display_focus(t_mlx *mlx);
-void				clear_interface(t_mlx *mlx);
-void				export_button(t_mlx *mlx, int color);
 
 /*
 ** INPUT
