@@ -72,6 +72,7 @@ typedef struct		s_shape
 	t_vec3			v3;
 	t_vec3			e0;
 	t_vec3			e1;
+	t_vec3			e2;
 }					t_shape;
 
 typedef struct		s_obj
@@ -80,6 +81,7 @@ typedef struct		s_obj
 	char			*name;
 	int				type;
 	double			radius;
+	int				nvertex;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;

@@ -11,8 +11,7 @@ OBJECT
 {
     name PLANE
     type PLANE
-    shape 1-0-0;0-1-0;0-0-1
-    position 0 0 0
+    vertex -1_1_0;1_1_0;-1_-1_0
     rotation 0 0 0
     ambient 5
     specular 255 100 100
