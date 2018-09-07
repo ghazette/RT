@@ -13,7 +13,7 @@
 
 #ifndef RTV1_H
 # define RTV1_H
-# include "../minilibx/mlx.h"
+# include "../minilibx_macos/mlx.h"
 # include "../libalgebra/includes/libalgebra.h"
 # include "../libft/includes/libft.h"
 # include "../libbmp/includes/libbmp.h"
