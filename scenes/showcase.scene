@@ -11,11 +11,12 @@ OBJECT
 {
     name SPHERE0
     type SPHERE
-    position -10 0 100
+    position -5 3 100
     rotation 0 0 0
     radius 3
-    ambient 5
-    specular 500 500 500
+    ambient 2
+    texture ./texture/moon.bmp
+    specular 120 120 120
     color 255 120 255
 }
 
@@ -26,8 +27,9 @@ OBJECT
     position -15 12 135
     rotation 0 0 0
     radius 10
-    ambient 5
-    specular 200 200 200
+    ambient 2
+    texture ./texture/earth.bmp
+    specular 80 80 80
     color 255 170 150
 }
 
@@ -39,6 +41,7 @@ OBJECT
     rotation 0 0 0
     radius 5
     ambient 5
+    texture ./texture/wall.bmp
     specular 200 200 200
     color 255 0 0
 }

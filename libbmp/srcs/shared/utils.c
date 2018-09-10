@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 13:43:59 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/06 15:39:31 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 13:23:39 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,7 +41,7 @@ void	number_to_bytes(t_uint nb, t_uchar *buffer, t_uint len)
 	buffer[i] = nb & 0xFF;
 }
 
-void	free2d(char ***str)
+void	free2d(unsigned char ***str)
 {
 	int i;
 

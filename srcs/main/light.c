@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 16:24:31 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 15:09:48 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 17:22:55 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,6 +38,12 @@ static int	is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
 	return (lightblocked);
 }
 
+static void apply_texture(t_interinfo *interinfo, t_obj *obj)
+{
+	if (obj->type == SPHERE)
+		apply_sphere_texture(interinfo, obj);
+}
+
 void		light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 	t_phong *phong)
 {
@@ -57,6 +63,8 @@ void		light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 		phong->light_vec = &light_vec;
 		phong->spot = spot;
 		phong->obj = obj;
+		if (obj->texture.data != NULL)
+				apply_texture(mlx->scene->interinfo, obj);
 		phong_calc(phong);
 	}
 }

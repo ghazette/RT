@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 10:29:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 17:11:00 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,6 +32,54 @@ t_mlx			*mlx_init_all(char *window_name)
 	return (mlx);
 }
 
+static int		cpy_texture(t_sce *scene, t_sce *src, int i)
+{
+	size_t	size;
+	if (src->objs[i]->texture.data)
+	{
+		size = (4 * src->objs[i]->texture.width) * src->objs[i]->texture.height;
+		if (!(scene->objs[i]->texture.data = malloc(sizeof(char) * size)))
+			return (0);
+		ft_memcpy(scene->objs[i]->texture.data, src->objs[i]->texture.data, size);
+		scene->objs[i]->texture.width = src->objs[i]->texture.width;
+		scene->objs[i]->texture.height = src->objs[i]->texture.height;
+	}
+	else
+		scene->objs[i]->texture.data = NULL;
+	return (1);
+}
+
+
+static int		obj_cpy(t_sce *scene, t_sce *src)
+{
+	int	i;
+
+	i = 0;
+	if (!(scene->objs = (t_obj**)malloc(sizeof(t_obj*) * scene->nb_obj)))
+		return (0);
+	while (i < scene->nb_obj)
+	{
+		scene->objs[i] = (t_obj*)malloc(sizeof(t_obj));
+		scene->objs[i]->id = src->objs[i]->id;
+		scene->objs[i]->type = src->objs[i]->type;
+		if (!(scene->objs[i]->name = ft_strdup(src->objs[i]->name)))
+			return (0);
+		scene->objs[i]->radius = src->objs[i]->radius;
+		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x, src->objs[i]->pos.y, src->objs[i]->pos.z);
+		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x, src->objs[i]->dir.y, src->objs[i]->dir.z);
+		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x, src->objs[i]->rot.y, src->objs[i]->rot.z);
+		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x, src->objs[i]->color.y, src->objs[i]->color.z);
+		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
+		vector3d(&(scene->objs[i]->material.color), src->objs[i]->material.color.x, src->objs[i]->material.color.y, src->objs[i]->material.color.z);
+		vector3d(&(scene->objs[i]->material.specular), src->objs[i]->material.specular.x, src->objs[i]->material.specular.y, src->objs[i]->material.specular.z);
+		scene->objs[i]->render_func = src->objs[i]->render_func;
+		if (!(cpy_texture(scene, src, i)))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static t_sce	*scene_cpy(t_sce *src)
 {
 	t_sce *scene;
@@ -43,10 +91,10 @@ static t_sce	*scene_cpy(t_sce *src)
 		return (NULL);
 	scene->nb_spot = src->nb_spot;
 	scene->light = src->light;
-	scene->objs = src->objs;
 	scene->cam = src->cam;
 	scene->spot = src->spot;
-	int i = 0;
+	if (!(obj_cpy(scene, src)))
+		return (NULL);
 	return (scene);
 }
 
@@ -72,16 +120,11 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	return (mlx);
 }
 
-static int		conv_coord(int x, int y, t_mlx *mlx)
-{
-	return ((x * ((mlx->bpp) / 8)) + (y * mlx->line));
-}
-
 void			draw_point(int x, int y, t_mlx *mlx, unsigned char *color)
 {
 	int pixel_pos;
 
-	pixel_pos = conv_coord(x, y, mlx);
+	pixel_pos = (x * ((mlx->bpp) / 8)) + (y * mlx->line);
 	if (pixel_pos < (WIN_W * WIN_H * (mlx->bpp / 8)) && pixel_pos >= 0)
 	{
 		if (color != 0)

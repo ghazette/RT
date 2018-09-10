@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 19:08:01 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 17:31:37 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,9 +77,16 @@ typedef struct		s_shape
 
 typedef struct		s_texture
 {
-	char			*data;
+	unsigned char	*data;
 	double			u;
 	double			v;
+	double			phi;
+	double			theta;
+	t_vec3			vn;
+	t_vec3			vp;
+	t_vec3			ve;
+	t_vec3			res;
+	int				pixel;
 	size_t			width;
 	size_t			height;
 }					t_texture;
@@ -285,5 +292,12 @@ void				key_down(t_mlx *mlx);
 void				key_right(t_mlx *mlx);
 void				key_left(t_mlx *mlx);
 void				key_rot(t_mlx *mlx, int key);
+
+
+/*
+** TEXTURE
+*/
+
+void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 
 #endif

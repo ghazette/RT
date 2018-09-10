@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 18:40:33 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 17:39:34 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 13:24:09 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,7 @@
 int				get_imagedata(t_bmp *bmp);
 void			decode_bitmap_info_header(t_bmp *bmp);
 void			decode_bmp_file_header(t_bmp *bmp);
-char			*import_bmp(char *path, size_t *width, size_t *height);
+unsigned char	*import_bmp(char *path, size_t *width, size_t *height);
 
 /*
 ** ENCODE
@@ -48,6 +48,6 @@ int				check_header(t_bmp *bmp);
 t_uint			bytes_to_number(t_uchar *str, t_uint len);
 void			number_to_bytes(t_uint nb, unsigned char *buffer, t_uint len);
 void			destroy_bmp(t_bmp *bmp);
-void			free2d(char ***str);
+void			free2d(unsigned char ***str);
 
 #endif

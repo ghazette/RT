@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 19:08:36 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 18:06:22 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,6 +49,9 @@ static int		intersect(t_mlx *mlx, t_vec3 *view, t_vec3 vdir)
 
 static void		reset(t_phong *phong, t_mlx *mlx, t_rt *rt)
 {
+	int i;
+
+	i = 0;
 	vector3d(&phong->material.color, 0, 0, 0);
 	vector3d(&phong->material.specular, 0, 0, 0);
 	phong->material.ambient = 0;
@@ -63,43 +66,17 @@ static void		reset(t_phong *phong, t_mlx *mlx, t_rt *rt)
 	}
 	if (mlx)
 	{
+		while (i < mlx->scene->nb_obj)
+		{
+			free(mlx->scene->objs[i]->texture.data);
+			free(mlx->scene->objs[i]->name);
+			free(mlx->scene->objs[i]);
+			i++;
+		}
+		free(mlx->scene->objs);
 		free(mlx->scene->interinfo);
 		free(mlx->scene);
 		free(mlx);
-	}
-}
-
-static int		conv_coord_mlx(int x, int y, t_mlx *mlx)
-{
-	return ((x * ((mlx->bpp) / 8)) + (y * mlx->line));
-}
-
-static int		conv_coord_texture(int x, int y, t_texture *texture)
-{
-	return ((x * 4) + (y * (texture->width * 4)));
-}
-
-static void		draw_texture_point(int x, int y, t_mlx *mlx, t_texture *texture)
-{
-	int pixel_pos_mlx;
-
-	int pixel_pos_texture;
-	pixel_pos_texture = conv_coord_texture(texture->u * texture->width, texture->v * texture->height, texture);
-	pixel_pos_mlx = conv_coord_mlx(x, y, mlx);
-	if (pixel_pos_mlx < (WIN_W * WIN_H * (mlx->bpp / 8)) && pixel_pos_mlx >= 0)
-	{
-		if (texture != NULL)
-		{
-			mlx->pixel_img[pixel_pos_mlx] = texture->data[pixel_pos_texture];
-			mlx->pixel_img[pixel_pos_mlx + 1] = texture->data[pixel_pos_texture + 1];
-			mlx->pixel_img[pixel_pos_mlx + 2] = texture->data[pixel_pos_texture + 2];
-		}
-		else
-		{
-			mlx->pixel_img[pixel_pos_mlx] = (char)0;
-			mlx->pixel_img[pixel_pos_mlx + 1] = (char)0;
-			mlx->pixel_img[pixel_pos_mlx + 2] = (char)0;
-		}
 	}
 }
 
@@ -122,32 +99,10 @@ static void		*raytrace(void *mlxp)
 				while (++rt.i < rt.mlx->scene->nb_spot)
 					light_intersect(rt.mlx, rt.mlx->scene->objs[rt.id]
 					, rt.mlx->scene->spot[rt.i], &phong);
-			if (rt.id != -1 && rt.mlx->scene->objs[rt.id]->texture.data != NULL)
-			{
-				t_vec3 vn, vp, ve, res;
-
-				vector3d(&vn, 0, 1, 0);
-				vector3d(&ve, 1, 0, 0);
-				vector3d(&vp, rt.mlx->scene->interinfo->intersect.x, rt.mlx->scene->interinfo->intersect.y, rt.mlx->scene->interinfo->intersect.z);
-				vec3_sub(&vp, &(rt.mlx->scene->objs[rt.id]->pos), &vp);
-				vec3_normalize(&vp);
-				double phi = acos(vec3_dotproduct(&vn, &vp));
-				//printf("%f\n", vec3_dotproduct(&vn, &vp));
-				rt.mlx->scene->objs[rt.id]->texture.v = phi / PI;
-				double theta = (acos(vec3_dotproduct(&vp, &ve) / sin( phi ))) / ( 2 * PI);
-				vec3_crossproduct(&vn, &ve, &res);
-				if ((vec3_dotproduct(&res, &vp)) > 0)
-					rt.mlx->scene->objs[rt.id]->texture.u = theta;
-				else
-					rt.mlx->scene->objs[rt.id]->texture.u = 1.0 - theta;
-				draw_texture_point(rt.mlx->startx, rt.mlx->starty, rt.mlx, &(rt.mlx->scene->objs[rt.id]->texture));
-			}
-			else
-			{
-				phong_calcfinal(&phong, rt.mlx->scene->nb_spot);
-				draw_point(rt.mlx->startx, rt.mlx->starty, rt.mlx,
-				phong.fcolor.rgb);
-			}
+			phong_calcfinal(&phong, rt.mlx->scene->nb_spot);
+			draw_point(rt.mlx->startx, rt.mlx->starty, rt.mlx,
+			phong.fcolor.rgb);
+			
 		}
 		rt.mlx->starty++;
 	}

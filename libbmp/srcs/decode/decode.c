@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 19:10:27 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 17:39:25 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 13:20:08 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,11 +37,11 @@ static t_bmp	*decode(char *path)
 	return (bmp);
 }
 
-char			*import_bmp(char *path,
+unsigned char	*import_bmp(char *path,
 				size_t *width, size_t *height)
 {
-	t_bmp	*bmp;
-	char	*ret;
+	t_bmp			*bmp;
+	unsigned char	*ret;
 
 	if (!(bmp = decode(path)))
 		return (NULL);
