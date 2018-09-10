@@ -1,7 +1,7 @@
 #SCENE TEST0
 CAMERA
 {
-    position 0 0 -50
+    position 0 0 100
     rotation 0 0 0
     lookat 0 0 -1
     focal 1
@@ -9,20 +9,24 @@ CAMERA
 
 OBJECT
 {
+    nb_poly 3;
     name PLANE
-    type PLANE
-    vertex -1_1_0;1_1_0;-1_-1_0
+    type COMPOSED
     rotation 0 0 0
+    poly -2_1_0;1_1_0;-1_-1_0;1_-1_0
     ambient 5
+    radius 5
     specular 255 100 100
     color 255 0 0
+    #obj_src ./obj/glock.obj
+    #texture ./texture/tile.bmp
 }
 
 SPOT
 {
     name SPOT0
     type SPOT
-    position 0 0 -20
+    position 5 0 50 
     specular 120 120 120
     color 255 255 255
     ambient 5

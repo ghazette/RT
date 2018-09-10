@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 18:40:33 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/06 15:35:28 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 17:39:34 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,7 @@
 int				get_imagedata(t_bmp *bmp);
 void			decode_bitmap_info_header(t_bmp *bmp);
 void			decode_bmp_file_header(t_bmp *bmp);
-char			*import_bmp(char *path, size_t *size);
+char			*import_bmp(char *path, size_t *width, size_t *height);
 
 /*
 ** ENCODE

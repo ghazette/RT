@@ -21,7 +21,7 @@ SRC_ROOT = $(addprefix $(SRC_PATH), camera.c light.c main.c mlx.c phong.c ray.c 
 
 OBJ_PATH = ./srcs/objects/
 
-SRC_OBJ = $(addprefix $(OBJ_PATH), cone.c cylinder.c plane.c sphere.c)
+SRC_OBJ = $(addprefix $(OBJ_PATH), cone.c cylinder.c plane.c sphere.c composed.c)
 
 INTER_PATH = ./srcs/interface/
 
@@ -35,6 +35,10 @@ INPUT_PATH = ./srcs/input/
 
 SRC_INPUT = $(addprefix $(INPUT_PATH), click.c key.c key_input.c key_rot.c mouse_input.c)
 
+OBJ_PARSER_PATH = ./srcs/obj_parser/
+
+SRC_OBJ_PARSER = $(addprefix $(OBJ_PARSER_PATH), obj_reader.c)
+
 SRC += $(SRC_ROOT)
 
 SRC += $(SRC_OBJ)
@@ -44,6 +48,8 @@ SRC += $(SRC_INTER)
 SRC += $(SRC_INPUT)
 
 SRC += $(SRC_PARSE)
+
+SRC += $(SRC_OBJ_PARSER)
 
 INC = ./includes/
 
@@ -91,6 +97,9 @@ endif
 
 %.o: $(INPUT_PATH)%.c $(INC)rtv1.h
 	$(CC) $(FLAGS) -I $(INC) -c $(SRC_INPUT})
+
+%.o: $(OBJ_PARSER_PATH)%.c $(INC)rtv1.h
+	$(CC) $(FLAGS) -I $(INC) -c $(SRC_OBJ_PARSER})
 
 $(LIBBMP_PATH):
 	make -C ./libbmp/

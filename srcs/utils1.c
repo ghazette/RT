@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 11:10:20 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 17:45:18 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,7 +47,7 @@ t_obj		*new_object(void)
 	obj->name = NULL;
 	obj->type = 0;
 	obj->radius = 0;
-	obj->shape.len = 0;
+	obj->texture.data = NULL;
 	vector3d(&obj->pos, 0, 0, 0);
 	vector3d(&obj->rot, 0, 0, 0);
 	vector3d(&obj->dir, 0, 0, 0);

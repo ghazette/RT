@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 11:35:51 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 19:08:01 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,6 +33,7 @@
 # define PLANE 0x101
 # define CYLINDER 0x102
 # define CONE 0x103
+# define COMPOSED 0x104
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 
@@ -63,17 +64,21 @@ typedef struct		s_material
 	double			ambient;
 }					t_material;
 
-typedef struct		s_shape
+typedef struct		s_texture
 {
-	int				len;
-	t_vec3			v0;
-	t_vec3			v1;
-	t_vec3			v2;
-	t_vec3			v3;
-	t_vec3			e0;
-	t_vec3			e1;
-	t_vec3			e2;
-}					t_shape;
+	size_t			width;
+	size_t			height;
+	double			u;
+	double			v;
+	char			*data;
+}					t_texture;
+
+typedef struct		s_poly
+{
+	t_vec3			*s;
+	t_vec3			*e;
+	t_vec3			n;
+}					t_poly;
 
 typedef struct		s_obj
 {
@@ -81,13 +86,14 @@ typedef struct		s_obj
 	char			*name;
 	int				type;
 	double			radius;
-	int				nvertex;
+	int				npoly;
+	t_poly			*poly;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			color;
 	t_material		material;
-	t_shape			shape;
+	t_texture		texture;
 	int				(*render_func)(t_interinfo *interinfo, t_vec3 *view,
 		struct s_obj*, t_vec3);
 }					t_obj;
@@ -170,7 +176,7 @@ typedef struct		s_phong
 	t_vec3			*light_vec;
 	t_spot			*spot;
 	t_obj			*obj;
-	double			is_shadow;
+	int				is_shadow;
 	t_vec3			vdir;
 	t_color			fcolor;
 	t_material		material;
@@ -214,6 +220,8 @@ int					render_sphere(t_interinfo *interinfo, t_vec3 *view,
 int					render_plane(t_interinfo *interinfo, t_vec3 *view,
 						t_obj *obj, t_vec3 vdir);
 int					render_cone(t_interinfo *interinfo, t_vec3 *view,
+						t_obj *obj, t_vec3 vdir);
+int					render_composed(t_interinfo *interinfo, t_vec3 *view,
 						t_obj *obj, t_vec3 vdir);
 
 /*
@@ -276,5 +284,11 @@ void				key_down(t_mlx *mlx);
 void				key_right(t_mlx *mlx);
 void				key_left(t_mlx *mlx);
 void				key_rot(t_mlx *mlx, int key);
+
+/*
+**	OBJ PARSER
+*/
+
+int					fetch_obj(char *path, t_obj **obj);
 
 #endif
