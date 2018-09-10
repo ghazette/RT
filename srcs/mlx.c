@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 14:55:01 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 10:29:44 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,6 +46,7 @@ static t_sce	*scene_cpy(t_sce *src)
 	scene->objs = src->objs;
 	scene->cam = src->cam;
 	scene->spot = src->spot;
+	int i = 0;
 	return (scene);
 }
 

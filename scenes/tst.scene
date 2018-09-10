@@ -17,7 +17,7 @@ OBJECT
     radius 5
     specular 255 100 100
     color 255 0 0
-    texture ./texture/tile.bmp
+    texture ./texture/penis.bmp
 }
 
 SPOT
