@@ -40,7 +40,7 @@ int			fetch_data(t_mlx *mlx, int fd)
 	return (0);
 }
 
-static int	set_obj_spot(t_mlx *mlx, char **split, char *fn)
+static int	set_obj_spot(t_mlx *mlx, char *fn)
 {
 	int nb[2];
 
@@ -53,7 +53,7 @@ static int	set_obj_spot(t_mlx *mlx, char **split, char *fn)
 	return (1);
 }
 
-static int	init_scene_help(t_mlx *mlx, char *name, char *fn, char **split)
+static int	init_scene_help(t_mlx *mlx, char *name, char *fn)
 {
 	if (!name)
 		return (0);
@@ -67,7 +67,7 @@ static int	init_scene_help(t_mlx *mlx, char *name, char *fn, char **split)
 	mlx->interf->id_select_obj = -1;
 	mlx->interf->offset = 0;
 	mlx->interf->focus = 0;
-	if (!(set_obj_spot(mlx, split, fn)))
+	if (!(set_obj_spot(mlx, fn)))
 		return (0);
 	return (1);
 }
@@ -76,7 +76,6 @@ int			init_scene(t_mlx *mlx, char *fn, int fd)
 {
 	char	*line;
 	char	**split;
-	int		nb[2];
 
 	if (!check_file(fn))
 		return (0);
@@ -92,7 +91,7 @@ int			init_scene(t_mlx *mlx, char *fn, int fd)
 			return (0);
 		if (!new_camera(mlx))
 			return (0);
-		if (!(init_scene_help(mlx, split[1], fn, split)))
+		if (!(init_scene_help(mlx, split[1], fn)))
 			return (0);
 		ft_free2d(&split);
 		return (1);

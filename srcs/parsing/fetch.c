@@ -105,7 +105,7 @@ int				fetch_poly(char *str, t_obj *obj)
 	int		i;
 	char	**split;
 	char	**vsplit;
-	t_vec3	*vertex;
+	// t_vec3	*vertex;
 	int		nvertex;
 
 	i = -1;

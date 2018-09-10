@@ -1,44 +1,64 @@
-# **************************************************************************** #
-#                                                           LE - /             #
-#                                                               /              #
-#    Makefile                                         .::    .:/ .      .::    #
-#                                                  +:+:+   +:    +:  +:+:+     #
-#    By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+      #
-#                                                  #+#   #+    #+    #+#       #
-#    Created: 2017/11/16 13:29:01 by ghazette     #+#   ##    ##    #+#        #
-#    Updated: 2018/05/30 10:54:16 by ghazette    ###    #+. /#+    ###.fr      #
-#                                                          /                   #
-#                                                         /                    #
-# **************************************************************************** #
-NAME = libalgebra.a
+#  ************************************************************************** #
+#                                                           LE - /            #
+#                                                               /             #
+#    Makefile                                         .::    .:/ .      .::   #
+#                                                  +:+:+   +:    +:  +:+:+    #
+#    By: rlossy <rlossy@student.le-101.fr>          +:+   +:    +:    +:+     #
+#                                                  #+#   #+    #+    #+#      #
+#    Created: 2018/09/07 12:09:52 by rlossy       #+#   ##    ##    #+#       #
+#    Updated: 2018/09/07 12:09:52 by rlossy      ###    #+. /#+    ###.fr     #
+#                                                          /                  #
+#                                                         /                   #
+#  ************************************************************************** #
 
-CC = gcc
+NAME		=	libalgebra.a
+HEADER		=   ./includes/
+FILENAMES   =   ft_memset.c matrix.c vector.c vector2.c vector3.c
 
-CFLAGS = -Wall -Werror -Wextra -O2
+SOURCES     =   $(addprefix srcs/, $(FILENAMES))
+OBJECTS     =   $(addprefix build/, $(FILENAMES:.c=.o))
 
-RM = rm -f
+LOADIR		=	../extra/Progress_Bar-for-Makefile
+LOADF		=	$(LOADIR)/loading.sh
 
-SRCS = srcs/vector.c srcs/vector2.c srcs/vector3.c srcs/matrix.c srcs/ft_memset.c
+.PHONY: all clean fclean re
 
-HEADER = includes/libalgebra.h
-
-OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
-
-%.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(OBJS)
+		@echo "\033[31m"
+		@sh $(LOADF) $@ r n $(NAME)
+		@rm -rf build/
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tObject Files\033[0m \
+		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
 
 fclean: clean
-	$(RM) $(NAME)
+		@echo "\033[31m"
+		@sh $(LOADF) $@ r n $(NAME)
+		@rm -f $(NAME)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tCompiled Files\033[0m \
+		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
 
-re: fclean all
+re:
+		@$(MAKE) fclean
+		@$(MAKE) all
 
-.PHONY: re all clean fclean
+build:
+		@echo "\033[33m"
+		@mkdir build/
 
+$(NAME): $(OBJECTS)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\tObject Files\033[0m \
+		\033[1m⟿ \t\033[32mCreation Success\033[0m ✅\n"
+		@echo "\033[44m\033[37m"
+		@sh $(LOADF) $@ a n
+		@echo "\033[0m"
+		@ar crs $@ $(OBJECTS)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\tProject\t\t\033[0m\033[1m⟿ \
+		\033[32mCreation Success\033[0m ✅\n"
+
+build/%.o: srcs/%.c $(HEADER) | build
+		@sh $(LOADF) $< o y
+		@gcc -Wall -Wextra -Werror -I $(HEADER) -c $< -o $@

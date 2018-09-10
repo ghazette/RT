@@ -17,7 +17,7 @@ OBJECT
     ambient 5
     radius 5
     specular 255 100 100
-    color 255 0 0
+    color 255 0 0ls
     #obj_src ./obj/glock.obj
     #texture ./texture/tile.bmp
 }
