@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 18:21:03 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 17:12:28 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 18:09:29 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,22 +19,28 @@ void	rotate(t_obj *obj)
 	double matx[3][3];
 	double maty[3][3];
 
-	if (obj->type != SPHERE)
+	if (obj->rot.x != 0)
 	{
-		if (obj->rot.x != 0)
-		{
-			init_matrix(OX_ROTATION, matx, obj->rot.x);
+		init_matrix(OX_ROTATION, matx, obj->rot.x);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, matx);
+		else
 			vec3_transform(&obj->dir, matx);
-		}
-		if (obj->rot.y != 0)
-		{
-			init_matrix(OY_ROTATION, maty, obj->rot.y);
+	}
+	if (obj->rot.y != 0)
+	{
+		init_matrix(OY_ROTATION, maty, obj->rot.y);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, maty);
+		else
 			vec3_transform(&obj->dir, maty);
-		}
-		if (obj->rot.z != 0)
-		{
-			init_matrix(OZ_ROTATION, matz, obj->rot.z);
+	}
+	if (obj->rot.z != 0)
+	{
+		init_matrix(OZ_ROTATION, matz, obj->rot.z);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, matz);
+		else
 			vec3_transform(&obj->dir, matz);
-		}
 	}
 }

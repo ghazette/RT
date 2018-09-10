@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 17:31:37 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 18:08:32 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,6 +33,7 @@
 # define PLANE 0x101
 # define CYLINDER 0x102
 # define CONE 0x103
+# define COMPOSED 0x104
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 # define THREADS 8
@@ -64,17 +65,6 @@ typedef struct		s_material
 	t_vec3			specular;
 }					t_material;
 
-typedef struct		s_shape
-{
-	int				len;
-	t_vec3			v0;
-	t_vec3			v1;
-	t_vec3			v2;
-	t_vec3			v3;
-	t_vec3			e0;
-	t_vec3			e1;
-}					t_shape;
-
 typedef struct		s_texture
 {
 	unsigned char	*data;
@@ -91,17 +81,26 @@ typedef struct		s_texture
 	size_t			height;
 }					t_texture;
 
+typedef struct		s_poly
+{
+	t_vec3			**s;
+	t_vec3			**e;
+	t_vec3			n;
+	int				nvertex;
+}					t_poly;
+
 typedef struct		s_obj
 {
 	int				id;
 	int				type;
 	char			*name;
 	double			radius;
+	int				npoly;
+	t_poly			**poly;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			color;
-	t_shape			shape;
 	t_texture		texture;
 	t_material		material;
 	int				(*render_func)(t_interinfo *interinfo, t_vec3 *view,
@@ -218,6 +217,7 @@ double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
 t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
+void				print_poly(t_poly *poly);
 
 /*
 ** OBJECT RENDER
@@ -230,6 +230,8 @@ int					render_sphere(t_interinfo *interinfo, t_vec3 *view,
 int					render_plane(t_interinfo *interinfo, t_vec3 *view,
 						t_obj *obj, t_vec3 vdir);
 int					render_cone(t_interinfo *interinfo, t_vec3 *view,
+						t_obj *obj, t_vec3 vdir);
+int					render_composed(t_interinfo *interinfo, t_vec3 *view,
 						t_obj *obj, t_vec3 vdir);
 
 /*
@@ -253,6 +255,7 @@ int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
 int					new_camera(t_mlx *mlx);
 t_obj				*new_object();
 t_spot				*new_spot();
+int					fetch_obj(char *path, t_obj **obj);
 
 /*
 ** LIGHT
@@ -299,5 +302,11 @@ void				key_rot(t_mlx *mlx, int key);
 */
 
 void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
+
+/*
+**	OBJ PARSER
+*/
+
+int					fetch_obj(char *path, t_obj **obj);
 
 #endif

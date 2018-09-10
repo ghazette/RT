@@ -29,6 +29,8 @@ int	render_plane(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)
 	double a = vec3_length(&interinfo->intersect, view);
 	double b = vec3_length(&test, view);
 	if (a > b)
+	{
 		vec3_reverse(&interinfo->normal);
+	}
 	return (1);
 }

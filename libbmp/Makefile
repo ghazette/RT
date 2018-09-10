@@ -30,14 +30,14 @@ all: $(NAME)
 
 clean:
 		@echo "\033[31m"
-		@sh $(LOADF) $@ r n $(NAME)
+		@sh $(LOADF) $(LOADIR) $@ r n $(NAME)
 		@rm -rf build/
 		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tObject Files\033[0m \
 		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
 
 fclean: clean
 		@echo "\033[31m"
-		@sh $(LOADF) $@ r n $(NAME)
+		@sh $(LOADF) $(LOADIR) $@ r n $(NAME)
 		@rm -f $(NAME)
 		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tCompiled Files\033[0m \
 		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
@@ -57,12 +57,12 @@ $(NAME): $(OBJECTS)
 		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tObject Files\033[0m \
 		\033[1m⟿ \t\033[32mCreation Success\033[0m ✅\n"
 		@echo "\033[45m\033[30m"
-		@sh $(LOADF) $@ a n
+		@sh $(LOADF) $(LOADIR) $@ a n
 		@echo "\033[0m"
 		@ar crs $@ $(OBJECTS)
 		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃ \tProject\t\t\033[0m\033[1m⟿ \
 		\033[32mCreation Success\033[0m ✅\n"
 
 build/%.o: srcs/%.c $(HEADER) | build
-	@sh $(LOADF) $< o y
+	@sh $(LOADF) $(LOADIR) $< o y
 	@gcc $(FLAGS) $(LIB_INC) -I $(HEADER) -c $< -o $@
