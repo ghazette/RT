@@ -6,14 +6,14 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/12/26 15:43:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/01/31 11:55:36 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/07 12:06:39 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include "../../includes/libft.h"
+# include "./libft.h"
 # include <wchar.h>
 # include <stdlib.h>
 # include <stdarg.h>

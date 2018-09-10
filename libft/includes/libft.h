@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/23 14:13:23 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/19 10:41:15 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/07 12:06:07 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,7 +17,7 @@
 # include <string.h>
 # include <stdint.h>
 # include <wchar.h>
-# include "../ft_printf/includes/ft_printf.h"
+# include "./ft_printf.h"
 
 typedef struct		s_list
 {

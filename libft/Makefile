@@ -1,149 +1,87 @@
-# **************************************************************************** #
-#                                                           LE - /             #
-#                                                               /              #
-#    Makefile                                         .::    .:/ .      .::    #
-#                                                  +:+:+   +:    +:  +:+:+     #
-#    By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+      #
-#                                                  #+#   #+    #+    #+#       #
-#    Created: 2017/11/16 13:29:01 by ghazette     #+#   ##    ##    #+#        #
-#    Updated: 2018/04/19 10:41:27 by ghazette    ###    #+. /#+    ###.fr      #
-#                                                          /                   #
-#                                                         /                    #
-# **************************************************************************** #
-NAME = libft.a
+#  ************************************************************************** #
+#                                                           LE - /            #
+#                                                               /             #
+#    Makefile                                         .::    .:/ .      .::   #
+#                                                  +:+:+   +:    +:  +:+:+    #
+#    By: rlossy <rlossy@student.le-101.fr>          +:+   +:    +:    +:+     #
+#                                                  #+#   #+    #+    #+#      #
+#    Created: 2018/09/06 16:28:57 by rlossy       #+#   ##    ##    #+#       #
+#    Updated: 2018/09/06 17:07:35 by rlossy      ###    #+. /#+    ###.fr      #
+#                                                          /                  #
+#                                                         /                   #
+#  ************************************************************************** #
 
-CC = gcc
+NAME		=	libft.a
+HEADER		=   ./includes/
+FILENAMES   =   ft_atoi.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c
+FILENAMES   +=  ft_isprint.c ft_isspace.c ft_tolower.c ft_toupper.c ft_strcat.c
+FILENAMES   +=  ft_strncat.c ft_strlcat.c ft_strchr.c ft_strrchr.c ft_strcmp.c
+FILENAMES   +=  ft_strncmp.c ft_strcpy.c ft_strncpy.c ft_strdup.c ft_strnstr.c
+FILENAMES   +=  ft_strstr.c ft_strlen.c ft_memalloc.c ft_memdel.c ft_strnew.c
+FILENAMES   +=  ft_strdel.c ft_strclr.c ft_striter.c ft_striteri.c ft_strmap.c
+FILENAMES   +=  ft_strmapi.c ft_strequ.c ft_strnequ.c ft_putuchar.c ft_putchar.c
+FILENAMES   +=  ft_putchar_fd.c ft_putustr.c ft_putstr.c ft_putstr_fd.c
+FILENAMES   +=  ft_putendl.c ft_putendl_fd.c ft_putnbr.c ft_putnbr_fd.c ft_itoa.c
+FILENAMES   +=  ft_bzero.c ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memcpy.c
+FILENAMES   +=  ft_memdel.c ft_memmove.c ft_memset.c ft_strsub.c ft_strjoin.c
+FILENAMES   +=  ft_strtrim.c ft_strsplit.c ft_wordcount.c ft_lstnew.c
+FILENAMES   +=  ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c
+FILENAMES   +=  ft_itoa_base.c ft_strupcase.c ft_isupper.c ft_islower.c
+FILENAMES   +=  ft_swap.c ft_2d_malloc.c ft_heightlen.c ft_str2dcpy.c
+FILENAMES   +=  ft_free2d.c ft_free3d.c ft_realloc.c ft_strlen_ext.c
+FILENAMES   +=  ft_safecat.c ft_wcslen.c ft_wstrcpy.c ft_wstrdup.c ft_wstrjoin.c
+FILENAMES   +=  ft_wstrncpy.c ft_wstrndup.c ft_newcstr.c ft_newcwstr.c
+FILENAMES   +=  ft_putuchar.c ft_putustr.c ft_uitoa.c ft_uitoa_base.c
+FILENAMES   +=  get_next_line.c conv_and_parse.c conv_and_parse2.c
+FILENAMES   +=  display.c ft_printf.c getters.c getters2.c parse_cs.c
+FILENAMES   +=  parse_cs_utf.c parse_di.c parse_xoup.c prtfdata.c utils.c
+FILENAMES   +=  ft_rgbtohex.c ft_doubleswap.c
 
-CFLAGS = -Wall -Werror -Wextra
+SOURCES     =   $(addprefix ./, $(FILENAMES))
+OBJECTS     =   $(addprefix build/, $(FILENAMES:.c=.o))
 
-RM = rm -f
+LOADIR		=	../extra/Progress_Bar-for-Makefile
+LOADF		=	$(LOADIR)/loading.sh
 
-SRCS = ft_atoi\
-		ft_isalnum\
-		ft_isalpha\
-		ft_isascii\
-		ft_isdigit\
-		ft_isprint\
-		ft_isspace\
-		ft_tolower\
-		ft_toupper\
-		ft_strcat\
-		ft_strncat\
-		ft_strlcat\
-		ft_strchr\
-		ft_strrchr\
-		ft_strcmp\
-		ft_strncmp\
-		ft_strcpy\
-		ft_strncpy\
-		ft_strdup\
-		ft_strnstr\
-		ft_strstr\
-		ft_strlen\
-		ft_memalloc\
-		ft_memdel\
-		ft_strnew\
-		ft_strdel\
-		ft_strclr\
-		ft_striter\
-		ft_striteri\
-		ft_strmap\
-		ft_strmapi\
-		ft_strequ\
-		ft_strnequ\
-		ft_putuchar\
-		ft_putchar\
-		ft_putchar_fd\
-		ft_putustr\
-		ft_putstr\
-		ft_putstr_fd\
-		ft_putendl\
-		ft_putendl_fd\
-		ft_putnbr\
-		ft_putnbr_fd\
-		ft_itoa\
-		ft_bzero\
-		ft_memccpy\
-		ft_memchr\
-		ft_memcmp\
-		ft_memcpy\
-		ft_memdel\
-		ft_memmove\
-		ft_memset\
-		ft_strsub\
-		ft_strjoin\
-		ft_strtrim\
-		ft_strsplit\
-		ft_wordcount\
-		ft_lstnew\
-		ft_lstdelone\
-		ft_lstdel\
-		ft_lstadd\
-		ft_lstiter\
-		ft_lstmap\
-		ft_itoa_base\
-		ft_strupcase\
-		ft_isupper\
-		ft_islower\
-		ft_swap\
-		ft_2d_malloc\
-		ft_heightlen\
-		ft_str2dcpy\
-		ft_free2d\
-		ft_free3d\
-		ft_realloc\
-		ft_strlen_ext\
-		ft_safecat\
-		ft_wcslen\
-		ft_wstrcpy\
-		ft_wstrdup\
-		ft_wstrjoin\
-		ft_wstrncpy\
-		ft_wstrndup\
-		ft_newcstr\
-		ft_newcwstr\
-		ft_putuchar\
-		ft_putustr\
-		ft_uitoa\
-		ft_uitoa_base\
-		get_next_line\
-		ft_printf/srcs/conv_and_parse\
-		ft_printf/srcs/conv_and_parse2\
-		ft_printf/srcs/display\
-		ft_printf/srcs/ft_printf\
-		ft_printf/srcs/getters\
-		ft_printf/srcs/getters2\
-		ft_printf/srcs/parse_cs\
-		ft_printf/srcs/parse_cs_utf\
-		ft_printf/srcs/parse_di\
-		ft_printf/srcs/parse_xoup\
-		ft_printf/srcs/prtfdata\
-		ft_printf/srcs/utils\
-		ft_rgbtohex\
-		ft_doubleswap
+.PHONY: all clean fclean re
 
-HEADER =	includes/libft.h\
-			ft_printf/includes/ft_printf.h
-
-FILES = $(addsuffix .c, $(SRCS))
-
-OBJS = $(FILES:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
-
-%.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(OBJS)
+		@echo "\033[31m"
+		@sh $(LOADF) $@ r n $(NAME)
+		@rm -rf build/
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tObject Files\033[0m \
+		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
 
 fclean: clean
-	$(RM) $(NAME)
+		@echo "\033[31m"
+		@sh $(LOADF) $@ r n $(NAME)
+		@rm -f $(NAME)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tCompiled Files\033[0m \
+		\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
 
-re: fclean all
+re:
+		@$(MAKE) fclean
+		@$(MAKE) all
 
-.PHONY: re all clean fclean
+build:
+		@echo "\033[36m"
+		@mkdir build/
+		@mkdir build/ft_printf
 
+$(NAME): $(OBJECTS)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\tObject Files\033[0m \
+		\033[1m⟿ \t\033[32mCreation Success\033[0m ✅\n"
+		@echo "\033[43m\033[30m"
+		@sh $(LOADF) $@ a n
+		@echo "\033[0m"
+		@ar crs $@ $(OBJECTS)
+		@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃ \tProject\t\t\033[0m\033[1m⟿ \
+		\033[32mCreation Success\033[0m ✅\n"
+
+build/%.o: ./%.c $(HEADER) | build
+		@sh $(LOADF) $< o y
+		@gcc -Wall -Wextra -Werror -I $(HEADER) -c $< -o $@

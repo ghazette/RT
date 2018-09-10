@@ -1,126 +1,113 @@
-# **************************************************************************** #
-#                                                           LE - /             #
-#                                                               /              #
-#    Makefile                                         .::    .:/ .      .::    #
-#                                                  +:+:+   +:    +:  +:+:+     #
-#    By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+      #
-#                                                  #+#   #+    #+    #+#       #
-#    Created: 2017/11/28 11:28:16 by gzanarel     #+#   ##    ##    #+#        #
-#    Updated: 2018/06/11 17:55:21 by ghazette    ###    #+. /#+    ###.fr      #
-#                                                          /                   #
-#                                                         /                    #
-# **************************************************************************** #
+#  ************************************************************************** #
+#                                                           LE - /            #
+#                                                               /             #
+#    Makefile                                         .::    .:/ .      .::   #
+#                                                  +:+:+   +:    +:  +:+:+    #
+#    By: rlossy <rlossy@student.le-101.fr>          +:+   +:    +:    +:+     #
+#                                                  #+#   #+    #+    #+#      #
+#    Created: 2018/09/06 16:13:08 by rlossy       #+#   ##    ##    #+#       #
+#    Updated: 2018/09/06 16:13:08 by rlossy      ###    #+. /#+    ###.fr     #
+#                                                          /                  #
+#                                                         /                   #
+#  ************************************************************************** #
 
-NAME = rtv1
+NAME		=	RT
+HEADER		=	./includes/
 
-OS = $(shell uname)
+LIB_DIR		=	./libft
+LIBX_DIR	=	./minilibx_macos
+LIBAL_DIR   =   ./libalgebra
+LIBMP_DIR   =   ./libbmp
 
-SRC_PATH = ./srcs/
+FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c
+FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c
+FILENAMES   +=  input/click.c input/key.c input/key_input.c input/key_rot.c
+FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
+FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c
+FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
+FILENAMES   +=  parsing/file_reader.c parsing/parse.c
 
-SRC_ROOT = $(addprefix $(SRC_PATH), camera.c light.c main.c mlx.c phong.c ray.c rotate.c utils.c utils1.c)
+OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 
-OBJ_PATH = ./srcs/objects/
+L_FT		=	$(LIB_DIR)
+LIB_LNK		=	-L $(L_FT) -l ft
+LIB_INC		=	-I $(L_FT)/libft.h
 
-SRC_OBJ = $(addprefix $(OBJ_PATH), cone.c cylinder.c plane.c sphere.c)
+LX_FT		=	$(LIBX_DIR)
+LIBX_LNK	=	-L $(LX_FT) -l mlx
+LIBX_INC	=	-I $(LX_FT)/mlx.h
 
-INTER_PATH = ./srcs/interface/
+LBAL_FT     =   $(LIBAL_DIR)
+LIBAL_LNK   =   -L $(LBAL_FT) -l algebra
+LIBAL_INC   =   -I $(LBAL_FT)/libalgebra.h
 
-SRC_INTER = $(addprefix $(INTER_PATH), interface.c interface1.c)
+LBMP_FT     =	$(LIBMP_DIR)
+LIBMP_LNK	=	-L $(LBMP_FT) -l bmp
+LIBMP_INC	=	-I $(LBMP_FT)/libbmp.h $(LBMP_FT)/bmp.h
 
-PARSE_PATH = ./srcs/parsing/
+FLAGS		=	-Wall -Wextra -Werror -O2
+FLAGX		=	-framework OpenGL -framework AppKit
 
-SRC_PARSE = $(addprefix $(PARSE_PATH), fetch.c fetch2.c file_reader.c parse.c)
+LOADIR		=	./extra/Progress_Bar-for-Makefile
+LOADF		=	$(LOADIR)/loading.sh
 
-INPUT_PATH = ./srcs/input/
+.PHONY: all clean fclean re
 
-SRC_INPUT = $(addprefix $(INPUT_PATH), click.c key.c key_input.c key_rot.c mouse_input.c)
-
-SRC += $(SRC_ROOT)
-
-SRC += $(SRC_OBJ)
-
-SRC += $(SRC_INTER)
-
-SRC += $(SRC_INPUT)
-
-SRC += $(SRC_PARSE)
-
-INC = ./includes/
-
-LIBFT_PATH = ./libft/libft.a
-
-MLX_PATH = ./minilibx/libmlx.a
-
-MLX_PATH_LINUX = ./minilibx_linux/libmlx_Linux.a
-
-LIBALGEBRA_PATH = ./libalgebra/libalgebra.a
-
-LIBBMP_PATH = ./libbmp/libbmp.a
-
-OBJ = $(SRC:%.c=%.o)
-
-CC = gcc
-
-FLAGS = -O3 -Wall -Werror -Wextra
-
-MKDIR = $(shell mkdir image 2> /dev/null)
 
 all: $(NAME)
 
-ifeq ($(OS), Darwin)
-$(NAME): $(OBJ) $(LIBFT_PATH) $(MLX_PATH) $(LIBALGEBRA_PATH) $(LIBBMP_PATH) $(MKDIR)
-	$(CC) $(FLAGS) $(OBJ) $(LIBFT_PATH) $(LIBALGEBRA_PATH) $(MLX_PATH) $(LIBBMP_PATH) -o $(NAME) -framework OpenGl -framework AppKit
-endif
-
-ifeq ($(OS), Linux)
-$(NAME): $(OBJ) $(LIBFT_PATH) $(MLX_PATH_LINUX) $(LIBALGEBRA_PATH) $(LIBBMP_PATH) $(MKDIR)
-	$(CC) $(FLAGS) $(OBJ) $(LIBFT_PATH) $(LIBALGEBRA_PATH) $(MLX_PATH_LINUX) $(LIBBMP_PATH) -o $(NAME) -lXext -lX11 -lm -lpthread
-endif
-
-%.o: $(SRC_PATH)%.c $(INC)rtv1.h
-	$(CC) $(FLAGS) -I $(INC) -c $(SRC_ROOT)
-
-%.o: $(OBJ_PATH)%.c $(INC)rtv1.h
-	$(CC) $(FLAGS) -I $(INC) -c $(SRC_OBJ)
-
-%.o: $(INTER_PATH)%.c $(INC)rtv1.h
-	$(CC) $(FLAGS) -I $(INC) -c $(SRC_INTER)
-
-%.o: $(PARSE_PATH)%.c $(INC)rtv1.h
-	$(CC) $(FLAGS) -I $(INC) -c $(SRC_PARSE)
-
-%.o: $(INPUT_PATH)%.c $(INC)rtv1.h
-	$(CC) $(FLAGS) -I $(INC) -c $(SRC_INPUT})
-
-$(LIBBMP_PATH):
-	make -C ./libbmp/
-
-$(LIBALGEBRA_PATH):
-	make -C ./libalgebra/
-
-$(LIBFT_PATH):
-	make -C ./libft/
-
-$(MLX_PATH):
-	make -C ./minilibx/
-
-$(MLX_PATH_LINUX):
-	make -C ./minilibx_linux/
-
 clean:
-	rm -f $(OBJ)
-	make -C ./libft/ clean
-	make -C ./minilibx/ clean
-	make -C ./libalgebra/ clean
-	make -C ./libbmp/ clean
+	@echo "\033[31m"
+	@sh $(LOADF) $@ r n $(NAME)
+	@rm -rf build/
+	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\t\tObject Files\t\033[0m\
+	\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
+
+cleanlib:
+	@$(MAKE) -C $(L_FT) clean
+	@$(MAKE) -C $(LX_FT) clean
+	@$(MAKE) -C $(LBAL_FT) clean
+	@$(MAKE) -C $(LBMP_FT) clean
 
 fclean: clean
-	rm -f $(NAME)
-	make -C ./libft/ fclean
-	make -C ./minilibx/ fclean
-	make -C ./libalgebra/ fclean
-	make -C ./libbmp/ fclean
+	@echo "\033[31m"
+	@sh $(LOADF) $@ r n $(NAME)
+	@rm -f $(NAME)
+	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $(NAME)⭃\t\tCompiled Files\t\033[0m\
+	\033[1m⟿ \t\033[31mDeletion Success\033[0m ✅\n"
+	@$(MAKE) -C $(L_FT) fclean
+	@$(MAKE) -C $(LX_FT) fclean
+	@$(MAKE) -C $(LBAL_FT) fclean
+	@$(MAKE) -C $(LBMP_FT) fclean
 
-re: fclean all
+re: 
+	@$(MAKE) fclean 
+	@$(MAKE) all
 
-.PHONY: all clean fclean re
+build: 
+	@echo "\033[35m"
+	@mkdir build/
+	@mkdir build/main
+	@mkdir build/input
+	@mkdir build/interface
+	@mkdir build/objects
+	@mkdir build/parsing
+
+$(NAME): $(OBJECTS)
+	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tObject Files\033[0m \
+		\033[1m⟿ \t\033[32mCreation Success\033[0m ✅\n"
+	@$(MAKE) -C $(L_FT)
+	@$(MAKE) -C $(LBMP_FT)
+	@$(MAKE) -C $(LBAL_FT)
+	@$(MAKE) -C $(LX_FT)
+	@echo "\033[42m\033[30m"
+	@sh $(LOADF) $@ e n $(NAME)
+	@echo "\033[0m"
+	@gcc $(FLAGS) -I $(HEADER) $(OBJECTS) $(LIB_LNK) $(LIBX_LNK) $(LIBAL_LNK) \
+	$(LIBMP_LNK) $(FLAGX) -o $@
+	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tProject\t\t\033[0m \033[1m⟿  \
+		\033[32mCreation Success\033[0m ✅\n"
+
+build/%.o: srcs/%.c $(HEADER) | build
+	@sh $(LOADF) $< o y
+	@gcc $(FLAGS) $(LIB_INC) -I $(HEADER) -c $< -o $@
