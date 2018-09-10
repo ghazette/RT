@@ -66,7 +66,7 @@ progressbar() {
 	_title=$(printf "%${_title}s")
 	_msg=$(printf "%${_msg}s")
 
-	let _pbar_size=${cols}-2*${block}-10
+	let _pbar_size=${cols}-2*${block}-12
 	let _progress=${current}*100/${total}
 	let _current=${current}*${_pbar_size}
 	let _current=${_current}/${total}
