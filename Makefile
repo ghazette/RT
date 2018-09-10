@@ -19,13 +19,14 @@ LIBX_DIR	=	./minilibx_macos
 LIBAL_DIR   =   ./libalgebra
 LIBMP_DIR   =   ./libbmp
 
-FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c
+FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c main/utils2.c
 FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c
 FILENAMES   +=  input/click.c input/key.c input/key_input.c input/key_rot.c
 FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
-FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c
+FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c objects/composed.c
 FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
 FILENAMES   +=  parsing/file_reader.c parsing/parse.c
+FILENAMES   +=  obj_parser/obj_reader.c
 
 OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 
@@ -92,6 +93,7 @@ build:
 	@mkdir build/interface
 	@mkdir build/objects
 	@mkdir build/parsing
+	@mkdir build/obj_parser
 
 $(NAME): $(OBJECTS)
 	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tObject Files\033[0m \
@@ -103,11 +105,11 @@ $(NAME): $(OBJECTS)
 	@echo "\033[42m\033[30m"
 	@sh $(LOADF) $@ e n $(NAME)
 	@echo "\033[0m"
-	@gcc $(FLAGS) -I $(HEADER) $(OBJECTS) $(LIB_LNK) $(LIBX_LNK) $(LIBAL_LNK) \
+	@gcc -I $(HEADER) $(OBJECTS) $(LIB_LNK) $(LIBX_LNK) $(LIBAL_LNK) \
 	$(LIBMP_LNK) $(FLAGX) -o $@
 	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tProject\t\t\033[0m \033[1m⟿  \
 		\033[32mCreation Success\033[0m ✅\n"
 
 build/%.o: srcs/%.c $(HEADER) | build
 	@sh $(LOADF) $< o y
-	@gcc $(FLAGS) $(LIB_INC) -I $(HEADER) -c $< -o $@
+	@gcc $(LIB_INC) -I $(HEADER) -c $< -o $@

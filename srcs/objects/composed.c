@@ -13,8 +13,55 @@
 
 #include "../../includes/rtv1.h"
 
-int	render_composed(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)
+static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 vdir)
 {
-    
+	t_vec3	C;
+	t_vec3	vp;
+	int		i;
+	int		j;
+	double	t;
+
+	i = 0;
+	while (i < 1)
+	{
+		t = (vec3_dotproduct(&obj->poly[i]->n, &obj->pos) -
+		vec3_dotproduct(&obj->poly[i]->n, view)) / vec3_dotproduct(&obj->poly[i]->n, &vdir);
+		if (t < 0)
+			return (0);
+		vec3_add(view, vec3_scale(&vdir, t, MULT, &interinfo->intersect),
+			&interinfo->intersect);
+		vector3d(&interinfo->normal, obj->poly[i]->n.x, obj->poly[i]->n.y, obj->poly[i]->n.z);
+		t_vec3 test;
+		vec3_sub(&interinfo->intersect, &obj->poly[i]->n, &test);
+		double a = vec3_length(&interinfo->intersect, view);
+		double b = vec3_length(&test, view);
+		j = 0;
+		while (j < obj->poly[i]->nvertex)
+		{
+			vec3_sub(&interinfo->intersect, obj->poly[i]->s[j], &vp);
+			vec3_crossproduct(obj->poly[i]->e[j], &vp, &C);
+			if (a > b)
+			{
+				if (vec3_dotproduct(&obj->poly[i]->n, &C) < 0)
+					return (0);
+			}
+			else
+			{
+				if (vec3_dotproduct(&obj->poly[i]->n, &C) > 0)
+					return (0);
+			}
+			j++;
+		}
+		if (a > b)
+			vec3_reverse(&interinfo->normal);
+		i++;
+	}
+	return (1);
+}
+
+int				render_composed(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)
+{
+	if (!(is_inbound(interinfo, obj, view, vdir)))
+		return (0);
 	return (1);
 }

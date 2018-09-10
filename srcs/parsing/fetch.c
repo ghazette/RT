@@ -35,15 +35,14 @@ static int		type_define(char *type, t_obj *obj)
 	if (!ft_strcmp("PLANE", type))
 	{
 		obj->render_func = render_plane;
-		vector3d(&obj->dir, 0, 0, 1);
+		vector3d(&obj->dir, 0, 0, -1);
 		return (PLANE);
 	}
 	if (!ft_strcmp("COMPOSED", type))
 	{
 		obj->render_func = render_composed;
 		vector3d(&obj->dir, 0, 0, 1);
-		printf("%d\n", obj->npoly);
-		obj->poly = malloc(sizeof(t_poly) * obj->npoly);
+		obj->poly = (t_poly**)malloc(sizeof(t_poly*) * obj->npoly);
 		return (COMPOSED);
 	}
 	return (0);
@@ -77,7 +76,6 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 	return (1);
 }
 
-//TO DO
 int				calc_edge(t_poly *poly, int nvertex)
 {
 	int i;
@@ -85,43 +83,41 @@ int				calc_edge(t_poly *poly, int nvertex)
 	i = 0;
 	while (i < nvertex  - 1)
 	{
-		vec3_sub(&poly->s[i], &poly->s[i + 1], &poly->e[i]);
+		vec3_sub(poly->s[i], poly->s[i + 1], poly->e[i]);
 		i++;
 	}
-	vec3_sub(&poly->s[i], &poly->s[0], &poly->e[i]);
-	vec3_crossproduct(&poly->e[0], &poly->e[1], &poly->n);
+	vec3_sub(poly->s[i], poly->s[0], poly->e[i]);
+	vec3_crossproduct(poly->e[0], poly->e[1], &poly->n);
 	vec3_normalize(&poly->n);
-	// vec3_sub(&poly.s[0], &poly.s[1], &poly.s[0].e0);
-	// vec3_sub(&(*obj)->shape.v1, &(*obj)->shape.v0, &(*obj)->shape.e0);
-	// vec3_sub(&(*obj)->shape.v2, &(*obj)->shape.v1, &(*obj)->shape.e1);
-	// vec3_sub(&(*obj)->shape.v0, &(*obj)->shape.v2, &(*obj)->shape.e2);
-	// vec3_crossproduct(&(*obj)->shape.e0, &(*obj)->shape.e1, &(*obj)->dir);
-	// vec3_normalize(&(*obj)->dir);
 	return (1);
 }
 
-int				fetch_poly(char *str, t_obj *obj)
+int				fetch_poly(char *str, t_obj **obj)
 {
 	int		i;
 	char	**split;
 	char	**vsplit;
-	// t_vec3	*vertex;
 	int		nvertex;
 
 	i = -1;
+	
 	split = ft_strsplit(str, ';');
 	nvertex = ft_heightlen(split);
-	obj->npoly--;
-	obj->poly[obj->npoly].s = malloc(sizeof(t_vec3) * nvertex);
-	obj->poly[obj->npoly].e = malloc(sizeof(t_vec3) * nvertex);
+	(*obj)->npoly--;
+	(*obj)->poly[(*obj)->npoly] = malloc(sizeof(t_poly*));
+	(*obj)->poly[(*obj)->npoly]->nvertex = nvertex;
+	(*obj)->poly[(*obj)->npoly]->s = (t_vec3**)malloc(sizeof(t_vec3*) * nvertex);
+	(*obj)->poly[(*obj)->npoly]->e = (t_vec3**)malloc(sizeof(t_vec3*) * nvertex);
 	while (++i < nvertex)
 	{
 		vsplit = ft_strsplit(split[i], '_');
-		obj->poly[obj->npoly].s[i].x = ft_atoi(vsplit[0]);
-		obj->poly[obj->npoly].s[i].y = ft_atoi(vsplit[1]);
-		obj->poly[obj->npoly].s[i].z = ft_atoi(vsplit[2]);
+		(*obj)->poly[(*obj)->npoly]->s[i] = malloc(sizeof(t_vec3));
+		(*obj)->poly[(*obj)->npoly]->e[i] = malloc(sizeof(t_vec3));
+		(*obj)->poly[(*obj)->npoly]->s[i]->x = ft_atoi(vsplit[0]);
+		(*obj)->poly[(*obj)->npoly]->s[i]->y = ft_atoi(vsplit[1]);
+		(*obj)->poly[(*obj)->npoly]->s[i]->z = ft_atoi(vsplit[2]);
 	}
-	calc_edge(&obj->poly[obj->npoly], nvertex);
+	calc_edge((*obj)->poly[(*obj)->npoly], nvertex);
 	return (1);
 }
 
@@ -151,7 +147,7 @@ static int		fetch_object_array(t_obj *obj, char **split)
 		if (!(fetch_obj(split[1], &obj)))
 			return (0);
 	if (!ft_strcmp(split[0], "poly") && split[1] && obj->type == COMPOSED)
-		if (!(fetch_poly(split[1], obj)))
+		if (!(fetch_poly(split[1], &obj)))
 			return (0);
 	if (!ft_strcmp(split[0], "nb_poly") && split[1]) {
 		if (!(obj->npoly = ft_atoi(split[1])))
@@ -200,38 +196,3 @@ int				fetch_object(t_mlx *mlx, int fd)
 	}
 	return (0);
 }
-
-// int			init_shape(t_shape *shape, char *str)
-// {
-// 	char **split;
-// 	char **vsplit;
-
-// 	split = ft_strsplit(str, ';');
-// 	shape->len = ft_heightlen(split);
-// 	if (shape->len >= 3)
-// 	{
-// 		vsplit = ft_strsplit(split[0], '_');
-// 		shape->v0.x = ft_atoi(vsplit[0]);
-// 		shape->v0.y = ft_atoi(vsplit[1]);
-// 		shape->v0.z = ft_atoi(vsplit[2]);
-// 		vsplit = ft_strsplit(split[1], '_');
-// 		shape->v1.x = ft_atoi(vsplit[0]);
-// 		shape->v1.y = ft_atoi(vsplit[1]);
-// 		shape->v1.z = ft_atoi(vsplit[2]);
-// 		vsplit = ft_strsplit(split[2], '_');
-// 		shape->v2.x = ft_atoi(vsplit[0]);
-// 		shape->v2.y = ft_atoi(vsplit[1]);
-// 		shape->v2.z = ft_atoi(vsplit[2]);
-// 	}
-// 	return (1);
-// }
-
-// int				calc_n(t_obj **obj)
-// {
-// 	vec3_sub(&(*obj)->shape.v1, &(*obj)->shape.v0, &(*obj)->shape.e0);
-// 	vec3_sub(&(*obj)->shape.v2, &(*obj)->shape.v1, &(*obj)->shape.e1);
-// 	vec3_sub(&(*obj)->shape.v0, &(*obj)->shape.v2, &(*obj)->shape.e2);
-// 	vec3_crossproduct(&(*obj)->shape.e0, &(*obj)->shape.e1, &(*obj)->dir);
-// 	vec3_normalize(&(*obj)->dir);
-// 	return (1);
-// }

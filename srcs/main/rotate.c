@@ -22,16 +22,25 @@ void	rotate(t_obj *obj)
 	if (obj->rot.x != 0)
 	{
 		init_matrix(OX_ROTATION, matx, obj->rot.x);
-		vec3_transform(&obj->dir, matx);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, matx);
+		else
+			vec3_transform(&obj->dir, matx);
 	}
 	if (obj->rot.y != 0)
 	{
 		init_matrix(OY_ROTATION, maty, obj->rot.y);
-		vec3_transform(&obj->dir, maty);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, maty);
+		else
+			vec3_transform(&obj->dir, maty);
 	}
 	if (obj->rot.z != 0)
 	{
 		init_matrix(OZ_ROTATION, matz, obj->rot.z);
-		vec3_transform(&obj->dir, matz);
+		if(obj->type == COMPOSED)
+			vec3_transform(&obj->poly[0]->n, matz);
+		else
+			vec3_transform(&obj->dir, matz);
 	}
 }

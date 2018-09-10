@@ -76,9 +76,10 @@ typedef struct		s_texture
 
 typedef struct		s_poly
 {
-	t_vec3			*s;
-	t_vec3			*e;
+	t_vec3			**s;
+	t_vec3			**e;
 	t_vec3			n;
+	int				nvertex;
 }					t_poly;
 
 typedef struct		s_obj
@@ -88,7 +89,7 @@ typedef struct		s_obj
 	char			*name;
 	double			radius;
 	int				npoly;
-	t_poly			*poly;
+	t_poly			**poly;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
@@ -209,6 +210,7 @@ double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
 t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
+void				print_poly(t_poly *poly);
 
 /*
 ** OBJECT RENDER
@@ -246,6 +248,7 @@ int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
 int					new_camera(t_mlx *mlx);
 t_obj				*new_object();
 t_spot				*new_spot();
+int					fetch_obj(char *path, t_obj **obj);
 
 /*
 ** LIGHT

@@ -18,6 +18,7 @@ int				fetch_obj(char *path, t_obj **obj)
     printf("obj path detected\n%s\n", path);
 	int		fd;
 	char	*line;
+	obj = NULL;
 
 	line = NULL;
 	if (!check_dir(path) && (line = NULL) == NULL)

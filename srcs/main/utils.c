@@ -23,6 +23,8 @@ char		*get_type(int type)
 		return ("CYLINDER");
 	if (type == CONE)
 		return ("CONE");
+	if (type == COMPOSED)
+		return ("COMPOSED");
 	return (NULL);
 }
 

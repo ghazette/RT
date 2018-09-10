@@ -28,20 +28,14 @@ int		main(int ac, char **av)
 			ft_printf("a problem occured while parsing: exiting..\n");
 			return (0);
 		}
-		// init_camera(mlx);
-		// render(mlx);
-		// display_interface(mlx);
-		// mlx_hook(mlx->win, 2, 1l, &key_func, mlx);
-		// mlx_mouse_hook(mlx->win, mouse_func, mlx);
-		// mlx_hook(mlx->win, 6, 0, motion_func, mlx);
-		// mlx_loop(mlx->mlx);
-		//  t_obj *objs = *mlx->scene->objs;
-		//  int i = 0;
-		//  while (i < 3)
-		//  {
-		// 	printf("%f\n", objs->poly[i].s[0].x);
-		// 	 i++;
-		//  }
+		print_poly(mlx->scene->objs[0]->poly[0]);
+		init_camera(mlx);
+		render(mlx);
+		display_interface(mlx);
+		mlx_hook(mlx->win, 2, 1l, &key_func, mlx);
+		mlx_mouse_hook(mlx->win, mouse_func, mlx);
+		mlx_hook(mlx->win, 6, 0, motion_func, mlx);
+		mlx_loop(mlx->mlx);
 	}
 	else
 		usage();

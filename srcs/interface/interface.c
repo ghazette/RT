@@ -45,7 +45,7 @@ static void		display_object(t_mlx *mlx)
 
 	i = -1;
 	y = 120 + BTNHEIGHT + mlx->interf->offset;
-	if (!(str = ft_memalloc(100)))
+	if (!(str = ft_memalloc(200)))
 		exit(0);
 	while (++i < mlx->scene->nb_obj)
 		y = display_obj_attr(mlx, mlx->scene->objs[i], str, y);
@@ -60,7 +60,7 @@ static void		display_scene(t_mlx *mlx)
 	char *str;
 	char *nb;
 
-	if (!(str = ft_memalloc(100)))
+	if (!(str = ft_memalloc(200)))
 		exit(0);
 	if (mlx->interf->offset + BTNHEIGHT + 5 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 5 +
@@ -88,7 +88,7 @@ static void		display_camera(t_mlx *mlx)
 	double	color;
 
 	color = (mlx->interf->id_select_obj == -1) ? 0xFF0000 : 0x0000FF;
-	if (!(str = ft_memalloc(100)))
+	if (!(str = ft_memalloc(200)))
 		exit(0);
 	if (mlx->interf->offset + 70 + BTNHEIGHT > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, 70 + BTNHEIGHT +
