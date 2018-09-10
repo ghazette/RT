@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 17:41:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 18:22:07 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -181,7 +181,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 			mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
 			if (!check_object(mlx->scene->objs[mlx->scene->nb_obj]))
 				return (0);
-			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= 0x101)
+			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= SPHERE)
 				rotate(mlx->scene->objs[mlx->scene->nb_obj]);
 			mlx->scene->nb_obj++;
 			ft_strdel(&line);

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 15:57:31 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 16:28:55 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 18:13:54 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ int		main(int ac, char **av)
 			ft_printf("a problem occured while parsing: exiting..\n");
 			return (0);
 		}
-		print_poly(mlx->scene->objs[0]->poly[0]);
+		//print_poly(mlx->scene->objs[0]->poly[0]);
 		init_camera(mlx);
 		render(mlx);
 		display_interface(mlx);
