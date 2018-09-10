@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 17:45:18 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/10 17:09:37 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 void	print_poly(t_poly *poly)
 {
-	int	nbv;
+//	int	nbv;
 	int i;
 
 	i = 0;
