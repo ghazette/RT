@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 18:22:07 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 13:23:41 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,6 +35,7 @@ static int		type_define(char *type, t_obj *obj)
 	if (!ft_strcmp("PLANE", type))
 	{
 		obj->render_func = render_plane;
+		obj->npoly = 4;
 		vector3d(&obj->dir, 0, 0, -1);
 		return (PLANE);
 	}
@@ -72,6 +73,10 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 	if (!ft_strcmp(split[0], "ambient"))
 		if ((obj->material.ambient = (double)ft_atoi(split[1]) / 100.0) < 0)
 			return (0);
+	if (!ft_strcmp(split[0], "height"))
+		obj->height = ft_atoi(split[1]);
+	if (!ft_strcmp(split[0], "width"))
+		obj->width = ft_atoi(split[1]);
 	ft_free2d(&split);
 	return (1);
 }
@@ -87,8 +92,8 @@ int				calc_edge(t_poly *poly, int nvertex)
 		i++;
 	}
 	vec3_sub(poly->s[i], poly->s[0], poly->e[i]);
-	vec3_crossproduct(poly->e[0], poly->e[1], &poly->n);
-	vec3_normalize(&poly->n);
+	vec3_crossproduct(poly->e[0], poly->e[1], poly->n);
+	vec3_normalize(poly->n);
 	return (1);
 }
 
@@ -105,7 +110,6 @@ int				fetch_poly(char *str, t_obj **obj)
 	nvertex = ft_heightlen(split);
 	(*obj)->npoly--;
 	(*obj)->poly[(*obj)->npoly] = malloc(sizeof(t_poly*));
-	(*obj)->poly[(*obj)->npoly]->nvertex = nvertex;
 	(*obj)->poly[(*obj)->npoly]->s = (t_vec3**)malloc(sizeof(t_vec3*) * nvertex);
 	(*obj)->poly[(*obj)->npoly]->e = (t_vec3**)malloc(sizeof(t_vec3*) * nvertex);
 	while (++i < nvertex)
