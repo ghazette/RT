@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 12:55:13 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 14:16:01 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -152,20 +152,21 @@ typedef struct		s_scene
 
 typedef struct		s_mlx
 {
+	int				i;
+	int				id;
 	int				ed;
 	int				bpp;
 	int				line;
-	int				endy;
-	int				endx;
-	int				startx;
-	int				starty;
 	int				line_cnt;
 	char			*pixel_img;
 	void			*mlx;
 	void			*win;
 	void			*img;
 	t_sce			*scene;
+	t_vec3			vdir;
 	t_interface		*interf;
+
+	int				th;
 }					t_mlx;
 
 typedef struct		s_calc
@@ -194,15 +195,6 @@ typedef struct		s_phong
 	t_color			fcolor;
 	t_material		material;
 }					t_phong;
-
-typedef struct		s_rt
-{
-	int				i;
-	int				id;
-	int				savex;
-	t_mlx			*mlx;
-	t_vec3			vdir;
-}					t_rt;
 
 /*
 ** GENERAL
@@ -243,7 +235,7 @@ int					render_composed(t_interinfo *interinfo, t_vec3 *view,
 
 int					open_file(t_mlx *mlx, char *fn);
 int					init_vec(t_vec3 *pos, char **data);
-int					init_color(t_color *color, char **data);
+//int					init_color(t_color *color, char **data);
 int					check_file(char *fn);
 int					check_dir(char *fn);
 

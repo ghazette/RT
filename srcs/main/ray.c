@@ -47,7 +47,7 @@ static int		intersect(t_mlx *mlx, t_vec3 *view, t_vec3 vdir)
 	return (id);
 }
 
-static void		reset(t_phong *phong, t_mlx *mlx, t_rt *rt)
+static void		reset(t_phong *phong, t_mlx *mlx, t_mlx *mlxp)
 {
 	int i;
 
@@ -58,10 +58,10 @@ static void		reset(t_phong *phong, t_mlx *mlx, t_rt *rt)
 	phong->rm_specular = 0;
 	phong->fcolor.hex = 0;
 	phong->is_shadow = 0;
-	if (rt)
+	if (mlxp)
 	{
-		rt->i = -1;
-		vector3d(&phong->vdir, rt->vdir.x, rt->vdir.y, rt->vdir.z);
+		mlxp->i = -1;
+		vector3d(&phong->vdir, mlxp->vdir.x, mlxp->vdir.y, mlxp->vdir.z);
 		vec3_reverse(&phong->vdir);
 	}
 	if (mlx)
@@ -82,65 +82,49 @@ static void		reset(t_phong *phong, t_mlx *mlx, t_rt *rt)
 
 static void		*raytrace(void *mlxp)
 {
-	t_rt		rt;
+	t_mlx		*mlx;
 	t_phong		phong;
+	double		x;
+	double 		y;
 
-	rt.mlx = (t_mlx*)mlxp;
-	rt.savex = rt.mlx->startx - 1;
-	while (rt.mlx->starty < rt.mlx->endy)
+	mlx = (t_mlx*)mlxp;
+	y = 0.0;
+	while (y < WIN_H)
 	{
-		rt.mlx->startx = rt.savex;
-		while (++rt.mlx->startx < rt.mlx->endx)
+		x = WIN_W * mlx->th / THREADS;
+		while (x < WIN_W * (mlx->th + 1) / THREADS)
 		{
-			calc_dir_vec(rt.mlx, &rt.vdir, rt.mlx->startx, rt.mlx->starty);
-			reset(&phong, NULL, &rt);
-			rt.id = intersect(rt.mlx, &rt.mlx->scene->cam->pos, rt.vdir);
-			if (rt.id != -1)
-				while (++rt.i < rt.mlx->scene->nb_spot)
-					light_intersect(rt.mlx, rt.mlx->scene->objs[rt.id]
-					, rt.mlx->scene->spot[rt.i], &phong);
-			phong_calcfinal(&phong, rt.mlx->scene->nb_spot);
-			draw_point(rt.mlx->startx, rt.mlx->starty, rt.mlx,
-			phong.fcolor.rgb);
-			
+			calc_dir_vec(mlx, &mlx->vdir, x, y);
+			reset(&phong, NULL, mlx);
+			mlx->id = intersect(mlx, &mlx->scene->cam->pos, mlx->vdir);
+			if (mlx->id != -1)
+				while (++mlx->i < mlx->scene->nb_spot)
+					light_intersect(mlx, mlx->scene->objs[mlx->id]
+							, mlx->scene->spot[mlx->i], &phong);
+			phong_calcfinal(&phong, mlx->scene->nb_spot);
+			draw_point((int)x, (int)y, mlx, phong.fcolor.rgb);
+			x++;
 		}
-		rt.mlx->starty++;
+		y++;
 	}
-	reset(&phong, rt.mlx, NULL);
 	pthread_exit(NULL);
-}
-
-static void		reset_mlx_startend(t_mlx *mlx)
-{
-	mlx->endy = WIN_H / 2;
-	mlx->starty = 0;
-	mlx->startx = 0;
-	mlx->endx = WIN_W / 4;
 }
 
 void			render(t_mlx *mlx)
 {
-	pthread_t	th[8];
 	int			i;
+	t_mlx		p[THREADS];
+	pthread_t	th[THREADS];
 
-	i = 0;
-	reset_mlx_startend(mlx);
-	while (mlx->endy <= WIN_H)
+	i = -1;
+	while (++i < THREADS)
 	{
-		mlx->startx = 0;
-		mlx->endx = WIN_W / 4;
-		while (mlx->endx <= WIN_W)
-		{
-			pthread_create(&th[i], NULL, raytrace, mlx_cpy(mlx));
-			mlx->startx += WIN_W / 4;
-			mlx->endx += WIN_W / 4;
-			i++;
-		}
-		mlx->starty += WIN_H / 2;
-		mlx->endy += WIN_H / 2;
+		p[i] = *mlx_cpy(mlx);
+		p[i].th = i;
+		pthread_create(&th[i], NULL, raytrace, &p[i]);
 	}
 	i = -1;
-	while (++i < 8)
+	while (++i < THREADS)
 		pthread_join(th[i], NULL);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
