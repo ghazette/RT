@@ -56,7 +56,6 @@ static void		reset(t_phong *phong, t_mlx *mlx, t_mlx *mlxp)
 	vector3d(&phong->material.specular, 0, 0, 0);
 	phong->material.ambient = 0;
 	phong->rm_specular = 0;
-	phong->fcolor.hex = 0;
 	phong->is_shadow = 0;
 	if (mlxp)
 	{

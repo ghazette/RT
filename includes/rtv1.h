@@ -52,12 +52,6 @@ typedef struct		s_intersectinfo
 	t_vec3			normal;
 }					t_interinfo;
 
-typedef union		u_color
-{
-	unsigned int	hex;
-	unsigned char	rgb[4];
-}					t_color;
-
 typedef struct		s_material
 {
 	double			ambient;
@@ -195,7 +189,6 @@ typedef struct		s_phong
 	t_vec3			vdir;
 	t_vec3			*normal;
 	t_vec3			*light_vec;
-	t_color			fcolor;
 	t_material		material;
 }					t_phong;
 
@@ -206,7 +199,6 @@ typedef struct		s_phong
 int					get_thread_number(char *th);
 char				*rand_string(int len);
 void				init_camera(t_mlx *mlx);
-//void				draw_point(int x, int y, t_mlx *mlx, unsigned char *color);
 void				draw_point(int x, int y, t_mlx *mlx, int color);
 void				render(t_mlx *mlx);
 void				usage(void);
@@ -239,7 +231,6 @@ int					render_composed(t_interinfo *interinfo, t_vec3 *view,
 
 int					open_file(t_mlx *mlx, char *fn);
 int					init_vec(t_vec3 *pos, char **data);
-//int					init_color(t_color *color, char **data);
 int					check_file(char *fn);
 int					check_dir(char *fn);
 

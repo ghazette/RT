@@ -23,15 +23,6 @@ int		init_vec(t_vec3 *v, char **data)
 	return (1);
 }
 
-int		init_color(t_color *color, char **data)
-{
-	if (ft_heightlen(data) != 4)
-		return (0);
-	color->hex = ft_rgbtohex(ft_atoi(data[1]),
-		ft_atoi(data[2]), ft_atoi(data[3]));
-	return (1);
-}
-
 int		check_file(char *fn)
 {
 	char	*line;
