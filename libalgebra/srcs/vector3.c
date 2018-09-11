@@ -39,3 +39,10 @@ void	vec3_normalizeby(t_vec3 *v, double n)
 	v->y /= n;
 	v->z /= n;
 }
+
+double	ft_reg(double x, double min, double max)
+{
+	x = x < min ? min : x;
+	x = x > max ? max : x;
+	return (x);
+}

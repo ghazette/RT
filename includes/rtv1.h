@@ -152,18 +152,21 @@ typedef struct		s_mlx
 	int				i;
 	int				id;
 	int				ed;
+	int				th;
 	int				bpp;
+	int				aax;
+	int				aay;
 	int				line;
 	int				line_cnt;
 	char			*pixel_img;
 	void			*mlx;
 	void			*win;
 	void			*img;
+	double			aa;
 	t_sce			*scene;
+	t_vec3			rgb;
 	t_vec3			vdir;
 	t_interface		*interf;
-
-	int				th;
 }					t_mlx;
 
 typedef struct		s_calc
@@ -200,7 +203,8 @@ typedef struct		s_phong
 int					get_thread_number(char *th);
 char				*rand_string(int len);
 void				init_camera(t_mlx *mlx);
-void				draw_point(int x, int y, t_mlx *mlx, unsigned char *color);
+//void				draw_point(int x, int y, t_mlx *mlx, unsigned char *color);
+void				draw_point(int x, int y, t_mlx *mlx, int color);
 void				render(t_mlx *mlx);
 void				usage(void);
 void				inter_cpy(t_interinfo *dest, t_interinfo *src);

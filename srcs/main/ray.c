@@ -80,10 +80,41 @@ static void		reset(t_phong *phong, t_mlx *mlx, t_mlx *mlxp)
 	}
 }
 
+static void		ft_aa(t_mlx *mlx, double x, double y)
+{
+	double	p;
+	t_phong		phong;
+
+	p = 0.0;
+	ft_bzero(&mlx->rgb, sizeof(t_vec3));
+	mlx->aa = 1.0;
+	while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+	{
+		while (x < mlx->aax + 1 && (p += 1) > 0)
+		{
+			calc_dir_vec(mlx, &mlx->vdir, x, y);
+			reset(&phong, NULL, mlx);
+			mlx->id = intersect(mlx, &mlx->scene->cam->pos, mlx->vdir);
+			if (mlx->id != -1)
+				while (++mlx->i < mlx->scene->nb_spot)
+					light_intersect(mlx, mlx->scene->objs[mlx->id]
+					, mlx->scene->spot[mlx->i], &phong);
+			phong_calcfinal(&phong, mlx->scene->nb_spot);
+			mlx->rgb.x += ft_reg(phong.material.color.x, 0.0, 1.0);
+			mlx->rgb.y += ft_reg(phong.material.color.y, 0.0, 1.0);
+			mlx->rgb.z += ft_reg(phong.material.color.z, 0.0, 1.0);
+			x += (1.0 / mlx->aa);
+		}
+		y = y + (1.0 / mlx->aa);
+	}
+	draw_point(mlx->aax, mlx->aay, mlx, (((int)(mlx->rgb.x / p * 255) & 0xff)
+			<< 16) + (((int)(mlx->rgb.y / p * 255) & 0xff) << 8) +
+			((int)(mlx->rgb.z / p * 255) & 0xff));
+}
+
 static void		*raytrace(void *mlxp)
 {
 	t_mlx		*mlx;
-	t_phong		phong;
 	double		x;
 	double 		y;
 
@@ -94,15 +125,9 @@ static void		*raytrace(void *mlxp)
 		x = WIN_W * mlx->th / THREADS;
 		while (x < WIN_W * (mlx->th + 1) / THREADS)
 		{
-			calc_dir_vec(mlx, &mlx->vdir, x, y);
-			reset(&phong, NULL, mlx);
-			mlx->id = intersect(mlx, &mlx->scene->cam->pos, mlx->vdir);
-			if (mlx->id != -1)
-				while (++mlx->i < mlx->scene->nb_spot)
-					light_intersect(mlx, mlx->scene->objs[mlx->id]
-							, mlx->scene->spot[mlx->i], &phong);
-			phong_calcfinal(&phong, mlx->scene->nb_spot);
-			draw_point((int)x, (int)y, mlx, phong.fcolor.rgb);
+			mlx->aax = (int)x;
+			mlx->aay = (int)y;
+			ft_aa(mlx, x, y);
 			x++;
 		}
 		y++;

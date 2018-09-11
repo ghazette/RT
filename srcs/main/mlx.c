@@ -116,24 +116,17 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	return (mlx);
 }
 
-void			draw_point(int x, int y, t_mlx *mlx, unsigned char *color)
+void			draw_point(int x, int y, t_mlx *mlx, int color)
 {
-	int pixel_pos;
+	int	i;
+	int	p;
 
-	pixel_pos = (x * ((mlx->bpp) / 8)) + (y * mlx->line);
-	if (pixel_pos < (WIN_W * WIN_H * (mlx->bpp / 8)) && pixel_pos >= 0)
+	i = 0;
+	p = (x * ((mlx->bpp / 8)) + y * (mlx->line));
+	while (i < (mlx->bpp / 8))
 	{
-		if (color != 0)
-		{
-			mlx->pixel_img[pixel_pos] = (char)color[0];
-			mlx->pixel_img[pixel_pos + 1] = (char)color[1];
-			mlx->pixel_img[pixel_pos + 2] = (char)color[2];
-		}
-		else
-		{
-			mlx->pixel_img[pixel_pos] = (char)0;
-			mlx->pixel_img[pixel_pos + 1] = (char)0;
-			mlx->pixel_img[pixel_pos + 2] = (char)0;
-		}
+		mlx->pixel_img[p + i] = (char)color;
+		color >>= 8;
+		i++;
 	}
 }
