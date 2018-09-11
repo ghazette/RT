@@ -65,7 +65,7 @@ OBJECT
     position 11 -8 0
     ambient 2
     radius 5
-    specular 120 120 120
+    specular 0 0 0
     color 255 0 0
     texture ./texture/jupiter.bmp
 }

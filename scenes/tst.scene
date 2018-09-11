@@ -9,18 +9,9 @@ CAMERA
 
 OBJECT
 {
-    nb_poly 1;
-    name PLANE
+    name BIATCH;
     type COMPOSED
-    rotation 0 0 0
-	position 0 0 0
-    poly -5_1_0;0_5_0;1_1_0;5_-1_0;0_-5-0;-1_-1_0
-    ambient 5
-    radius 5
-    specular 255 100 100
-    color 255 0 0
-    #obj_src ./obj/glock.obj
-    #texture ./texture/tile.bmp
+    obj_src ./obj/glock.obj
 }
 
 SPOT

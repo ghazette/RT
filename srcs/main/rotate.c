@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 18:21:03 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 10:08:46 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 13:17:50 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ void	rotate(t_obj *obj)
 	{
 		init_matrix(OX_ROTATION, matx, obj->rot.x);
 		if(obj->type == COMPOSED)
-			vec3_transform(&obj->poly[0]->n, matx);
+			vec3_transform(obj->poly[0]->n, matx);
 		else
 			vec3_transform(&obj->dir, matx);
 	}
@@ -31,7 +31,7 @@ void	rotate(t_obj *obj)
 	{
 		init_matrix(OY_ROTATION, maty, obj->rot.y);
 		if(obj->type == COMPOSED)
-			vec3_transform(&obj->poly[0]->n, maty);
+			vec3_transform(obj->poly[0]->n, maty);
 		else
 			vec3_transform(&obj->dir, maty);
 	}
@@ -39,7 +39,7 @@ void	rotate(t_obj *obj)
 	{
 		init_matrix(OZ_ROTATION, matz, obj->rot.z);
 		if(obj->type == COMPOSED)
-			vec3_transform(&obj->poly[0]->n, matz);
+			vec3_transform(obj->poly[0]->n, matz);
 		else
 			vec3_transform(&obj->dir, matz);
 	}

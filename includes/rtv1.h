@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 18:08:32 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 14:16:01 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,8 +85,7 @@ typedef struct		s_poly
 {
 	t_vec3			**s;
 	t_vec3			**e;
-	t_vec3			n;
-	int				nvertex;
+	t_vec3			*n;
 }					t_poly;
 
 typedef struct		s_obj
@@ -95,8 +94,12 @@ typedef struct		s_obj
 	int				type;
 	char			*name;
 	double			radius;
+	int				height;
+	int				width;
 	int				npoly;
 	t_poly			**poly;
+	t_vec3			**s;
+	t_vec3			**n;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
