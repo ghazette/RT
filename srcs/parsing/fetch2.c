@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 11:37:24 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 15:55:04 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 18:03:57 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,7 @@
 static int	fetch_spot_array_help(t_spot *spot, char **split)
 {
 	if (!ft_strcmp(split[0], "position"))
-		if (!(init_vec(&spot->pos, split)))
+		if (!(init_vec(&(spot->pos), split)))
 			return (0);
 	return (1);
 }
@@ -33,15 +33,15 @@ static int	fetch_spot_array(t_spot *spot, char **split)
 		}
 	if (!ft_strcmp(split[0], "color"))
 	{
-		if (!(init_vec(&spot->color, split)))
+		if (!(init_vec(&(spot->color), split)))
 			return (0);
-		vec3_normalizeby(&spot->color, 255);
+		vec3_normalizeby(&(spot->color), 255);
 	}
 	if (!ft_strcmp(split[0], "specular"))
 	{
-		if (!(init_vec(&spot->material.specular, split)))
+		if (!(init_vec(&(spot->material.specular), split)))
 			return (0);
-		vec3_normalizeby(&spot->material.specular, 255);
+		vec3_normalizeby(&(spot->material.specular), 255);
 	}
 	if (!ft_strcmp(split[0], "ambient"))
 		if ((spot->material.ambient = ft_atoi(split[1]) / 100.0) < 0)
@@ -54,7 +54,8 @@ int			fetch_spot(t_mlx *mlx, t_spot **spot, int fd)
 	char	*line;
 	char	**split;
 
-	while (get_next_line(fd, &line))
+	line = NULL;
+	while (get_next_line(fd, &line) > 0)
 	{
 		if (mlx->line_cnt++ > -1 && !ft_strcmp(line, "{"))
 			if (!(*spot = new_spot()))

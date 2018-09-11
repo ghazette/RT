@@ -12,39 +12,37 @@
 /* ************************************************************************** */
 
 #include "../../includes/rtv1.h"
-/*
+
 static int		calc_edge(t_poly *poly)
 {
 	int i;
 
-	i = 0;
+	i = 1;
 	while (poly->s[i] != 0)
-		i++;
-	poly->e = malloc(sizeof(t_vec3*) * i);
-	i = 0;
-	while (poly->s[i] != NULL)
 	{
-		poly->e[i] = malloc(sizeof(t_vec3));
-		vec3_sub(poly->s[i], poly->s[i + 1], poly->e[i]);
+		poly->e[i - 1] = malloc(sizeof(t_vec3));
+		poly->e[i - 1] = vec3_sub(poly->s[i - 1], poly->s[i], poly->e[i - 1]);
 		i++;
 	}
-	vec3_sub(poly->s[i - 1], poly->s[0], poly->e[i]);
+	poly->e[i - 1] = malloc(sizeof(t_vec3));
+	vec3_sub(poly->s[i - 1], poly->s[0], poly->e[i - 1]);
+	poly->e[i] = 0;
 	return (1);
 }
 
-static int		prep_poly(t_obj *obj)
+static int		prep_poly(t_obj **obj)
 {
 	int i;
 
 	i = 0;
-	while (obj->poly[i] != 0)
+	while ((*obj)->poly[i] != 0)
 	{
-		calc_edge(obj->poly[i]);
+		calc_edge((*obj)->poly[i]);
 		i++;
 	}
 	return (1);
 }
-*/
+
 int				get_obj_data(char *path, int *vertex, int *normal, int *face)
 {
 	int		fd;
@@ -153,6 +151,8 @@ int			set_obj_face(int fd, int face, t_obj **obj)
 			slen = ft_heightlen(split);
 			if (!((*obj)->poly[i]->s = (t_vec3**)malloc(sizeof(t_vec3*) * slen)))
 				return (0);
+			if (!((*obj)->poly[i]->e = (t_vec3**)malloc(sizeof(t_vec3*) * slen)))
+				return (0);
 			if (!(split2 = ft_strsplit(split[1], '/')))
 				return (0);
 			(*obj)->poly[i]->n = (*obj)->n[ft_atoi(split2[1]) - 1];
@@ -199,18 +199,8 @@ int				fetch_obj(char *path, t_obj **obj)
 		return (0);
 	if (!(set_obj_face(fd, face, obj)))
 		return (0);
-	int i = 0, j = 0;
-	while ((*obj)->poly[i] != 0)
-	{
-		j = 0;
-		while ((*obj)->poly[i]->s[j] != 0)
-		{
-			printf("poly <%d> sommet %d : %f %f %f\n", i, j, (*obj)->poly[i]->s[j]->x, (*obj)->poly[i]->s[j]->y, (*obj)->poly[i]->s[j]->z);
-			j++;
-		}
-		i++;
-	}
-	printf("vertex : %d\nfaces : %d\nnormal : %d\n", vertex, face, normal);
+	if (!(prep_poly(obj)))
+		return (0);
 	return (1);
 }
 
