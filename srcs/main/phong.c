@@ -45,20 +45,14 @@ void	phong_calcfinal(t_phong *phong, int nbspot)
 {
 	vec3_scale(&phong->material.color, nbspot, DIV, &phong->material.color);
 	vec3_scale(&phong->material.specular, nbspot, DIV,
-		&phong->material.specular);
+			   &phong->material.specular);
 	phong->material.ambient /= nbspot;
 	if (!phong->rm_specular)
 		vec3_add(&phong->material.color, &phong->material.specular,
-			&phong->material.color);
+				 &phong->material.color);
 	vec3_scale(&phong->material.color, phong->material.ambient, ADD,
-		&phong->material.color);
-	if (phong->material.color.x >= 1.0)
-		phong->material.color.x = 1.0;
-	if (phong->material.color.y >= 1.0)
-		phong->material.color.y = 1.0;
-	if (phong->material.color.z >= 1.0)
-		phong->material.color.z = 1.0;
-	phong->fcolor.rgb[2] = phong->material.color.x * 255;
-	phong->fcolor.rgb[1] = phong->material.color.y * 255;
-	phong->fcolor.rgb[0] = phong->material.color.z * 255;
+			   &phong->material.color);
+	phong->material.color.x = pow(phong->material.color.x, 1.0);
+	phong->material.color.y = pow(phong->material.color.y, 1.0);
+	phong->material.color.z = pow(phong->material.color.z, 1.0);
 }

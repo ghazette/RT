@@ -63,5 +63,6 @@ void			vec3_transform(t_vec3 *vector, double mat[3][3]);
 */
 
 void			*ft_memset(void *b, int c, size_t n);
+double			ft_reg(double x, double min, double max);
 
 #endif
