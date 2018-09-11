@@ -6,12 +6,12 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 18:21:03 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 18:09:29 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 10:08:46 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../includes/rtv1.h"
+#include "../../includes/rtv1.h"
 
 void	rotate(t_obj *obj)
 {

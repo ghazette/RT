@@ -6,12 +6,12 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 18:18:47 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 10:08:50 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../includes/rtv1.h"
+#include "../../includes/rtv1.h"
 
 void		inter_cpy(t_interinfo *dest, t_interinfo *src)
 {

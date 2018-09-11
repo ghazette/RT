@@ -6,12 +6,12 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/31 17:07:53 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/08 05:44:37 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 10:08:22 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../includes/rtv1.h"
+#include "../../includes/rtv1.h"
 
 void		init_camera(t_mlx *mlx)
 {

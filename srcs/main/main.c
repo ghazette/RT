@@ -6,12 +6,12 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 15:57:31 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 18:13:54 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/11 10:08:37 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../includes/rtv1.h"
+#include "../../includes/rtv1.h"
 
 int		main(int ac, char **av)
 {
