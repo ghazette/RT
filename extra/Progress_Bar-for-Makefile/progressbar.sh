@@ -45,7 +45,7 @@ __progressbar_theme() {
 		[[ -z "${Cursor}" ]]          && Cursor="${Byellow}C${reset}${red}"
 		[[ -z "${Cursor_small}" ]]    && Cursor_small="${Byellow}c${reset}${red}"
 	else
-		[[ -z "${Cursor_done}" ]]     && Cursor_done="█"
+		[[ -z "${Cursor_done}" ]]     && Cursor_done="▓"
 		[[ -z "${Cursor_not_done}" ]] && Cursor_not_done=" "
 	fi
 }
