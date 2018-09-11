@@ -28,13 +28,13 @@ int		main(int ac, char **av)
 			ft_printf("a problem occured while parsing: exiting..\n");
 			return (0);
 		}
-		init_camera(mlx);
-		render(mlx);
-		display_interface(mlx);
-		mlx_hook(mlx->win, 2, 1l, &key_func, mlx);
-		mlx_mouse_hook(mlx->win, mouse_func, mlx);
-		mlx_hook(mlx->win, 6, 0, motion_func, mlx);
-		mlx_loop(mlx->mlx);
+		// init_camera(mlx);
+		// render(mlx);
+		// display_interface(mlx);
+		// mlx_hook(mlx->win, 2, 1l, &key_func, mlx);
+		// mlx_mouse_hook(mlx->win, mouse_func, mlx);
+		// mlx_hook(mlx->win, 6, 0, motion_func, mlx);
+		// mlx_loop(mlx->mlx);
 	}
 	else
 		usage();
