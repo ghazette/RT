@@ -165,7 +165,7 @@ int			set_obj_face(int fd, int face, t_obj **obj)
 				(*obj)->poly[i]->s[j] = (*obj)->s[ft_atoi(split2[0]) - 1];
 				ft_free2d(&split2);
 			}
-			(*obj)->poly[i]->s[slen] = 0;
+			(*obj)->poly[i]->s[slen - 1] = 0;
 			ft_strdel(&line);
 			ft_free2d(&split);
 			i++;
@@ -199,6 +199,18 @@ int				fetch_obj(char *path, t_obj **obj)
 		return (0);
 	if (!(set_obj_face(fd, face, obj)))
 		return (0);
+	int i = 0, j = 0;
+	while ((*obj)->poly[i] != 0)
+	{
+		j = 0;
+		while ((*obj)->poly[i]->s[j] != 0)
+		{
+			printf("poly <%d> sommet %d : %f %f %f\n", i, j, (*obj)->poly[i]->s[j]->x, (*obj)->poly[i]->s[j]->y, (*obj)->poly[i]->s[j]->z);
+			j++;
+		}
+		i++;
+	}
+	printf("vertex : %d\nfaces : %d\nnormal : %d\n", vertex, face, normal);
 	return (1);
 }
 
