@@ -20,9 +20,11 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 	int		i;
 	int		j;
 	double	t;
+	double a;
+	double b;
 
 	i = 0;
-	while (i < 1)
+	while (obj->poly[i] != NULL)
 	{
 		t = (vec3_dotproduct(&obj->poly[i]->n, &obj->pos) -
 		vec3_dotproduct(&obj->poly[i]->n, view)) / vec3_dotproduct(&obj->poly[i]->n, &vdir);
@@ -33,23 +35,20 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 		vector3d(&interinfo->normal, obj->poly[i]->n.x, obj->poly[i]->n.y, obj->poly[i]->n.z);
 		t_vec3 test;
 		vec3_sub(&interinfo->intersect, &obj->poly[i]->n, &test);
-		double a = vec3_length(&interinfo->intersect, view);
-		double b = vec3_length(&test, view);
+		a = vec3_length(&interinfo->intersect, view);
+		b = vec3_length(&test, view);
 		j = 0;
-		while (j < obj->poly[i]->nvertex)
+		while (obj->poly[i]->e[j] != NULL)
 		{
 			vec3_sub(&interinfo->intersect, obj->poly[i]->s[j], &vp);
 			vec3_crossproduct(obj->poly[i]->e[j], &vp, &C);
 			if (a > b)
 			{
 				if (vec3_dotproduct(&obj->poly[i]->n, &C) < 0)
-					return (0);
+					break;
 			}
-			else
-			{
-				if (vec3_dotproduct(&obj->poly[i]->n, &C) > 0)
-					return (0);
-			}
+			else if (vec3_dotproduct(&obj->poly[i]->n, &C) > 0)
+				break;
 			j++;
 		}
 		if (a > b)

@@ -35,6 +35,7 @@ void				ft_memdel(void **a);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memset(void *b, int c, size_t n);
 long long int		ft_atoi(const char *str);
+double				ft_atof(const char *str);
 char				*ft_itoa(long long n);
 char				*ft_itoa_base(long long nbr, int base);
 char				*ft_uitoa_base(unsigned long long nbr, int base);

@@ -35,7 +35,7 @@ FILENAMES   +=  ft_putuchar.c ft_putustr.c ft_uitoa.c ft_uitoa_base.c
 FILENAMES   +=  get_next_line.c conv_and_parse.c conv_and_parse2.c
 FILENAMES   +=  display.c ft_printf.c getters.c getters2.c parse_cs.c
 FILENAMES   +=  parse_cs_utf.c parse_di.c parse_xoup.c prtfdata.c utils.c
-FILENAMES   +=  ft_rgbtohex.c ft_doubleswap.c
+FILENAMES   +=  ft_rgbtohex.c ft_doubleswap.c ft_atof.c
 
 SOURCES     =   $(addprefix ./, $(FILENAMES))
 OBJECTS     =   $(addprefix build/, $(FILENAMES:.c=.o))

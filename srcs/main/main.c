@@ -28,7 +28,6 @@ int		main(int ac, char **av)
 			ft_printf("a problem occured while parsing: exiting..\n");
 			return (0);
 		}
-		//print_poly(mlx->scene->objs[0]->poly[0]);
 		init_camera(mlx);
 		render(mlx);
 		display_interface(mlx);

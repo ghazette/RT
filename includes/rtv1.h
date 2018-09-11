@@ -97,6 +97,7 @@ typedef struct		s_obj
 	double			radius;
 	int				npoly;
 	t_poly			**poly;
+	t_vec3			**s;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
