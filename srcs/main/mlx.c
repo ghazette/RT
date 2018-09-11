@@ -113,10 +113,6 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	mlx->ed = src->ed;
 	if (!(mlx->scene = scene_cpy(src->scene)))
 		return (NULL);
-	mlx->starty = src->starty;
-	mlx->startx = src->startx;
-	mlx->endx = src->endx;
-	mlx->endy = src->endy;
 	return (mlx);
 }
 
