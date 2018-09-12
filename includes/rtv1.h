@@ -17,6 +17,7 @@
 # include "../libalgebra/includes/libalgebra.h"
 # include "../libft/includes/libft.h"
 # include "../libbmp/includes/libbmp.h"
+# include "keycode.h"
 # include <pthread.h>
 # include <math.h>
 # include <sys/types.h>

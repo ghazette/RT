@@ -15,7 +15,7 @@
 
 static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 vdir)
 {
-	t_vec3	C;
+	t_vec3	vc;
 	t_vec3	vp;
 	int		i;
 	int		j;
@@ -41,13 +41,13 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 		while (obj->poly[i]->s[j] != 0)
 		{
 			vec3_sub(&interinfo->intersect, obj->poly[i]->s[j], &vp);
-			vec3_crossproduct(obj->poly[i]->e[j], &vp, &C);
+			vec3_crossproduct(obj->poly[i]->e[j], &vp, &vc);
 			if (a > b)
 			{
-				if (vec3_dotproduct(obj->poly[i]->n, &C) < 0)
+				if (vec3_dotproduct(obj->poly[i]->n, &vc) < 0)
 					return (0);
 			}
-			else if (vec3_dotproduct(obj->poly[i]->n, &C) > 0)
+			else if (vec3_dotproduct(obj->poly[i]->n, &vc) > 0)
 				break;
 			j++;
 		}

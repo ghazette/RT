@@ -90,7 +90,6 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 
 	p = 0.0;
 	ft_bzero(&mlx->rgb, sizeof(t_vec3));
-	//mlx->aa = (mlx->aa < 1) ? 1.0 : mlx->aa;
 	while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
 	{
 		while (x < mlx->aax + 1 && (p += 1) > 0)
