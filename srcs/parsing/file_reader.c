@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/21 13:59:22 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 11:20:32 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 10:33:31 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,6 +35,14 @@ int			fetch_data(t_mlx *mlx, int fd)
 	{
 		ft_strdel(&line);
 		return (fetch_spot(mlx, &mlx->scene->spot[mlx->scene->nb_spot++], fd));
+	}
+	if (line[0] == 'A' && line[1] == 'A')
+	{
+		mlx->aa = ft_atoi(line + 2);
+		if (mlx->aa < 1 || mlx->aa > 8)
+			mlx->aa = 1;
+		ft_strdel(&line);
+		return (1);
 	}
 	ft_strdel(&line);
 	return (0);

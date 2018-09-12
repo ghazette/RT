@@ -7,6 +7,8 @@ CAMERA
     focal 1
 }
 
+AA4
+
 OBJECT
 {
     name PLANE

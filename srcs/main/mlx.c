@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 18:03:49 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 10:11:09 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,6 +30,7 @@ t_mlx			*mlx_init_all(char *window_name)
 	mlx->pixel_img = mlx_get_data_addr(mlx->img,
 		&mlx->bpp, &mlx->line, &mlx->ed);
 	mlx->line_cnt = 0;
+	mlx->aa = 1.0;
 	return (mlx);
 }
 
@@ -112,6 +113,7 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	mlx->bpp = src->bpp;
 	mlx->line = src->line;
 	mlx->ed = src->ed;
+	mlx->aa = src->aa;
 	if (!(mlx->scene = scene_cpy(src->scene)))
 		return (NULL);
 	return (mlx);

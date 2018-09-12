@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 10:08:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 10:34:50 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,35 +47,39 @@ static int		intersect(t_mlx *mlx, t_vec3 *view, t_vec3 vdir)
 	return (id);
 }
 
-static void		reset(t_phong *phong, t_mlx *mlx, t_mlx *mlxp)
+static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 {
 	int i;
 
 	i = 0;
-	vector3d(&phong->material.color, 0, 0, 0);
-	vector3d(&phong->material.specular, 0, 0, 0);
-	phong->material.ambient = 0;
-	phong->rm_specular = 0;
-	phong->is_shadow = 0;
-	if (mlxp)
+	if (phong)
 	{
-		mlxp->i = -1;
-		vector3d(&phong->vdir, mlxp->vdir.x, mlxp->vdir.y, mlxp->vdir.z);
+		vector3d(&phong->material.color, 0, 0, 0);
+		vector3d(&phong->material.specular, 0, 0, 0);
+		phong->material.ambient = 0;
+		phong->rm_specular = 0;
+		phong->is_shadow = 0;
+	}
+	if (mlxreset)
+	{
+		mlxreset->i = -1;
+		vector3d(&phong->vdir, mlxreset->vdir.x, mlxreset->vdir.y, mlxreset->vdir.z);
 		vec3_reverse(&phong->vdir);
 	}
-	if (mlx)
+	if (mlxfree)
 	{
-		while (i < mlx->scene->nb_obj)
+		while (i < mlxfree->scene->nb_obj)
 		{
-			free(mlx->scene->objs[i]->texture.data);
-			free(mlx->scene->objs[i]->name);
-			free(mlx->scene->objs[i]);
+			if (mlxfree->scene->objs[i]->texture.data)
+				free(mlxfree->scene->objs[i]->texture.data);
+			free(mlxfree->scene->objs[i]->name);
+			free(mlxfree->scene->objs[i]);
 			i++;
 		}
-		free(mlx->scene->objs);
-		free(mlx->scene->interinfo);
-		free(mlx->scene);
-		free(mlx);
+		free(mlxfree->scene->objs);
+		free(mlxfree->scene->interinfo);
+		free(mlxfree->scene);
+		free(mlxfree);
 	}
 }
 
@@ -86,7 +90,7 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 
 	p = 0.0;
 	ft_bzero(&mlx->rgb, sizeof(t_vec3));
-	mlx->aa = 1.0;
+	//mlx->aa = (mlx->aa < 1) ? 1.0 : mlx->aa;
 	while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
 	{
 		while (x < mlx->aax + 1 && (p += 1) > 0)
@@ -131,21 +135,24 @@ static void		*raytrace(void *mlxp)
 		}
 		y++;
 	}
+	reset(NULL, mlx, NULL);
 	pthread_exit(NULL);
 }
 
 void			render(t_mlx *mlx)
 {
 	int			i;
-	t_mlx		p[THREADS];
+	t_mlx		**p;
 	pthread_t	th[THREADS];
 
 	i = -1;
+	if (!(p = (t_mlx**)malloc(sizeof(t_mlx*) * THREADS)))
+		return;
 	while (++i < THREADS)
 	{
-		p[i] = *mlx_cpy(mlx);
-		p[i].th = i;
-		pthread_create(&th[i], NULL, raytrace, &p[i]);
+		p[i] = mlx_cpy(mlx);
+		p[i]->th = i;
+		pthread_create(&th[i], NULL, raytrace, p[i]);
 	}
 	i = -1;
 	while (++i < THREADS)
