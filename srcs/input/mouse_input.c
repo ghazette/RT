@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 16:12:35 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 14:54:42 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 10:53:34 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,11 +15,11 @@
 
 int			mouse_func(int button, int x, int y, t_mlx *mlx)
 {
-	if (button == 1)
+	if (button == LEFT_CLICK)
 		left_click(mlx, x, y);
-	if (button == 4)
+	if (button == SCROLL_UP)
 		scroll_up(mlx, x, y);
-	if (button == 5)
+	if (button == SCROLL_DOWN)
 		scroll_down(mlx, x, y);
 	display_interface(mlx);
 	return (1);

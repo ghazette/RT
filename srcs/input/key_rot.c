@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/08 06:13:06 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/10 17:51:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 10:52:34 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,33 +23,33 @@ static void	reset_rot(t_cam *cam, t_obj *obj)
 
 static void	rot_object(t_obj *obj, int key)
 {
-	if (key == 86)
+	if (key == FOUR)
 		obj->rot.y += 8;
-	if (key == 88)
+	if (key == SIX)
 		obj->rot.y -= 8;
-	if (key == 91)
+	if (key == EIGHT)
 		obj->rot.x += 8;
-	if (key == 84)
+	if (key == TWO)
 		obj->rot.x -= 8;
-	if (key == 89)
+	if (key == SEVEN)
 		obj->rot.z += 8;
-	if (key == 92)
+	if (key == NINE)
 		obj->rot.z -= 8;
 }
 
 static void	rot_camera(t_cam *cam, int key)
 {
-	if (key == 86)
+	if (key == FOUR)
 		cam->rot.y += 5;
-	if (key == 88)
+	if (key == SIX)
 		cam->rot.y -= 5;
-	if (key == 91)
+	if (key == EIGHT)
 		cam->rot.x += 5;
-	if (key == 84)
+	if (key == TWO)
 		cam->rot.x -= 5;
-	if (key == 89)
+	if (key == SEVEN)
 		cam->rot.z += 5;
-	if (key == 92)
+	if (key == NINE)
 		cam->rot.z -= 5;
 }
 

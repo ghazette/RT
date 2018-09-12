@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   keycode.h                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: rlossy <marvin@le-101.fr>                  +:+   +:    +:    +:+     */
+/*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/03/14 14:32:30 by rlossy       #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:40:41 by rlossy      ###    #+. /#+    ###.fr     */
+/*   Created: 2018/09/12 10:52:10 by ghazette     #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/12 10:58:58 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,5 +71,11 @@
 # define F10 109
 # define F11 103
 # define F12 111
+
+# define LEFT_CLICK 1
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
+# define PAGE_UP 116
+# define PAGE_DOWN 121
 
 #endif
