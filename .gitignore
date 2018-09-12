@@ -1,0 +1,12 @@
+build/
+libft/build/
+libalgebra/build/
+libbmp/build/
+minilibx_macos/build/
+RT
+cmake-build-debug/
+.idea/
+libft/libft.a
+libbmp/libbmp.a
+libalgebra/libalgebra.a
+minilibx_macos/libmlx.a
