@@ -31,6 +31,7 @@ t_mlx			*mlx_init_all(char *window_name)
 		&mlx->bpp, &mlx->line, &mlx->ed);
 	mlx->line_cnt = 0;
 	mlx->aa = 1.0;
+	mlx->effect = 0;
 	return (mlx);
 }
 
@@ -114,6 +115,7 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	mlx->line = src->line;
 	mlx->ed = src->ed;
 	mlx->aa = src->aa;
+	mlx->effect = src->effect;
 	if (!(mlx->scene = scene_cpy(src->scene)))
 		return (NULL);
 	return (mlx);

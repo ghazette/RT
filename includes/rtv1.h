@@ -25,8 +25,7 @@
 # include <fcntl.h>
 # include <time.h>
 # define PI 3.14159265359
-# define MAX(A, B) (A < B ? B : A)
-# define DEGTORAD(DEG) (DEG * PI / 180)
+# define MAX(a, b) (a < b ? b : a)
 # define WIN_W 1280
 # define WIN_H 960
 # define INTER_WIDTH 250
@@ -37,7 +36,16 @@
 # define COMPOSED 0x104
 # define BTNHEIGHT 40
 # define SUN_POWER 80
+# define RGB mlx->rgb
+# define FILTER mlx->filter
 # define THREADS 8
+
+typedef struct		s_filter
+{
+	double			reg;
+	double			gray;
+	double			sepia[3];
+}					t_filter;
 
 typedef struct		s_interface
 {
@@ -155,6 +163,7 @@ typedef struct		s_mlx
 	int				aax;
 	int				aay;
 	int				line;
+	int 			effect;
 	int				line_cnt;
 	char			*pixel_img;
 	void			*mlx;
@@ -164,6 +173,7 @@ typedef struct		s_mlx
 	t_sce			*scene;
 	t_vec3			rgb;
 	t_vec3			vdir;
+	t_filter		filter;
 	t_interface		*interf;
 }					t_mlx;
 
@@ -299,5 +309,8 @@ void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 */
 
 int					fetch_obj(char *path, t_obj **obj);
+
+//void				ft_effect(t_vec3 *rgb, int effect);
+void				ft_effect(t_mlx *mlx, int effect);
 
 #endif

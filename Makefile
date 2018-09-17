@@ -20,7 +20,7 @@ LIBAL_DIR   =   ./libalgebra
 LIBMP_DIR   =   ./libbmp
 
 FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c main/utils2.c
-FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c
+FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c main/effect.c
 FILENAMES   +=  input/click.c input/key.c input/key_input.c input/key_rot.c
 FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
 FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c objects/composed.c

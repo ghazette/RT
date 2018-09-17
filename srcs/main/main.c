@@ -28,6 +28,7 @@ int		main(int ac, char **av)
 			ft_printf("a problem occured while parsing: exiting..\n");
 			return (0);
 		}
+		//printf("eff = %d\n", mlx->effect);
 		init_camera(mlx);
 		render(mlx);
 		display_interface(mlx);

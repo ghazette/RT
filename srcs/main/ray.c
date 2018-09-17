@@ -85,7 +85,7 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 
 static void		ft_aa(t_mlx *mlx, double x, double y)
 {
-	double	p;
+	double		p;
 	t_phong		phong;
 
 	p = 0.0;
@@ -100,7 +100,7 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 			if (mlx->id != -1)
 				while (++mlx->i < mlx->scene->nb_spot)
 					light_intersect(mlx, mlx->scene->objs[mlx->id]
-					, mlx->scene->spot[mlx->i], &phong);
+							, mlx->scene->spot[mlx->i], &phong);
 			phong_calcfinal(&phong, mlx->scene->nb_spot);
 			mlx->rgb.x += ft_reg(phong.material.color.x, 0.0, 1.0);
 			mlx->rgb.y += ft_reg(phong.material.color.y, 0.0, 1.0);
@@ -109,6 +109,7 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 		}
 		y = y + (1.0 / mlx->aa);
 	}
+	ft_effect(mlx, mlx->effect);
 	draw_point(mlx->aax, mlx->aay, mlx, (((int)(mlx->rgb.x / p * 255) & 0xff)
 			<< 16) + (((int)(mlx->rgb.y / p * 255) & 0xff) << 8) +
 			((int)(mlx->rgb.z / p * 255) & 0xff));
