@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 13:56:48 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 14:29:38 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 11:45:56 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,29 +39,26 @@ int				display_obj_attr(t_mlx *mlx, t_obj *obj, char *str, int y)
 
 static void		display_object(t_mlx *mlx)
 {
-	char	*str;
+	char	str[200];
 	int		i;
 	int		y;
 
+	ft_bzero(str, 200);
 	i = -1;
 	y = 120 + BTNHEIGHT + mlx->interf->offset;
-	if (!(str = ft_memalloc(200)))
-		exit(0);
 	while (++i < mlx->scene->nb_obj)
 		y = display_obj_attr(mlx, mlx->scene->objs[i], str, y);
 	i = -1;
 	while (++i < mlx->scene->nb_spot)
 		y = display_spot(mlx, mlx->scene->spot[i], str, y);
-	ft_strdel(&str);
 }
 
 static void		display_scene(t_mlx *mlx)
 {
-	char *str;
+	char str[200];
 	char *nb;
 
-	if (!(str = ft_memalloc(200)))
-		exit(0);
+	ft_bzero(str, 200);
 	if (mlx->interf->offset + BTNHEIGHT + 5 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 5 +
 			mlx->interf->offset, 0xFFFFFF, "SCENE");
@@ -69,27 +66,35 @@ static void		display_scene(t_mlx *mlx)
 	if (mlx->interf->offset + BTNHEIGHT + 20 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 20 +
 			mlx->interf->offset, 0xFFFFFF, str);
-	nb = ft_itoa(WIN_W);
+	if (!(nb = ft_itoa(WIN_W)))
+		return;
 	ft_strcat(ft_strcpy(str, "resolution: "), nb);
 	ft_strdel(&nb);
-	nb = ft_itoa(WIN_H);
+	if (!(nb = ft_itoa(WIN_H)))
+		return;
 	ft_strcat(ft_strcat(str, "x"), nb);
 	ft_strdel(&nb);
 	if (mlx->interf->offset + BTNHEIGHT + 35 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 35 +
 			mlx->interf->offset, 0xFFFFFF, str);
-	ft_strdel(&str);
+		ft_bzero(str, 200);
+	if (!(nb = ft_itoa(mlx->aa)))
+		return;
+	ft_strcat(ft_strcat(str, "anti-aliasing: "), nb);
+	if (mlx->interf->offset + BTNHEIGHT + 50 > BTNHEIGHT)
+		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 50 +
+			mlx->interf->offset, 0xFFFFFF, str);
+	ft_strdel(&nb);
 }
 
 static void		display_camera(t_mlx *mlx)
 {
-	char	*str;
+	char	str[200];
 	char	*vec;
 	double	color;
 
+	ft_bzero(str, 200);
 	color = (mlx->interf->id_select_obj == -1) ? 0xFF0000 : 0x0000FF;
-	if (!(str = ft_memalloc(200)))
-		exit(0);
 	if (mlx->interf->offset + 70 + BTNHEIGHT > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, 70 + BTNHEIGHT +
 			mlx->interf->offset, color, "CAMERA");
@@ -100,7 +105,6 @@ static void		display_camera(t_mlx *mlx)
 	if (mlx->interf->offset + BTNHEIGHT + 85 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, 85 + BTNHEIGHT +
 			mlx->interf->offset, 0xFFFFFF, str);
-	ft_strdel(&str);
 }
 
 int				display_interface(t_mlx *mlx)

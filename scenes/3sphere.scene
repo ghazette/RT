@@ -1,0 +1,78 @@
+#SCENE WORLDOF
+CAMERA
+{
+    position 0 0 150
+    rotation 0 0 0
+    lookat 0 0 0
+    focal 1
+}
+
+AA4
+
+OBJECT
+{
+    name SPHERE0
+    type SPHERE
+    position 16 13 0
+    rotation 0 0 0
+    radius 10
+    ambient 1
+    specular 80 80 80
+    color 255 0 0
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -16 13 0
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 0 255 0
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 0 0 0
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 0 0 255
+}
+
+OBJECT
+{
+    name CYLINDER
+    type CYLINDER
+    position 0 0 165
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 127 128 129
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position -200 0 200
+    color 255 255 255
+    specular 255 255 255
+    ambient 3
+}
+
+SPOT
+{
+    name SPOT1
+    type SPOT
+    position 200 0 200
+    color 255 255 255
+    specular 255 255 255
+    ambient 3
+}

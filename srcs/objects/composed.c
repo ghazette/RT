@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/07 13:09:07 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 14:17:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/13 10:37:39 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,11 +22,11 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 	double	t;
 	double a;
 	double b;
-
+	int c;
 	i = 0;
-	while (obj->poly[i] != NULL)
+	while (obj->poly[i] != 0)
 	{
-		t = (vec3_dotproduct(obj->poly[i]->n, &obj->pos) -
+		t = (vec3_dotproduct(obj->poly[i]->n, obj->poly[i]->s[0]) -
 		vec3_dotproduct(obj->poly[i]->n, view)) / vec3_dotproduct(obj->poly[i]->n, &vdir);
 		if (t < 0)
 			return (0);
@@ -38,24 +38,26 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 		a = vec3_length(&interinfo->intersect, view);
 		b = vec3_length(&test, view);
 		j = 0;
-		while (obj->poly[i]->s[j] != 0)
+		c = 0;
+		while (obj->poly[i]->e[j] != 0)
 		{
 			vec3_sub(&interinfo->intersect, obj->poly[i]->s[j], &vp);
 			vec3_crossproduct(obj->poly[i]->e[j], &vp, &vc);
-			if (a > b)
-			{
-				if (vec3_dotproduct(obj->poly[i]->n, &vc) < 0)
-					return (0);
-			}
-			else if (vec3_dotproduct(obj->poly[i]->n, &vc) > 0)
-				break;
+			// if (a > b && vec3_dotproduct(obj->poly[i]->n, &vc) < 0)
+			// 	c = 1;
+			// else if (vec3_dotproduct(obj->poly[i]->n, &vc) > 0)
+			// 	c = 1;
+			if (vec3_dotproduct(obj->poly[i]->n, &vc) < 0)
+				c = 1;
 			j++;
 		}
-		if (a > b)
+		if (a > b && c == 1)
 			vec3_reverse(&interinfo->normal);
+		if (c == 1)
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int				render_composed(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)

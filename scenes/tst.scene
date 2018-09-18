@@ -1,7 +1,7 @@
 #SCENE TEST0
 CAMERA
 {
-    position 0 0 -100
+    position -10 5 -300
     rotation 0 0 0
     lookat 0 0 0
     focal 1
@@ -9,17 +9,20 @@ CAMERA
 
 OBJECT
 {
-    name BIATCH;
+    name BIATCH
     type COMPOSED
-    obj_src ./obj/glock.obj
+    position 0 0 0
+    color 255 0 0
+    ambient 5
+    obj_src ./obj/cube.obj
 }
 
 SPOT
 {
     name SPOT0
     type SPOT
-    position 0 0 -5
-    specular 120 120 120
+    position 0 0 -40
+    specular 255 255 255
     color 255 255 255
     ambient 5
 }

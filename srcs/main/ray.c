@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:34:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/18 17:07:21 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -83,10 +83,96 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 	}
 }
 
+static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
+{
+	double j = 1.0;
+	if (coeff == CONCAT_COLOR)
+	{
+		RGB.x = ft_reg(RGB.x, 0.0, mlx->reg);
+		RGB.y = ft_reg(RGB.y, 0.0, mlx->reg);
+		RGB.z = ft_reg(RGB.z, 0.0, mlx->reg);
+		return;
+	}
+	if (coeff == NO_REFLECT)
+	{
+		RGB.x += ft_reg(reg->x, 0.0, mlx->reg);
+		RGB.y += ft_reg(reg->y, 0.0, mlx->reg);
+		RGB.z += ft_reg(reg->z, 0.0, mlx->reg);
+	}
+	else
+	{
+		if (mlx->aa == 4.0)
+			j = 3;
+		else if (mlx->aa == 2.0)
+			j = 1.5;
+		if (j == 0.0)
+		{
+			RGB.x += ft_reg(reg->x * coeff, 0.0, mlx->reg);
+			RGB.y += ft_reg(reg->y * coeff, 0.0, mlx->reg);
+			RGB.z += ft_reg(reg->z * coeff, 0.0, mlx->reg);
+		}
+		else
+		{
+			RGB.x += ft_reg(reg->x * coeff / j, 0.0, mlx->reg);
+			RGB.y += ft_reg(reg->y * coeff / j, 0.0, mlx->reg);
+			RGB.z += ft_reg(reg->z * coeff / j, 0.0, mlx->reg);
+		}
+	}
+}
+
+static void		ft_reflect(t_mlx *mlx, double x, double y, int id)
+{
+	int		it = 0;
+	int 	it2 = 4;
+	double	p;
+	t_phong	phong;
+	t_vec3 	view;
+	double 	reflet;
+	double	coeff = 1;
+
+	p = 0.0;
+	reflet = 0;
+	if (id != -1 && mlx->scene->objs[id]->material.reflectivity > 0.0)
+	while (it < it2)
+	{
+		reflet = 2.0 * vec3_dotproduct(&mlx->vdir, &mlx->scene->interinfo->normal);
+		vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
+		t_vec3 test;
+		vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
+		vec3_sub(&mlx->vdir, &test, &mlx->vdir);
+		while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+		{
+			while (x < mlx->aax + 1 && (p += 1) > 0)
+			{
+				reset(&phong, NULL, mlx);
+				mlx->id = intersect(mlx, &view, mlx->vdir);
+				if (mlx->id != -1)
+					while (++mlx->i < mlx->scene->nb_spot)
+						light_intersect(mlx, mlx->scene->objs[mlx->id]
+						, mlx->scene->spot[mlx->i], &phong);
+				if (mlx->id  == -1)
+					break;
+				phong_calcfinal(&phong, mlx->scene->nb_spot);
+				ft_average(mlx, &(phong.material.color), coeff);
+				x += (1.0 / mlx->aa);
+			}
+			y = y + (1.0 / mlx->aa);
+			if (mlx->id  == -1)
+				break;
+		}
+		if (mlx->id == -1)
+			break ;
+		coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+		it++;
+		y -= mlx->aa;
+		x -= mlx->aa;
+	}
+}
+
 static void		ft_aa(t_mlx *mlx, double x, double y)
 {
-	double		p;
-	t_phong		phong;
+	double	p;
+	t_phong	phong;
 
 	p = 0.0;
 	ft_bzero(&mlx->rgb, sizeof(t_vec3));
@@ -100,19 +186,21 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 			if (mlx->id != -1)
 				while (++mlx->i < mlx->scene->nb_spot)
 					light_intersect(mlx, mlx->scene->objs[mlx->id]
-							, mlx->scene->spot[mlx->i], &phong);
+					, mlx->scene->spot[mlx->i], &phong);
 			phong_calcfinal(&phong, mlx->scene->nb_spot);
-			mlx->rgb.x += ft_reg(phong.material.color.x, 0.0, 1.0);
-			mlx->rgb.y += ft_reg(phong.material.color.y, 0.0, 1.0);
-			mlx->rgb.z += ft_reg(phong.material.color.z, 0.0, 1.0);
+			ft_average(mlx, &phong.material.color, NO_REFLECT);
 			x += (1.0 / mlx->aa);
 		}
 		y = y + (1.0 / mlx->aa);
 	}
+		y -= mlx->aa;
+		x -= mlx->aa;
+	ft_reflect(mlx, x, y, mlx->id);
+	ft_average(mlx, &RGB, CONCAT_COLOR);
 	ft_effect(mlx, mlx->effect);
-	draw_point(mlx->aax, mlx->aay, mlx, (((int)(mlx->rgb.x / p * 255) & 0xff)
-			<< 16) + (((int)(mlx->rgb.y / p * 255) & 0xff) << 8) +
-			((int)(mlx->rgb.z / p * 255) & 0xff));
+	draw_point(mlx->aax, mlx->aay, mlx, (((int)(RGB.x / p * 255) & 0xff)
+			<< 16) + (((int)(RGB.y / p * 255) & 0xff) << 8) +
+			((int)(RGB.z / p * 255) & 0xff));
 }
 
 static void		*raytrace(void *mlxp)
@@ -122,7 +210,12 @@ static void		*raytrace(void *mlxp)
 	double 		y;
 
 	mlx = (t_mlx*)mlxp;
-	mlx->reg = (mlx->aa == 2) ? 4.0 : (mlx->aa == 4) ? 16.0 : 1.0;
+	if (mlx->aa == 2.0)
+		mlx->reg = 4.0;
+	else if (mlx->aa == 4.0)
+		mlx->reg = 16.0;
+	else
+		mlx->reg = 1.0;
 	y = 0.0;
 	while (y < WIN_H)
 	{

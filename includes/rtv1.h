@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:49:25 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/18 16:41:55 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,6 +26,7 @@
 # include <time.h>
 # define PI 3.14159265359
 # define MAX(a, b) (a < b ? b : a)
+# define DEGTORAD(DEG) (DEG * M_PI / 180)
 # define WIN_W 1280
 # define WIN_H 960
 # define INTER_WIDTH 250
@@ -34,6 +35,8 @@
 # define CYLINDER 0x102
 # define CONE 0x103
 # define COMPOSED 0x104
+# define NO_REFLECT 0x106
+# define CONCAT_COLOR 0x107
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 # define RGB mlx->rgb
@@ -63,6 +66,7 @@ typedef struct		s_intersectinfo
 typedef struct		s_material
 {
 	double			ambient;
+	double			reflectivity;
 	t_vec3			color;
 	t_vec3			specular;
 }					t_material;
