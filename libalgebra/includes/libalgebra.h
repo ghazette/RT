@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/30 09:27:29 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/06 14:57:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/13 17:34:19 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,6 +50,7 @@ double			vec3_dotproduct(t_vec3 *v1, t_vec3 *v2);
 double			vec3_scalarproduct(t_vec3 *v1, double n);
 double			vec3_sqrlength(t_vec3 *vec);
 void			vec3_reverse(t_vec3 *v);
+void			vec3_cpy(t_vec3 *dest, t_vec3 *src);
 
 /*
 ** MATRIX 3x3

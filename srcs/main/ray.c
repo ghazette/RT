@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:34:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/18 15:53:58 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,30 +85,69 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 
 static void		ft_aa(t_mlx *mlx, double x, double y)
 {
+	int it = 0;
+	int it2 = 10;
 	double	p;
-	t_phong		phong;
-
+	t_phong	phong;
+	t_vec3 tmpview;
+	double reflet;
+	double	coeff = 1;
 	p = 0.0;
+	reflet = 0;
 	ft_bzero(&mlx->rgb, sizeof(t_vec3));
-	while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+	while (it < it2)
 	{
-		while (x < mlx->aax + 1 && (p += 1) > 0)
+		if (it == 0)
+			vec3_cpy(&tmpview, &mlx->scene->cam->pos);
+		while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
 		{
-			calc_dir_vec(mlx, &mlx->vdir, x, y);
-			reset(&phong, NULL, mlx);
-			mlx->id = intersect(mlx, &mlx->scene->cam->pos, mlx->vdir);
-			if (mlx->id != -1)
-				while (++mlx->i < mlx->scene->nb_spot)
-					light_intersect(mlx, mlx->scene->objs[mlx->id]
-					, mlx->scene->spot[mlx->i], &phong);
-			phong_calcfinal(&phong, mlx->scene->nb_spot);
-			mlx->rgb.x += ft_reg(phong.material.color.x, 0.0, 1.0);
-			mlx->rgb.y += ft_reg(phong.material.color.y, 0.0, 1.0);
-			mlx->rgb.z += ft_reg(phong.material.color.z, 0.0, 1.0);
-			x += (1.0 / mlx->aa);
+			while (x < mlx->aax + 1 && (p += 1) > 0)
+			{
+				if (it == 0)
+					calc_dir_vec(mlx, &mlx->vdir, x, y);
+				reset(&phong, NULL, mlx);
+				mlx->id = intersect(mlx, &tmpview, mlx->vdir);
+				if (mlx->id != -1)
+					while (++mlx->i < mlx->scene->nb_spot)
+						light_intersect(mlx, mlx->scene->objs[mlx->id]
+						, mlx->scene->spot[mlx->i], &phong);
+				if (mlx->id  == -1)
+					break;
+				phong_calcfinal(&phong, mlx->scene->nb_spot);
+				if (it == 0)
+				{
+					mlx->rgb.x += ft_reg(phong.material.color.x, 0.0, 4.0);
+					mlx->rgb.y += ft_reg(phong.material.color.y, 0.0, 4.0);
+					mlx->rgb.z += ft_reg(phong.material.color.z, 0.0, 4.0);
+				}
+				else
+				{
+					mlx->rgb.x += ft_reg(phong.material.color.x * coeff / 1.5, 0.0, 4.0);
+					mlx->rgb.y += ft_reg(phong.material.color.y * coeff / 1.5, 0.0, 4.0);
+					mlx->rgb.z += ft_reg(phong.material.color.z * coeff / 1.5, 0.0, 4.0);
+				}
+				x += (1.0 / mlx->aa);
+			}
+			y = y + (1.0 / mlx->aa);
 		}
-		y = y + (1.0 / mlx->aa);
+		if (mlx->id != -1)
+			coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+		if (mlx->id  == -1)
+			break ;
+		reflet = 2.0 * vec3_dotproduct(&mlx->vdir, &mlx->scene->interinfo->normal);
+		vec3_cpy(&tmpview, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
+		t_vec3 test;
+		vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
+		vec3_sub(&mlx->vdir, &test, &mlx->vdir);
+		it++;
+		y -= mlx->aa;
+		x -= mlx->aa;
+		if (it != it2)
+			p = 0;
 	}
+	mlx->rgb.x = ft_reg(mlx->rgb.x, 0.0, 4.0);
+	mlx->rgb.y = ft_reg(mlx->rgb.y, 0.0, 4.0);
+	mlx->rgb.z = ft_reg(mlx->rgb.z, 0.0, 4.0);
 	draw_point(mlx->aax, mlx->aay, mlx, (((int)(mlx->rgb.x / p * 255) & 0xff)
 			<< 16) + (((int)(mlx->rgb.y / p * 255) & 0xff) << 8) +
 			((int)(mlx->rgb.z / p * 255) & 0xff));

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:11:09 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/17 16:49:44 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,11 +67,13 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 		if (!(scene->objs[i]->name = ft_strdup(src->objs[i]->name)))
 			return (0);
 		scene->objs[i]->radius = src->objs[i]->radius;
+		scene->objs[i]->poly = src->objs[i]->poly;
 		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x, src->objs[i]->pos.y, src->objs[i]->pos.z);
 		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x, src->objs[i]->dir.y, src->objs[i]->dir.z);
 		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x, src->objs[i]->rot.y, src->objs[i]->rot.z);
 		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x, src->objs[i]->color.y, src->objs[i]->color.z);
 		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
+		scene->objs[i]->material.reflectivity = src->objs[i]->material.reflectivity;
 		vector3d(&(scene->objs[i]->material.color), src->objs[i]->material.color.x, src->objs[i]->material.color.y, src->objs[i]->material.color.z);
 		vector3d(&(scene->objs[i]->material.specular), src->objs[i]->material.specular.x, src->objs[i]->material.specular.y, src->objs[i]->material.specular.z);
 		scene->objs[i]->render_func = src->objs[i]->render_func;

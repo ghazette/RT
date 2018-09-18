@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 14:14:34 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/13 10:23:23 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,8 +42,6 @@ static int		type_define(char *type, t_obj *obj)
 	if (!ft_strcmp("COMPOSED", type))
 	{
 		obj->render_func = render_composed;
-		vector3d(&obj->dir, 0, 0, 1);
-		obj->poly = (t_poly**)malloc(sizeof(t_poly*) * obj->npoly);
 		return (COMPOSED);
 	}
 	return (0);

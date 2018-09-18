@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:49:25 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/17 16:46:38 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,7 @@
 # define COMPOSED 0x104
 # define BTNHEIGHT 40
 # define SUN_POWER 80
-# define THREADS 8
+# define THREADS 1
 
 typedef struct		s_interface
 {
@@ -56,6 +56,7 @@ typedef struct		s_intersectinfo
 typedef struct		s_material
 {
 	double			ambient;
+	double			reflectivity;
 	t_vec3			color;
 	t_vec3			specular;
 }					t_material;

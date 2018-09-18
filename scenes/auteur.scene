@@ -1,0 +1,70 @@
+#SCENE TEST0
+CAMERA
+{
+    position 0 0 -150
+    rotation 0 0 0
+    lookat 0 0 1
+    focal 1
+}
+
+AA1
+
+OBJECT
+{
+    name PLANE
+    type PLANE
+    rotation 30 30 0
+    position 0 0 20
+    ambient 2
+    specular 100 100 100
+    color 150 255 200
+}
+
+OBJECT
+{
+    name mkulhand
+    type SPHERE
+    position 11 8 0
+    rotation 0 -89 0
+    ambient 2
+    radius 10
+    specular 120 120 120
+    color 255 0 0
+    texture ./texture/mkulhand.bmp
+}
+
+OBJECT
+{
+    name rlossy
+    type SPHERE
+    position -11 8 0
+    rotation 0 -60 0
+    ambient 2
+    radius 10
+    specular 120 120 120
+    color 255 0 0
+    texture ./texture/rloss.bmp
+}
+
+OBJECT
+{
+    name ghazette
+    type SPHERE
+    position 0 -10 0
+    rotation 0 -89 0
+    ambient 2
+    radius 10
+    specular 120 120 120
+    color 255 0 0
+    texture ./texture/ghazette.bmp
+}
+
+SPOT
+{
+    ambient 2
+    position 0 0 -50
+    name SPOT0
+    type SPOT
+    specular 255 200 200
+    color 200 200 200
+}

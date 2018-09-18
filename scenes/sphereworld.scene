@@ -1,0 +1,162 @@
+#SCENE WORLDOF
+CAMERA
+{
+    position 0 500 -500
+    rotation 5 -5 0
+    lookat 0 0 0
+    focal 1
+}
+
+AA1
+
+OBJECT
+{
+    name SPHERE0
+    type SPHERE
+    position 0 15 0
+    rotation 0 0 0
+    radius 3
+    ambient 2
+    specular 120 120 120
+    color 255 120 255
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -15 15 0
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 255 170 150
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 30 15 0
+    rotation 0 0 0
+    radius 5
+    ambient 1
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -30 15 0
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 255 170 150
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 45 15 0
+    rotation 0 0 0
+    radius 2
+    ambient 5
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name PLANE1
+    type PLANE
+    position 0 0 0
+    rotation 90 0 0
+    ambient 5
+    specular 120 120 120
+    color 120 120 120
+}
+
+OBJECT
+{
+    name SPHERE0
+    type SPHERE
+    position 0 15 -15
+    rotation 0 0 0
+    radius 3
+    ambient 2
+    specular 120 120 120
+    color 255 120 255
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -15 15 -45
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 255 170 150
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 30 15 -45
+    rotation 0 0 0
+    radius 5
+    ambient 1
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name SPHERE1
+    type SPHERE
+    position -70 98 -45
+    rotation 0 0 0
+    radius 10
+    ambient 2
+    specular 80 80 80
+    color 105 50 150
+}
+
+OBJECT
+{
+    name SPHERE2
+    type SPHERE
+    position 45 15 -45
+    rotation 0 0 0
+    radius 2
+    ambient 5
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name PLANE1
+    type PLANE
+    position 0 0 0
+    rotation 90 0 0
+    ambient 5
+    specular 120 120 120
+    color 120 120 120
+}
+
+SPOT
+{
+    name SPOT0
+    type SPOT
+    position 0 500 0
+    color 255 0255 255
+    specular 255 255 255
+    ambient 7
+}
