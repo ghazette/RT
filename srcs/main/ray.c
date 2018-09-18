@@ -122,6 +122,7 @@ static void		*raytrace(void *mlxp)
 	double 		y;
 
 	mlx = (t_mlx*)mlxp;
+	mlx->reg = (mlx->aa == 2) ? 4.0 : (mlx->aa == 4) ? 16.0 : 1.0;
 	y = 0.0;
 	while (y < WIN_H)
 	{

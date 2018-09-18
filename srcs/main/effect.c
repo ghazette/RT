@@ -34,28 +34,27 @@ static void			ft_rgb(t_mlx *mlx, int effect)
 
 static void			ft_special_mode(t_mlx *mlx, int effect)
 {
-	FILTER.reg = (mlx->aa == 2) ? 4.0 : (mlx->aa == 4) ? 16.0 : 1.0;
 	FILTER.gray = RGB.x * 0.299 + RGB.y * 0.587 + RGB.z * 0.114;
 	FILTER.sepia[0] = RGB.x * 0.393 + RGB.y * 0.769 + RGB.z * 0.189;
 	FILTER.sepia[1] = RGB.x * 0.349 + RGB.y * 0.686 + RGB.z * 0.168;
 	FILTER.sepia[2] = RGB.x * 0.272 + RGB.y * 0.534 + RGB.z * 0.131;
 	if (effect == 1)
 	{
-		RGB.x = ft_reg(FILTER.gray, 0.0, FILTER.reg);
-		RGB.y = ft_reg(FILTER.gray, 0.0, FILTER.reg);
-		RGB.z = ft_reg(FILTER.gray, 0.0, FILTER.reg);
+		RGB.x = ft_reg(FILTER.gray, 0.0, mlx->reg);
+		RGB.y = ft_reg(FILTER.gray, 0.0, mlx->reg);
+		RGB.z = ft_reg(FILTER.gray, 0.0, mlx->reg);
 	}
 	else if (effect == 2)
 	{
-		RGB.x = ft_reg(FILTER.sepia[0], 0.0, FILTER.reg);
-		RGB.y = ft_reg(FILTER.sepia[1], 0.0, FILTER.reg);
-		RGB.z = ft_reg(FILTER.sepia[2], 0.0, FILTER.reg);
+		RGB.x = ft_reg(FILTER.sepia[0], 0.0, mlx->reg);
+		RGB.y = ft_reg(FILTER.sepia[1], 0.0, mlx->reg);
+		RGB.z = ft_reg(FILTER.sepia[2], 0.0, mlx->reg);
 	}
 	else if (effect == 3)
 	{
-		RGB.x = mlx->filter.reg - (RGB.x);
-		RGB.y = mlx->filter.reg - (RGB.y);
-		RGB.z = mlx->filter.reg - (RGB.z);
+		RGB.x = mlx->reg - (RGB.x);
+		RGB.y = mlx->reg - (RGB.y);
+		RGB.z = mlx->reg - (RGB.z);
 	}
 }
 

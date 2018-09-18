@@ -42,7 +42,6 @@
 
 typedef struct		s_filter
 {
-	double			reg;
 	double			gray;
 	double			sepia[3];
 }					t_filter;
@@ -169,6 +168,7 @@ typedef struct		s_mlx
 	void			*win;
 	void			*img;
 	double			aa;
+	double			reg;
 	t_sce			*scene;
 	t_vec3			rgb;
 	t_vec3			vdir;
