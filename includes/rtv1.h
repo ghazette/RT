@@ -137,7 +137,6 @@ typedef struct		s_spot
 	char			*name;
 	t_vec3			pos;
 	t_vec3			color;
-	t_vec3			dir_vec;
 	t_material		material;
 }					t_spot;
 
