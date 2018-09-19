@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/17 16:49:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 10:58:41 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,6 +75,7 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x, src->objs[i]->color.y, src->objs[i]->color.z);
 		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
 		scene->objs[i]->material.reflectivity = src->objs[i]->material.reflectivity;
+		scene->objs[i]->material.refraction = src->objs[i]->material.refraction;
 		vector3d(&(scene->objs[i]->material.color), src->objs[i]->material.color.x, src->objs[i]->material.color.y, src->objs[i]->material.color.z);
 		vector3d(&(scene->objs[i]->material.specular), src->objs[i]->material.specular.x, src->objs[i]->material.specular.y, src->objs[i]->material.specular.z);
 		scene->objs[i]->render_func = src->objs[i]->render_func;

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 16:41:55 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 10:58:21 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,6 +67,7 @@ typedef struct		s_material
 {
 	double			ambient;
 	double			reflectivity;
+	double			refraction;
 	t_vec3			color;
 	t_vec3			specular;
 }					t_material;

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 16:43:42 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 10:58:07 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,7 +57,8 @@ t_obj		*new_object(void)
 	vector3d(&obj->material.specular, 200.0 / 255.0, 200.0 / 255.0,
 		150.0 / 255.0);
 	obj->material.ambient = 0.03;
-	obj->material.reflectivity = 0.42;
+	obj->material.reflectivity = 0;
+	obj->material.refraction = 1.0;
 	return (obj);
 }
 

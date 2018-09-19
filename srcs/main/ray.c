@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 17:07:21 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 11:28:48 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,7 +85,6 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 
 static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 {
-	double j = 1.0;
 	if (coeff == CONCAT_COLOR)
 	{
 		RGB.x = ft_reg(RGB.x, 0.0, mlx->reg);
@@ -93,7 +92,7 @@ static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 		RGB.z = ft_reg(RGB.z, 0.0, mlx->reg);
 		return;
 	}
-	if (coeff == NO_REFLECT)
+	else if (coeff == NO_REFLECT)
 	{
 		RGB.x += ft_reg(reg->x, 0.0, mlx->reg);
 		RGB.y += ft_reg(reg->y, 0.0, mlx->reg);
@@ -101,21 +100,58 @@ static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 	}
 	else
 	{
-		if (mlx->aa == 4.0)
-			j = 3;
-		else if (mlx->aa == 2.0)
-			j = 1.5;
-		if (j == 0.0)
+		RGB.x += ft_reg(reg->x * coeff / mlx->aa, 0.0, mlx->reg);
+		RGB.y += ft_reg(reg->y * coeff / mlx->aa, 0.0, mlx->reg);
+		RGB.z += ft_reg(reg->z * coeff / mlx->aa, 0.0, mlx->reg);
+	}
+}
+
+static void		ft_refract(t_mlx *mlx, double x, double y, int id)
+{
+	int		it = 0;
+	int 	it2 = 50;
+	double	p;
+	t_phong	phong;
+	t_vec3 	view;
+	t_vec3	tmp;
+
+	p = 0.0;
+	if (id != -1 && mlx->scene->objs[id]->material.refraction > 0.0)
+	{
+		vec3_cpy(&view, &mlx->scene->cam);
+		while (it < it2)
 		{
-			RGB.x += ft_reg(reg->x * coeff, 0.0, mlx->reg);
-			RGB.y += ft_reg(reg->y * coeff, 0.0, mlx->reg);
-			RGB.z += ft_reg(reg->z * coeff, 0.0, mlx->reg);
-		}
-		else
-		{
-			RGB.x += ft_reg(reg->x * coeff / j, 0.0, mlx->reg);
-			RGB.y += ft_reg(reg->y * coeff / j, 0.0, mlx->reg);
-			RGB.z += ft_reg(reg->z * coeff / j, 0.0, mlx->reg);
+			if (it > 0)
+				vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
+			vec3_crossproduct(&view, &mlx->scene->interinfo->normal, &tmp);
+			double a = vec3_magnitude(&tmp);
+			double b = tan(asin((0.6 / 0.9) * a));
+			while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+			{
+				while (x < mlx->aax + 1 && (p += 1) > 0)
+				{
+					reset(&phong, NULL, mlx);
+					mlx->id = intersect(mlx, &view, mlx->vdir);
+					if (mlx->id != -1)
+						while (++mlx->i < mlx->scene->nb_spot)
+							light_intersect(mlx, mlx->scene->objs[mlx->id]
+							, mlx->scene->spot[mlx->i], &phong);
+					if (mlx->id  == -1)
+						break;
+					phong_calcfinal(&phong, mlx->scene->nb_spot);
+					ft_average(mlx, &(phong.material.color), NO_REFLECT);
+					x += (1.0 / mlx->aa);
+				}
+				y = y + (1.0 / mlx->aa);
+				if (mlx->id  == -1)
+					break;
+			}
+			if (mlx->id == -1)
+				break ;
+
+			it++;
+			y -= mlx->aa;
+			x -= mlx->aa;
 		}
 	}
 }
@@ -123,7 +159,7 @@ static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 static void		ft_reflect(t_mlx *mlx, double x, double y, int id)
 {
 	int		it = 0;
-	int 	it2 = 4;
+	int 	it2 = 50;
 	double	p;
 	t_phong	phong;
 	t_vec3 	view;
@@ -133,39 +169,44 @@ static void		ft_reflect(t_mlx *mlx, double x, double y, int id)
 	p = 0.0;
 	reflet = 0;
 	if (id != -1 && mlx->scene->objs[id]->material.reflectivity > 0.0)
-	while (it < it2)
 	{
-		reflet = 2.0 * vec3_dotproduct(&mlx->vdir, &mlx->scene->interinfo->normal);
-		vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
-		t_vec3 test;
-		vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
-		vec3_sub(&mlx->vdir, &test, &mlx->vdir);
-		while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+		coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+		while (it < it2)
 		{
-			while (x < mlx->aax + 1 && (p += 1) > 0)
+			if (coeff <= 0.05)
+				break;
+			reflet = 2.0 * vec3_dotproduct(&mlx->vdir, &mlx->scene->interinfo->normal);
+			vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
+			t_vec3 test;
+			vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
+			vec3_sub(&mlx->vdir, &test, &mlx->vdir);
+			while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
 			{
-				reset(&phong, NULL, mlx);
-				mlx->id = intersect(mlx, &view, mlx->vdir);
-				if (mlx->id != -1)
-					while (++mlx->i < mlx->scene->nb_spot)
-						light_intersect(mlx, mlx->scene->objs[mlx->id]
-						, mlx->scene->spot[mlx->i], &phong);
+				while (x < mlx->aax + 1 && (p += 1) > 0)
+				{
+					reset(&phong, NULL, mlx);
+					mlx->id = intersect(mlx, &view, mlx->vdir);
+					if (mlx->id != -1)
+						while (++mlx->i < mlx->scene->nb_spot)
+							light_intersect(mlx, mlx->scene->objs[mlx->id]
+							, mlx->scene->spot[mlx->i], &phong);
+					if (mlx->id  == -1)
+						break;
+					phong_calcfinal(&phong, mlx->scene->nb_spot);
+					ft_average(mlx, &(phong.material.color), coeff);
+					x += (1.0 / mlx->aa);
+				}
+				y = y + (1.0 / mlx->aa);
 				if (mlx->id  == -1)
 					break;
-				phong_calcfinal(&phong, mlx->scene->nb_spot);
-				ft_average(mlx, &(phong.material.color), coeff);
-				x += (1.0 / mlx->aa);
 			}
-			y = y + (1.0 / mlx->aa);
-			if (mlx->id  == -1)
-				break;
+			if (mlx->id == -1)
+				break ;
+			coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+			it++;
+			y -= mlx->aa;
+			x -= mlx->aa;
 		}
-		if (mlx->id == -1)
-			break ;
-		coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
-		it++;
-		y -= mlx->aa;
-		x -= mlx->aa;
 	}
 }
 
