@@ -40,7 +40,7 @@ static unsigned char	*concat_row(t_bmp *bmp, unsigned char **img_arr)
 	return (ret);
 }
 
-static unsigned char		*get_row(t_bmp *bmp, unsigned char *img)
+static unsigned char	*get_row(t_bmp *bmp, unsigned char *img)
 {
 	unsigned char	*ret;
 	int				len;

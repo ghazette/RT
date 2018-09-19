@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/13 10:23:23 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 12:58:29 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -99,12 +99,13 @@ static int		fetch_object_array(t_obj *obj, char **split)
 		if (!(obj->type = type_define(split[1], obj)))
 			return (0);
 	if (!ft_strcmp(split[0], "texture"))
-		if (split[1] && !(obj->texture.data = import_bmp(split[1], &(obj->texture.width), &(obj->texture.height))))
+		if (split[1] && !(obj->texture.data = import_bmp(split[1],
+						&(obj->texture.width), &(obj->texture.height))))
 			return (0);
 	if (!ft_strcmp(split[0], "obj_src") && split[1])
 		if (!(fetch_obj(split[1], &obj)))
 			return (0);
-		return (fetch_object_array_help(obj, split));
+	return (fetch_object_array_help(obj, split));
 }
 
 static int		check_object(t_obj *obj)

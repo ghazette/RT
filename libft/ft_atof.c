@@ -6,7 +6,7 @@
 /*   By: mkulhand <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/11 12:41:47 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 12:41:48 by mkulhand    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 12:32:51 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,9 +15,9 @@
 
 double		ft_atof(const char *str)
 {
-	double	ret;
-	char	**split;
 	int		i;
+	char	**split;
+	double	ret;
 	double	expo;
 
 	if ((split = ft_strsplit(str, '.')) != NULL)

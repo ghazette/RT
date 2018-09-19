@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 17:07:21 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 13:14:31 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,7 +63,8 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 	if (mlxreset)
 	{
 		mlxreset->i = -1;
-		vector3d(&phong->vdir, mlxreset->vdir.x, mlxreset->vdir.y, mlxreset->vdir.z);
+		vector3d(&phong->vdir, mlxreset->vdir.x, mlxreset->vdir.y,
+					mlxreset->vdir.z);
 		vec3_reverse(&phong->vdir);
 	}
 	if (mlxfree)
@@ -85,13 +86,15 @@ static void		reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset)
 
 static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 {
-	double j = 1.0;
+	double j;
+
+	j = 1.0;
 	if (coeff == CONCAT_COLOR)
 	{
 		RGB.x = ft_reg(RGB.x, 0.0, mlx->reg);
 		RGB.y = ft_reg(RGB.y, 0.0, mlx->reg);
 		RGB.z = ft_reg(RGB.z, 0.0, mlx->reg);
-		return;
+		return ;
 	}
 	if (coeff == NO_REFLECT)
 	{
@@ -122,51 +125,56 @@ static void		ft_average(t_mlx *mlx, t_vec3 *reg, double coeff)
 
 static void		ft_reflect(t_mlx *mlx, double x, double y, int id)
 {
-	int		it = 0;
-	int 	it2 = 4;
-	double	p;
-	t_phong	phong;
-	t_vec3 	view;
-	double 	reflet;
-	double	coeff = 1;
+	int			it;
+	int			it2;
+	double		p;
+	double		reflet;
+	double		coeff;
+	t_vec3		view;
+	t_vec3		test;
+	t_phong		phong;
 
+	it = 0;
+	it2 = 4;
+	coeff = 1;
 	p = 0.0;
 	reflet = 0;
 	if (id != -1 && mlx->scene->objs[id]->material.reflectivity > 0.0)
-	while (it < it2)
-	{
-		reflet = 2.0 * vec3_dotproduct(&mlx->vdir, &mlx->scene->interinfo->normal);
-		vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect, &mlx->vdir, &mlx->scene->interinfo->intersect));
-		t_vec3 test;
-		vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
-		vec3_sub(&mlx->vdir, &test, &mlx->vdir);
-		while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
+		while (it < it2)
 		{
-			while (x < mlx->aax + 1 && (p += 1) > 0)
+			reflet = 2.0 * vec3_dotproduct(&mlx->vdir,
+						&mlx->scene->interinfo->normal);
+			vec3_cpy(&view, vec3_sub(&mlx->scene->interinfo->intersect,
+						&mlx->vdir, &mlx->scene->interinfo->intersect));
+			vec3_scale(&mlx->scene->interinfo->normal, reflet, MULT, &test);
+			vec3_sub(&mlx->vdir, &test, &mlx->vdir);
+			while (y < mlx->aay + 1 && (x = mlx->aax) > -1)
 			{
-				reset(&phong, NULL, mlx);
-				mlx->id = intersect(mlx, &view, mlx->vdir);
-				if (mlx->id != -1)
-					while (++mlx->i < mlx->scene->nb_spot)
-						light_intersect(mlx, mlx->scene->objs[mlx->id]
-						, mlx->scene->spot[mlx->i], &phong);
-				if (mlx->id  == -1)
-					break;
-				phong_calcfinal(&phong, mlx->scene->nb_spot);
-				ft_average(mlx, &(phong.material.color), coeff);
-				x += (1.0 / mlx->aa);
+				while (x < mlx->aax + 1 && (p += 1) > 0)
+				{
+					reset(&phong, NULL, mlx);
+					mlx->id = intersect(mlx, &view, mlx->vdir);
+					if (mlx->id != -1)
+						while (++mlx->i < mlx->scene->nb_spot)
+							light_intersect(mlx, mlx->scene->objs[mlx->id],
+									mlx->scene->spot[mlx->i], &phong);
+					if (mlx->id == -1)
+						break ;
+					phong_calcfinal(&phong, mlx->scene->nb_spot);
+					ft_average(mlx, &(phong.material.color), coeff);
+					x += (1.0 / mlx->aa);
+				}
+				y = y + (1.0 / mlx->aa);
+				if (mlx->id == -1)
+					break ;
 			}
-			y = y + (1.0 / mlx->aa);
-			if (mlx->id  == -1)
-				break;
+			if (mlx->id == -1)
+				break ;
+			coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+			it++;
+			y -= mlx->aa;
+			x -= mlx->aa;
 		}
-		if (mlx->id == -1)
-			break ;
-		coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
-		it++;
-		y -= mlx->aa;
-		x -= mlx->aa;
-	}
 }
 
 static void		ft_aa(t_mlx *mlx, double x, double y)
@@ -193,8 +201,8 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 		}
 		y = y + (1.0 / mlx->aa);
 	}
-		y -= mlx->aa;
-		x -= mlx->aa;
+	y -= mlx->aa;
+	x -= mlx->aa;
 	ft_reflect(mlx, x, y, mlx->id);
 	ft_average(mlx, &RGB, CONCAT_COLOR);
 	ft_effect(mlx, mlx->effect);
@@ -205,9 +213,9 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 
 static void		*raytrace(void *mlxp)
 {
-	t_mlx		*mlx;
 	double		x;
-	double 		y;
+	double		y;
+	t_mlx		*mlx;
 
 	mlx = (t_mlx*)mlxp;
 	if (mlx->aa == 2.0)
@@ -241,7 +249,7 @@ void			render(t_mlx *mlx)
 
 	i = -1;
 	if (!(p = (t_mlx**)malloc(sizeof(t_mlx*) * THREADS)))
-		return;
+		return ;
 	while (++i < THREADS)
 	{
 		p[i] = mlx_cpy(mlx);

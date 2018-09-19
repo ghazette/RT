@@ -48,7 +48,8 @@ void	key_down(t_mlx *mlx)
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
 			{
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.y--;
-				vec3_reverse(&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
+				vec3_reverse(
+						&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
 			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -

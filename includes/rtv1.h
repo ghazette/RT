@@ -73,25 +73,25 @@ typedef struct		s_material
 
 typedef struct		s_texture
 {
-	unsigned char	*data;
+	int				pixel;
 	double			u;
 	double			v;
 	double			phi;
 	double			theta;
+	unsigned char	*data;
 	t_vec3			vn;
 	t_vec3			vp;
 	t_vec3			ve;
 	t_vec3			res;
-	int				pixel;
 	size_t			width;
 	size_t			height;
 }					t_texture;
 
 typedef struct		s_poly
 {
+	t_vec3			*n;
 	t_vec3			**s;
 	t_vec3			**e;
-	t_vec3			*n;
 }					t_poly;
 
 typedef struct		s_obj
@@ -165,7 +165,7 @@ typedef struct		s_mlx
 	int				aax;
 	int				aay;
 	int				line;
-	int 			effect;
+	int				effect;
 	int				line_cnt;
 	char			*pixel_img;
 	void			*mlx;
@@ -212,17 +212,18 @@ typedef struct		s_phong
 
 int					get_thread_number(char *th);
 char				*rand_string(int len);
+void				usage(void);
+void				render(t_mlx *mlx);
+void				rotate(t_obj *obj);
+void				ft_effect(t_mlx *mlx, int effect);
+void				inter_cpy(t_interinfo *dest, t_interinfo *src);
+void				print_poly(t_poly *poly);
 void				init_camera(t_mlx *mlx);
 void				draw_point(int x, int y, t_mlx *mlx, int color);
-void				render(t_mlx *mlx);
-void				usage(void);
-void				inter_cpy(t_interinfo *dest, t_interinfo *src);
-void				rotate(t_obj *obj);
 double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
 t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
-void				print_poly(t_poly *poly);
 
 /*
 ** OBJECT RENDER
@@ -253,19 +254,20 @@ int					check_dir(char *fn);
 */
 
 int					get_nb_obj(char *fn, int ret[2]);
-int					fetch_camera(t_mlx *mlx, int fd);
-int					fetch_object(t_mlx *mlx, int fd);
 int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
 int					new_camera(t_mlx *mlx);
+int					fetch_obj(char *path, t_obj **obj);
+int					fetch_camera(t_mlx *mlx, int fd);
+int					fetch_object(t_mlx *mlx, int fd);
 t_obj				*new_object();
 t_spot				*new_spot();
-int					fetch_obj(char *path, t_obj **obj);
 
 /*
 ** LIGHT
 */
-void				phong_calcfinal(t_phong *phong, int nbspot);
+
 void				phong_calc(t_phong *phong);
+void				phong_calcfinal(t_phong *phong, int nbspot);
 void				light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 						t_phong *phong);
 
@@ -273,23 +275,23 @@ void				light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 ** INTERFACE
 */
 
+int					display_spot(t_mlx *mlx, t_spot *obj, char *str, int y);
 int					inter_select_up(t_mlx *mlx);
 int					display_interface(t_mlx *mlx);
 int					inter_select_down(t_mlx *mlx);
-int					display_spot(t_mlx *mlx, t_spot *obj, char *str, int y);
-char				*parse_vec(t_vec3 v);
 char				*get_type(int type);
-void				clear_interface(t_mlx *mlx);
+char				*parse_vec(t_vec3 v);
 void				display_focus(t_mlx *mlx);
 void				export_button(t_mlx *mlx, int color);
+void				clear_interface(t_mlx *mlx);
 
 /*
 ** INPUT
 */
 
+int					key_func(int key, void *p);
 int					mouse_func(int button, int x, int y, t_mlx *mlx);
 int					motion_func(int x, int y, t_mlx *mlx);
-int					key_func(int key, void *p);
 int					export_scene(t_mlx *mlx);
 void				left_click(t_mlx *mlx, int x, int y);
 void				scroll_up(t_mlx *mlx, int x, int y);
@@ -299,7 +301,6 @@ void				key_down(t_mlx *mlx);
 void				key_right(t_mlx *mlx);
 void				key_left(t_mlx *mlx);
 void				key_rot(t_mlx *mlx, int key);
-
 
 /*
 ** TEXTURE
@@ -312,8 +313,5 @@ void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 */
 
 int					fetch_obj(char *path, t_obj **obj);
-
-//void				ft_effect(t_vec3 *rgb, int effect);
-void				ft_effect(t_mlx *mlx, int effect);
 
 #endif
