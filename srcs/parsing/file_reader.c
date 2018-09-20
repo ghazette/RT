@@ -39,7 +39,7 @@ int			fetch_data(t_mlx *mlx, int fd)
 	if (line[0] == 'A' && line[1] == 'A')
 	{
 		mlx->aa = ft_atoi(line + 2);
-		if (mlx->aa < 1 || mlx->aa > 8)
+		if (mlx->aa < 1 || mlx->aa > 4)
 			mlx->aa = 1;
 		ft_strdel(&line);
 		return (1);
