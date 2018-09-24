@@ -51,6 +51,29 @@ static int		cpy_texture(t_sce *scene, t_sce *src, int i)
 	return (1);
 }
 
+static t_poly *poly_cpy(t_poly *poly, t_poly *src)
+{
+	int i;
+	
+	i = 0;
+	poly = malloc(sizeof(t_poly));
+	poly->s = malloc(sizeof(t_vec3) * src->ns);
+	poly->e = malloc(sizeof(t_vec3) * src->ns);
+	poly->ns = src->ns;
+	poly->n = src->n;
+	// printf("ns: %d\n", src->ns);
+	while (i < poly->ns)
+	{
+		poly->s[i] = malloc(sizeof(t_vec3));
+		poly->e[i] = malloc(sizeof(t_vec3));
+		// printf("s %d : s: %f %f %f\n", i, src->s[i]->x, src->s[i]->y, src->s[i]->z);
+		poly->s[i] = vector3d(poly->s[i], src->s[i]->x, src->s[i]->y, src->s[i]->z);
+		poly->e[i] = vector3d(poly->e[i], src->e[i]->x, src->e[i]->y, src->e[i]->z);
+		// printf("i: %d\n", i);
+		i++;
+	}
+	return (poly);
+}
 
 static int		obj_cpy(t_sce *scene, t_sce *src)
 {
@@ -64,6 +87,19 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 		scene->objs[i] = (t_obj*)malloc(sizeof(t_obj));
 		scene->objs[i]->id = src->objs[i]->id;
 		scene->objs[i]->type = src->objs[i]->type;
+		// scene->objs[i]->poly = src->objs[i]->poly;
+		if (scene->objs[i]->type == COMPOSED)
+		{
+			scene->objs[i]->poly = malloc(sizeof(src->objs[i]->poly));
+			scene->objs[i]->npoly = src->objs[i]->npoly;
+			int j = 0;
+			while (j < scene->objs[i]->npoly)
+			{
+				scene->objs[i]->poly[j] = poly_cpy(scene->objs[i]->poly[j], src->objs[i]->poly[j]);
+				j++;
+			}
+		}
+		// exit(0);
 		if (!(scene->objs[i]->name = ft_strdup(src->objs[i]->name)))
 			return (0);
 		scene->objs[i]->radius = src->objs[i]->radius;

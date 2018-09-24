@@ -50,6 +50,7 @@ t_obj		*new_object(void)
 	obj->texture.data = NULL;
 	obj->width = 0;
 	obj->height = 0;
+	obj->form = 0;
 	vector3d(&obj->pos, 0, 0, 0);
 	vector3d(&obj->rot, 0, 0, 0);
 	vector3d(&obj->dir, 0, 0, 0);

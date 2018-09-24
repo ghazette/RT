@@ -27,17 +27,18 @@
 # define PI 3.14159265359
 # define MAX(A, B) (A < B ? B : A)
 # define DEGTORAD(DEG) (DEG * PI / 180)
-# define WIN_W 1280
-# define WIN_H 960
+# define WIN_W 1024
+# define WIN_H 720
 # define INTER_WIDTH 250
 # define SPHERE 0x100
 # define PLANE 0x101
 # define CYLINDER 0x102
 # define CONE 0x103
 # define COMPOSED 0x104
+# define CUBE 0x105
 # define BTNHEIGHT 40
 # define SUN_POWER 80
-# define THREADS 8
+# define THREADS 1
 
 typedef struct		s_interface
 {
@@ -78,23 +79,24 @@ typedef struct		s_texture
 
 typedef struct		s_poly
 {
+	int				ns;
 	t_vec3			**s;
 	t_vec3			**e;
-	t_vec3			*n;
+	t_vec3			n;
 }					t_poly;
 
 typedef struct		s_obj
 {
 	int				id;
 	int				type;
+	int				form;
 	char			*name;
 	double			radius;
 	int				height;
 	int				width;
+	int				depth;
 	int				npoly;
 	t_poly			**poly;
-	t_vec3			**s;
-	t_vec3			**n;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
@@ -209,7 +211,6 @@ double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
 t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
-void				print_poly(t_poly *poly);
 
 /*
 ** OBJECT RENDER
@@ -246,7 +247,6 @@ int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
 int					new_camera(t_mlx *mlx);
 t_obj				*new_object();
 t_spot				*new_spot();
-int					fetch_obj(char *path, t_obj **obj);
 
 /*
 ** LIGHT
@@ -298,6 +298,6 @@ void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 **	OBJ PARSER
 */
 
-int					fetch_obj(char *path, t_obj **obj);
+int					fetch_obj(char *path, t_obj *obj);
 
 #endif

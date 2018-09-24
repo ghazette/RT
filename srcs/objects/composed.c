@@ -13,6 +13,8 @@
 
 #include "../../includes/rtv1.h"
 
+
+
 static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 vdir)
 {
 	t_vec3	vc;
@@ -22,40 +24,63 @@ static int		is_inbound(t_interinfo *interinfo, t_obj *obj, t_vec3 *view, t_vec3 
 	double	t;
 	double a;
 	double b;
+	int	c;
+	double dist, tmpdist;
+	int ab = 0;
+	t_interinfo interinfo_tmp;
 
 	i = 0;
-	while (obj->poly[i] != NULL)
+	dist = 99999999;
+	tmpdist = 0;
+	while (i < obj->npoly)
 	{
-		t = (vec3_dotproduct(obj->poly[i]->n, &obj->pos) -
-		vec3_dotproduct(obj->poly[i]->n, view)) / vec3_dotproduct(obj->poly[i]->n, &vdir);
-		if (t < 0)
-			return (0);
+		t = (vec3_dotproduct(&obj->poly[i]->n, obj->poly[i]->s[0]) -
+		vec3_dotproduct(&obj->poly[i]->n, view)) / vec3_dotproduct(&obj->poly[i]->n, &vdir);
 		vec3_add(view, vec3_scale(&vdir, t, MULT, &interinfo->intersect),
 			&interinfo->intersect);
-		vector3d(&interinfo->normal, obj->poly[i]->n->x, obj->poly[i]->n->y, obj->poly[i]->n->z);
+		vector3d(&interinfo->normal, obj->poly[i]->n.x, obj->poly[i]->n.y, obj->poly[i]->n.z);
 		t_vec3 test;
-		vec3_sub(&interinfo->intersect, obj->poly[i]->n, &test);
+		vec3_sub(&interinfo->intersect, &obj->poly[i]->n, &test);
 		a = vec3_length(&interinfo->intersect, view);
 		b = vec3_length(&test, view);
 		j = 0;
-		while (obj->poly[i]->s[j] != 0)
+		c = 1;
+		ab = 0;
+		while (j < obj->poly[i]->ns)
 		{
 			vec3_sub(&interinfo->intersect, obj->poly[i]->s[j], &vp);
 			vec3_crossproduct(obj->poly[i]->e[j], &vp, &vc);
 			if (a > b)
 			{
-				if (vec3_dotproduct(obj->poly[i]->n, &vc) < 0)
-					return (0);
+				ab = a > b;
+				if (vec3_dotproduct(&obj->poly[i]->n, &vc) < 0)
+					c = 0;
 			}
-			else if (vec3_dotproduct(obj->poly[i]->n, &vc) > 0)
-				break;
+			else if (vec3_dotproduct(&obj->poly[i]->n, &vc) > 0)
+				c = 0;
 			j++;
 		}
-		if (a > b)
-			vec3_reverse(&interinfo->normal);
+		if (c == 1)
+		{
+			tmpdist = vec3_length(&interinfo->intersect, view);
+			if (tmpdist < dist)
+			{
+				dist = tmpdist;
+				inter_cpy(&interinfo_tmp, interinfo);
+				if (ab)
+					vec3_reverse(&interinfo_tmp.normal);
+			}
+		}
+		if (a > b && c == 1)
+		 	vec3_reverse(&interinfo->normal);
 		i++;
 	}
-	return (1);
+	if (dist != 99999999)
+	{
+		inter_cpy(interinfo, &interinfo_tmp);
+		return (1);
+	}
+	return (0);
 }
 
 int				render_composed(t_interinfo *interinfo, t_vec3 *view, t_obj *obj, t_vec3 vdir)
