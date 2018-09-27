@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/05 17:04:02 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 16:50:16 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 17:23:04 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -192,32 +192,22 @@ static void		ft_reflect(t_mlx *mlx, double *coeff)
 {
 	t_phong			phong;
 	t_vec3 			view;
-	int				i;
-	int 			j;
-	
-	i = -1;
+
 	if (mlx->id != -1 && mlx->scene->objs[mlx->id]->material.reflectivity > 0.0)
 	{
+		*coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
 		view_correction(mlx, &view, 0);
 		get_reflected_ray(mlx);
-		while (++i < mlx->reg / mlx->aa)
-		{
-			j = -1;
-			while (++j < mlx->reg / mlx->aa)
-			{
-				reset(&phong, NULL, mlx);
-				mlx->id = intersect(mlx, &view, mlx->vdir);
-				if (mlx->id != -1)
-					while (++mlx->i < mlx->scene->nb_spot)
-						light_intersect(mlx, mlx->scene->objs[mlx->id]
-						, mlx->scene->spot[mlx->i], &phong);
-				if (mlx->id == -1)
-						return ;
-				phong_calcfinal(&phong, mlx->scene->nb_spot);
-				ft_average(mlx, &phong.material.color, *coeff);
-			}
-		}
-		*coeff *= mlx->scene->objs[mlx->id]->material.reflectivity;
+		reset(&phong, NULL, mlx);
+		mlx->id = intersect(mlx, &view, mlx->vdir);
+		if (mlx->id != -1)
+			while (++mlx->i < mlx->scene->nb_spot)
+				light_intersect(mlx, mlx->scene->objs[mlx->id]
+				, mlx->scene->spot[mlx->i], &phong);
+		if (mlx->id == -1)
+				return ;
+		phong_calcfinal(&phong, mlx->scene->nb_spot);
+		ft_average(mlx, &phong.material.color, *coeff);
 	}
 }
 
@@ -249,7 +239,6 @@ static void		ft_aa(t_mlx *mlx, double x, double y)
 		}
 		y = y + (1.0 / mlx->aa);
 	}
-
 	while (it < MAX_ITERATION)
 	{
 		if (mlx->id == -1)
