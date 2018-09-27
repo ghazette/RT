@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/19 10:58:41 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:52:56 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ t_mlx			*mlx_init_all(char *window_name)
 	if (!(mlx = (t_mlx*)malloc(sizeof(t_mlx))))
 		return (NULL);
 	mlx->mlx = mlx_init();
-	if (!(mlx->interf = (t_interface*)malloc(sizeof(t_interface))))
+	if (!(mlx->interf = malloc(sizeof(t_interface))))
 		return (NULL);
 	if (!(mlx->win = mlx_new_window(mlx->mlx, WIN_W +
 		INTER_WIDTH, WIN_H, window_name)))
@@ -32,18 +32,22 @@ t_mlx			*mlx_init_all(char *window_name)
 	mlx->line_cnt = 0;
 	mlx->aa = 1.0;
 	mlx->effect = 0;
+	mlx->ambient = 0.1;
+	mlx->aaoff = 0;
 	return (mlx);
 }
 
 static int		cpy_texture(t_sce *scene, t_sce *src, int i)
 {
 	size_t	size;
+
 	if (src->objs[i]->texture.data)
 	{
 		size = (4 * src->objs[i]->texture.width) * src->objs[i]->texture.height;
 		if (!(scene->objs[i]->texture.data = malloc(sizeof(char) * size)))
 			return (0);
-		ft_memcpy(scene->objs[i]->texture.data, src->objs[i]->texture.data, size);
+		ft_memcpy(scene->objs[i]->texture.data, src->objs[i]->texture.data,
+					size);
 		scene->objs[i]->texture.width = src->objs[i]->texture.width;
 		scene->objs[i]->texture.height = src->objs[i]->texture.height;
 	}
@@ -51,7 +55,6 @@ static int		cpy_texture(t_sce *scene, t_sce *src, int i)
 		scene->objs[i]->texture.data = NULL;
 	return (1);
 }
-
 
 static int		obj_cpy(t_sce *scene, t_sce *src)
 {
@@ -69,15 +72,27 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 			return (0);
 		scene->objs[i]->radius = src->objs[i]->radius;
 		scene->objs[i]->poly = src->objs[i]->poly;
-		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x, src->objs[i]->pos.y, src->objs[i]->pos.z);
-		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x, src->objs[i]->dir.y, src->objs[i]->dir.z);
-		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x, src->objs[i]->rot.y, src->objs[i]->rot.z);
-		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x, src->objs[i]->color.y, src->objs[i]->color.z);
+		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x,
+					src->objs[i]->pos.y, src->objs[i]->pos.z);
+		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x,
+					src->objs[i]->dir.y, src->objs[i]->dir.z);
+		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x,
+					src->objs[i]->rot.y, src->objs[i]->rot.z);
+		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x,
+					src->objs[i]->color.y, src->objs[i]->color.z);
 		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
-		scene->objs[i]->material.reflectivity = src->objs[i]->material.reflectivity;
-		scene->objs[i]->material.refraction = src->objs[i]->material.refraction;
-		vector3d(&(scene->objs[i]->material.color), src->objs[i]->material.color.x, src->objs[i]->material.color.y, src->objs[i]->material.color.z);
-		vector3d(&(scene->objs[i]->material.specular), src->objs[i]->material.specular.x, src->objs[i]->material.specular.y, src->objs[i]->material.specular.z);
+		scene->objs[i]->material.reflectivity =
+					src->objs[i]->material.reflectivity;
+		scene->objs[i]->material.refraction =
+					src->objs[i]->material.refraction;
+		vector3d(&(scene->objs[i]->material.color),
+					src->objs[i]->material.color.x,
+					src->objs[i]->material.color.y,
+					src->objs[i]->material.color.z);
+		vector3d(&(scene->objs[i]->material.specular),
+					src->objs[i]->material.specular.x,
+					src->objs[i]->material.specular.y,
+					src->objs[i]->material.specular.z);
 		scene->objs[i]->render_func = src->objs[i]->render_func;
 		if (!(cpy_texture(scene, src, i)))
 			return (0);

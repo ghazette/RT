@@ -57,7 +57,7 @@ OBJECT
     radius 10
     ambient 5
     specular 200 200 200
-    color 40 210 150
+    color 0 0 0
 }
 
 OBJECT

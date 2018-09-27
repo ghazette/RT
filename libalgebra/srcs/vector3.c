@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/11 09:30:33 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/06 15:33:57 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/21 15:23:47 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,9 +35,12 @@ t_vec3	*vec3_mult(t_vec3 *v1, t_vec3 *v2, t_vec3 *res)
 
 void	vec3_normalizeby(t_vec3 *v, double n)
 {
-	v->x /= n;
-	v->y /= n;
-	v->z /= n;
+	if (v->x != 0)
+		v->x /= n;
+	if (v->y != 0)
+		v->y /= n;
+	if (v->z != 0)
+		v->z /= n;
 }
 
 double	ft_reg(double x, double min, double max)

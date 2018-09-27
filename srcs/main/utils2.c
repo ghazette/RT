@@ -12,10 +12,10 @@
 /* ************************************************************************** */
 
 #include "../../includes/rtv1.h"
-
+/*
 void	print_poly(__attribute__((unused)) t_poly *poly)
 {
-	/*int	nbv;
+	int	nbv;
 	int i;
 
 	i = 0;
@@ -34,5 +34,5 @@ void	print_poly(__attribute__((unused)) t_poly *poly)
 	{
 		printf("%s\n",parse_vec(*poly->e[i]));
 		i++;
-	}*/
-}
+	}
+}*/

@@ -6,14 +6,14 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 16:24:31 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 10:08:34 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 11:51:21 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/rtv1.h"
 
-static int	is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
+static int		is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
 {
 	int				i;
 	double			len;
@@ -38,13 +38,13 @@ static int	is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
 	return (lightblocked);
 }
 
-static void apply_texture(t_interinfo *interinfo, t_obj *obj)
+static void		apply_texture(t_interinfo *interinfo, t_obj *obj)
 {
 	if (obj->type == SPHERE)
 		apply_sphere_texture(interinfo, obj);
 }
 
-void		light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
+void			light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 	t_phong *phong)
 {
 	t_vec3		light_vec;
@@ -64,7 +64,7 @@ void		light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 		phong->spot = spot;
 		phong->obj = obj;
 		if (obj->texture.data != NULL)
-				apply_texture(mlx->scene->interinfo, obj);
+			apply_texture(mlx->scene->interinfo, obj);
 		phong_calc(phong);
 	}
 }

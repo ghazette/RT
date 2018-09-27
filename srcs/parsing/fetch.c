@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/13 10:23:23 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:48:45 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,7 +58,7 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 				return (0);
 		}
 	if (!ft_strcmp(split[0], "radius"))
-		obj->radius = ft_atoi(split[1]);
+		obj->radius = llabs(ft_atoi(split[1]));
 	if (!ft_strcmp(split[0], "specular"))
 	{
 		if (ft_heightlen(split) == 4)
@@ -69,12 +69,16 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 		}
 	}
 	if (!ft_strcmp(split[0], "ambient"))
-		if ((obj->material.ambient = (double)ft_atoi(split[1]) / 100.0) < 0)
+		if ((obj->material.ambient = fabs((double)ft_atoi(split[1]) / 100.0) < 0))
 			return (0);
 	if (!ft_strcmp(split[0], "height"))
-		obj->height = ft_atoi(split[1]);
+		obj->height = llabs(ft_atoi(split[1]));
 	if (!ft_strcmp(split[0], "width"))
-		obj->width = ft_atoi(split[1]);
+		obj->width = llabs(ft_atoi(split[1]));
+	if (!ft_strcmp(split[0], "reflection"))
+		obj->material.reflectivity = fabs(ft_atof(split[1]));
+	if (!ft_strcmp(split[0], "refraction"))
+		obj->material.refraction = fabs(ft_atof(split[1]));
 	ft_free2d(&split);
 	return (1);
 }
@@ -99,23 +103,31 @@ static int		fetch_object_array(t_obj *obj, char **split)
 		if (!(obj->type = type_define(split[1], obj)))
 			return (0);
 	if (!ft_strcmp(split[0], "texture"))
-		if (split[1] && !(obj->texture.data = import_bmp(split[1], &(obj->texture.width), &(obj->texture.height))))
+		if (split[1] && !(obj->texture.data = import_bmp(split[1],
+						&(obj->texture.width), &(obj->texture.height))))
 			return (0);
 	if (!ft_strcmp(split[0], "obj_src") && split[1])
 		if (!(fetch_obj(split[1], &obj)))
 			return (0);
-		return (fetch_object_array_help(obj, split));
+	return (fetch_object_array_help(obj, split));
 }
 
-static int		check_object(t_obj *obj)
+static int		check_object(int *aaoff, t_obj *obj)
 {
 	if (!obj->name)
 		if (!(obj->name = ft_strdup("NONE")))
 			return (0);
 	if (!obj->type)
 		return (0);
+	if (obj->type == CONE)
+		obj->material.refraction = 0;
+	if (obj->material.refraction > 0.0)
+		obj->material.reflectivity = 1.0;
+	if (obj->material.refraction > 0.0 || obj->material.reflectivity > 0.0)
+		*aaoff = 1;
 	return (1);
 }
+
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
@@ -130,7 +142,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 		if (!ft_strcmp(line, "}"))
 		{
 			mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
-			if (!check_object(mlx->scene->objs[mlx->scene->nb_obj]))
+			if (!check_object(&mlx->aaoff, mlx->scene->objs[mlx->scene->nb_obj]))
 				return (0);
 			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= SPHERE)
 				rotate(mlx->scene->objs[mlx->scene->nb_obj]);

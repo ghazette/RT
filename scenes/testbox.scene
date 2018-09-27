@@ -1,0 +1,116 @@
+#SCENE TEST0
+CAMERA
+{
+    position -40 -50 -99
+    rotation 0 0 0
+    lookat 0 -80 90
+    focal 1
+}
+
+AA1
+
+AMB5
+
+OBJECT
+{
+    name SPHERE
+    type SPHERE
+    position 25 -80 45
+    rotation 0 0 0
+    radius 3
+    ambient 2
+    specular 80 80 80
+    color 0 255 0
+}
+
+OBJECT
+{
+    name CONE
+    type CYLINDER
+    position -25 0 20
+    rotation 0 0 0
+    radius 4
+    ambient 4
+    specular 80 80 80
+    color 0 255 0
+}
+
+OBJECT
+{
+    name TESTING
+    type SPHERE
+    reflection 0.6
+    position 0 -80 50
+    rotation 0 0 0
+    radius 15
+    ambient 4
+    specular 120 50 50
+    color 100 100 100
+}
+
+OBJECT
+{
+    name front
+    type PLANE
+    position 0 0 100
+    rotation 0 0 0
+    ambient 2
+    specular 80 80 80
+    color 150 150 150
+}
+
+OBJECT
+{
+    name behind
+    type PLANE
+    position 0 0 -100
+    rotation 0 0 0
+    ambient 2
+    specular 80 80 80
+    color 0 0 0
+}
+
+OBJECT
+{
+    name left
+    type PLANE
+    position -100 0 0
+    rotation 0 90 0
+    ambient 2
+    specular 80 80 80
+    color 110 110 110
+}
+
+OBJECT
+{
+    name right
+    type PLANE
+    position 100 0 0
+    rotation 0 90 0
+    ambient 2
+    specular 80 80 80
+    color 90 90 90
+}
+
+OBJECT
+{
+    name top
+    type PLANE
+    position 0 100 0
+    rotation 90 0 0
+    ambient 2
+    specular 80 80 80
+    color 90 90 90
+}
+
+OBJECT
+{
+    name bottom
+    type PLANE
+    reflection 0.6
+    position 0 -100 0
+    rotation 90 0 0
+    ambient 2
+    specular 80 80 80
+    color 90 90 90
+}

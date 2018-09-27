@@ -67,19 +67,19 @@ static void		display_scene(t_mlx *mlx)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 20 +
 			mlx->interf->offset, 0xFFFFFF, str);
 	if (!(nb = ft_itoa(WIN_W)))
-		return;
+		return ;
 	ft_strcat(ft_strcpy(str, "resolution: "), nb);
 	ft_strdel(&nb);
 	if (!(nb = ft_itoa(WIN_H)))
-		return;
+		return ;
 	ft_strcat(ft_strcat(str, "x"), nb);
 	ft_strdel(&nb);
 	if (mlx->interf->offset + BTNHEIGHT + 35 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 35 +
 			mlx->interf->offset, 0xFFFFFF, str);
-		ft_bzero(str, 200);
+	ft_bzero(str, 200);
 	if (!(nb = ft_itoa(mlx->aa)))
-		return;
+		return ;
 	ft_strcat(ft_strcat(str, "anti-aliasing: "), nb);
 	if (mlx->interf->offset + BTNHEIGHT + 50 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 50 +

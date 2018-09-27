@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/08 06:13:06 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/17 17:23:27 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/21 14:03:47 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,33 +24,33 @@ static void	reset_rot(t_cam *cam, t_obj *obj)
 static void	rot_object(t_obj *obj, int key)
 {
 	if (key == FOUR)
-		obj->rot.y += DEGTORAD(8);
+		obj->rot.y += 8;
 	if (key == SIX)
-		obj->rot.y -= DEGTORAD(8);
+		obj->rot.y -= 8;
 	if (key == EIGHT)
-		obj->rot.x += DEGTORAD(8);
+		obj->rot.x += 8;
 	if (key == TWO)
-		obj->rot.x -= DEGTORAD(8);
+		obj->rot.x -= 8;
 	if (key == SEVEN)
-		obj->rot.z += DEGTORAD(8);
+		obj->rot.z += 8;
 	if (key == NINE)
-		obj->rot.z -= DEGTORAD(8);
+		obj->rot.z -= 8;
 }
 
 static void	rot_camera(t_cam *cam, int key)
 {
 	if (key == FOUR)
-		cam->rot.y += DEGTORAD(5);
+		cam->rot.y += 5;
 	if (key == SIX)
-		cam->rot.y -= DEGTORAD(5);
+		cam->rot.y -= 5;
 	if (key == EIGHT)
-		cam->rot.x += DEGTORAD(5);
+		cam->rot.x += 5;
 	if (key == TWO)
-		cam->rot.x -= DEGTORAD(5);
+		cam->rot.x -= 5;
 	if (key == SEVEN)
-		cam->rot.z += DEGTORAD(5);
+		cam->rot.z += 5;
 	if (key == NINE)
-		cam->rot.z -= DEGTORAD(5);
+		cam->rot.z -= 5;
 }
 
 void		key_rot(t_mlx *mlx, int key)

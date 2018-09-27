@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:10:55 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/11 16:07:44 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 10:33:29 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,7 +64,7 @@ int		get_nb_obj(char *fn, int ret[2])
 		ft_strdel(&line);
 	}
 	close(fd);
-	if (ret[0] == 0 || ret[1] == 0)
+	if (ret[0] == 0)
 		return (0);
 	return (1);
 }

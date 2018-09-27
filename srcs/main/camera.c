@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/31 17:07:53 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 10:08:22 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/24 12:51:03 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,8 +20,8 @@ void		init_camera(t_mlx *mlx)
 	double	mat[3][3][3];
 
 	cam = mlx->scene->cam;
-	cam->viewplane_width = 0.50;
-	cam->viewplane_height = 0.35;
+	cam->viewplane_width = 1;
+	cam->viewplane_height = 0.7;
 	vector3d(&cam->up_vec, 0, 1, 0);
 	init_matrix(OZ_ROTATION, mat[0], cam->rot.z);
 	vec3_transform(&cam->up_vec, mat[0]);

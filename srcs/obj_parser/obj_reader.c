@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/07 13:03:47 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/13 10:32:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 12:46:10 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,7 +52,7 @@ int				get_obj_data(char *path, int *vertex, int *normal, int *face)
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (0);
 	while (get_next_line(fd, &line) > 0)
-    {
+	{
 		if (line[0] == 'v' && line[1] == ' ')
 			(*vertex)++;
 		if (line[0] == 'f' && line[1] == ' ')
@@ -67,7 +67,7 @@ int				get_obj_data(char *path, int *vertex, int *normal, int *face)
 	return (1);
 }
 
-int			get_obj_vertex(int fd, int vertex, t_obj **obj)
+int				get_obj_vertex(int fd, int vertex, t_obj **obj)
 {
 	int		i;
 	char	*line;
@@ -78,14 +78,15 @@ int			get_obj_vertex(int fd, int vertex, t_obj **obj)
 	if (!((*obj)->s = (t_vec3**)malloc(sizeof(t_vec3*) * (vertex + 1))))
 		return (0);
 	while (get_next_line(fd, &line) > 0)
-    {
+	{
 		if (line[0] == 'v' && line[1] == ' ')
 		{
 			if (!(split = ft_strsplit(line, ' ')))
 				return (0);
 			if (!((*obj)->s[i] = malloc(sizeof(t_vec3))))
 				return (0);
-			vector3d((*obj)->s[i], ft_atof(split[1]), ft_atof(split[2]), ft_atof(split[3]));
+			vector3d((*obj)->s[i], ft_atof(split[1]), ft_atof(split[2]),
+					ft_atof(split[3]));
 			ft_strdel(&line);
 			ft_free2d(&split);
 			i++;
@@ -97,7 +98,7 @@ int			get_obj_vertex(int fd, int vertex, t_obj **obj)
 	return (1);
 }
 
-int			get_obj_normal(int fd, int normal, t_obj **obj)
+int				get_obj_normal(int fd, int normal, t_obj **obj)
 {
 	int		i;
 	char	*line;
@@ -108,14 +109,15 @@ int			get_obj_normal(int fd, int normal, t_obj **obj)
 	if (!((*obj)->n = (t_vec3**)malloc(sizeof(t_vec3*) * (normal + 1))))
 		return (0);
 	while (get_next_line(fd, &line) > 0)
-    {
+	{
 		if (line[0] == 'v' && line[1] == 'n')
 		{
 			if (!(split = ft_strsplit(line, ' ')))
 				return (0);
 			if (!((*obj)->n[i] = malloc(sizeof(t_vec3))))
 				return (0);
-			vector3d((*obj)->n[i], ft_atof(split[1]), ft_atof(split[2]), ft_atof(split[3]));
+			vector3d((*obj)->n[i], ft_atof(split[1]), ft_atof(split[2]),
+					ft_atof(split[3]));
 			ft_strdel(&line);
 			ft_free2d(&split);
 			i++;
@@ -127,7 +129,7 @@ int			get_obj_normal(int fd, int normal, t_obj **obj)
 	return (1);
 }
 
-int			set_obj_face(int fd, int face, t_obj **obj)
+int				set_obj_face(int fd, int face, t_obj **obj)
 {
 	int		i;
 	int		j;
@@ -141,7 +143,7 @@ int			set_obj_face(int fd, int face, t_obj **obj)
 	if (!((*obj)->poly = (t_poly**)malloc(sizeof(t_poly*) * (face + 1))))
 		return (0);
 	while (get_next_line(fd, &line) > 0)
-    {
+	{
 		if (line[0] == 'f' && line[1] == ' ')
 		{
 			if (!(split = ft_strsplit(line, ' ')))
@@ -149,9 +151,11 @@ int			set_obj_face(int fd, int face, t_obj **obj)
 			if (!((*obj)->poly[i] = malloc(sizeof(t_poly))))
 				return (0);
 			slen = ft_heightlen(split);
-			if (!((*obj)->poly[i]->s = (t_vec3**)malloc(sizeof(t_vec3*) * slen)))
+			if (!((*obj)->poly[i]->s = (t_vec3**)malloc(sizeof(t_vec3*)
+														* slen)))
 				return (0);
-			if (!((*obj)->poly[i]->e = (t_vec3**)malloc(sizeof(t_vec3*) * slen)))
+			if (!((*obj)->poly[i]->e = (t_vec3**)malloc(sizeof(t_vec3*)
+														* slen)))
 				return (0);
 			if (!(split2 = ft_strsplit(split[1], '/')))
 				return (0);
@@ -203,5 +207,3 @@ int				fetch_obj(char *path, t_obj **obj)
 		return (0);
 	return (1);
 }
-
-
