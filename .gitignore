@@ -13,3 +13,5 @@ minilibx_macos/libmlx.a
 CMakeLists.txt
 test.c
 scenes/bug.scene
+leaks
+RT.dSYM/
