@@ -13,11 +13,8 @@
 
 #include "../../includes/rtv1.h"
 
-static void	key_minus(t_mlx *mlx)
+static void	key_minus(t_mlx *mlx, t_interface *interf)
 {
-	t_interface *interf;
-
-	interf = mlx->interf;
 	if (!interf->focus)
 	{
 		if (interf->id_select_obj != -1)
@@ -41,11 +38,8 @@ static void	key_minus(t_mlx *mlx)
 	}
 }
 
-static void	key_plus(t_mlx *mlx)
+static void	key_plus(t_mlx *mlx, t_interface *interf)
 {
-	t_interface *interf;
-
-	interf = mlx->interf;
 	if (!interf->focus)
 	{
 		if (interf->id_select_obj != -1)
@@ -90,17 +84,17 @@ int			key_func(int key, void *p)
 	if (key == ESC)
 		exit(0);
 	if (key == UP)
-		key_up(mlx);
+		key_up(mlx, mlx->interf);
 	if (key == DOWN)
-		key_down(mlx);
+		key_down(mlx, mlx->interf);
 	if (key == RIGHT)
-		key_right(mlx);
+		key_right(mlx, mlx->interf);
 	if (key == LEFT)
-		key_left(mlx);
+		key_left(mlx, mlx->interf);
 	if (key == MORE)
-		key_minus(mlx);
+		key_minus(mlx, mlx->interf);
 	if (key == LESS)
-		key_plus(mlx);
+		key_plus(mlx, mlx->interf);
 	ft_effect_key(mlx, key);
 	key_rot(mlx, key);
 	if (key == L)

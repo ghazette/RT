@@ -26,7 +26,7 @@ FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
 FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c objects/composed.c
 FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
 FILENAMES   +=  parsing/file_reader.c parsing/parse.c
-FILENAMES   +=  obj_parser/obj_reader.c
+FILENAMES   +=  obj_parser/obj_reader.c obj_parser/obj_help.c
 
 OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 
