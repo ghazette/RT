@@ -6,14 +6,14 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:13:10 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 10:35:45 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 12:54:04 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/rtv1.h"
 
-int		render_sphere(t_interinfo *interinfo, t_vec3 *view,
+int				render_sphere(t_interinfo *interinfo, t_vec3 *view,
 	t_obj *obj, t_vec3 vdir)
 {
 	t_calc		sph;
@@ -44,7 +44,7 @@ int		render_sphere(t_interinfo *interinfo, t_vec3 *view,
 
 static void		rotate_sphere_texture(t_obj *obj)
 {
-	double 	mat[3][3][3];
+	double	mat[3][3][3];
 
 	if (obj->rot.x != 0)
 	{
@@ -75,7 +75,8 @@ void			apply_sphere_texture(t_interinfo *interinfo, t_obj *obj)
 	obj->texture.v = obj->texture.phi / PI;
 	obj->texture.theta = (acos(-vec3_dotproduct(&(obj->texture.vp),
 	&(obj->texture.ve)) / sin(obj->texture.phi))) / (2 * PI);
-	vec3_crossproduct(&(obj->texture.vn), &(obj->texture.ve), &(obj->texture.res));
+	vec3_crossproduct(&(obj->texture.vn),
+					&(obj->texture.ve), &(obj->texture.res));
 	if ((vec3_dotproduct(&(obj->texture.res), &(obj->texture.vp))) > 0)
 		obj->texture.u = obj->texture.theta;
 	else

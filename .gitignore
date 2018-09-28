@@ -10,3 +10,4 @@ libft/libft.a
 libbmp/libbmp.a
 libalgebra/libalgebra.a
 minilibx_macos/libmlx.a
+CMakeLists.txt

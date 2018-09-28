@@ -13,6 +13,26 @@
 
 #include "../../includes/rtv1.h"
 
+void	transform_composed(t_obj **obj, double mat[3][3])
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < (*obj)->npoly)
+	{
+		j = 0;
+		while (j < (*obj)->poly[i]->ns)
+		{
+			vec3_sub((*obj)->poly[i]->s[j], &(*obj)->pos, (*obj)->poly[i]->s[j]);
+			vec3_transform((*obj)->poly[i]->s[j], mat);
+			vec3_add((*obj)->poly[i]->s[j], &(*obj)->pos, (*obj)->poly[i]->s[j]);
+			j++;
+		}
+		calc_edge((*obj)->poly[i], 1);
+		i++;
+	}
+}
 
 void	rotate(t_obj *obj)
 {
@@ -25,60 +45,24 @@ void	rotate(t_obj *obj)
 	if (obj->rot.x != 0)
 	{
 		init_matrix(OX_ROTATION, matx, obj->rot.x);
-		if(obj->type == COMPOSED)
-		{
-			while (i < obj->npoly)
-			{
-				j = 0;
-				while (j < obj->poly[i]->ns)
-				{
-					vec3_transform(obj->poly[i]->s[j], matx);
-					j++;
-				}
-				vec3_transform(&obj->poly[i]->n, matx);
-				i++;
-			}
-		}
+		if (obj->type == COMPOSED)
+			transform_composed(&obj, matx);
 		else
 			vec3_transform(&obj->dir, matx);
 	}
 	if (obj->rot.y != 0)
 	{
 		init_matrix(OY_ROTATION, maty, obj->rot.y);
-		if(obj->type == COMPOSED)
-		{
-			while (i < obj->npoly)
-			{
-				j = 0;
-				while (j < obj->poly[i]->ns)
-				{
-					vec3_transform(obj->poly[i]->s[j], maty);
-					j++;
-				}
-				vec3_transform(&obj->poly[i]->n, maty);
-				i++;
-			}
-		}
+		if (obj->type == COMPOSED)
+			transform_composed(&obj, maty);
 		else
 			vec3_transform(&obj->dir, maty);
 	}
 	if (obj->rot.z != 0)
 	{
 		init_matrix(OZ_ROTATION, matz, obj->rot.z);
-		if(obj->type == COMPOSED)
-		{
-			while (i < obj->npoly)
-			{
-				j = 0;
-				while (j < obj->poly[i]->ns)
-				{
-					vec3_transform(obj->poly[i]->s[j], matz);
-					j++;
-				}
-				vec3_transform(&(obj)->poly[i]->n, matz);
-				i++;
-			}
-		}
+		if (obj->type == COMPOSED)
+			transform_composed(&obj, matz);
 		else
 			vec3_transform(&(obj)->dir, matz);
 	}

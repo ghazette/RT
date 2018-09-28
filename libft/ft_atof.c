@@ -6,7 +6,7 @@
 /*   By: mkulhand <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/11 12:41:47 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 12:41:48 by mkulhand    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 12:32:51 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,14 +15,17 @@
 
 double		ft_atof(const char *str)
 {
-	double	ret;
-	char	**split;
 	int		i;
+	int		neg;
+	char	**split;
+	double	ret;
 	double	expo;
 
 	if ((split = ft_strsplit(str, '.')) != NULL)
 	{
 		ret = ft_atoi(split[0]);
+		neg = (split[0][0] == '-') ? 1 : 0;
+		ret = (ret < 0) ? -ret : ret;
 		i = 0;
 		expo = 10;
 		if (!split[1])
@@ -36,6 +39,7 @@ double		ft_atof(const char *str)
 			i++;
 			expo *= 10;
 		}
+		ret = (neg) ? -ret : ret;
 		ft_free2d(&split);
 		return (ret);
 	}

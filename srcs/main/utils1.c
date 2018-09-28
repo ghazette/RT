@@ -6,18 +6,20 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 11:08:48 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/18 16:43:42 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/rtv1.h"
 
-void		inter_cpy(t_interinfo *dest, t_interinfo *src)
+int			inter_cpy(t_interinfo *dest, t_interinfo *src)
 {
 	vector3d(&dest->intersect, src->intersect.x,
 		src->intersect.y, src->intersect.z);
 	vector3d(&dest->normal, src->normal.x, src->normal.y, src->normal.z);
+	dest->dist = src->dist;
+	return (1);
 }
 
 void		export_button(t_mlx *mlx, int color)
@@ -50,7 +52,10 @@ t_obj		*new_object(void)
 	obj->texture.data = NULL;
 	obj->width = 0;
 	obj->height = 0;
+	obj->depth = 0;
 	obj->form = 0;
+	obj->npoly = 0;
+	obj->poly = NULL;
 	vector3d(&obj->pos, 0, 0, 0);
 	vector3d(&obj->rot, 0, 0, 0);
 	vector3d(&obj->dir, 0, 0, 0);
@@ -58,6 +63,7 @@ t_obj		*new_object(void)
 	vector3d(&obj->material.specular, 200.0 / 255.0, 200.0 / 255.0,
 		150.0 / 255.0);
 	obj->material.ambient = 0.03;
+	obj->material.reflectivity = 00;
 	return (obj);
 }
 

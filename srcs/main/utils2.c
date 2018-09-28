@@ -13,26 +13,29 @@
 
 #include "../../includes/rtv1.h"
 
-void	print_poly(__attribute__((unused)) t_poly *poly)
+void	free_poly(t_obj *obj)
 {
-	/*int	nbv;
 	int i;
+	int j;
 
 	i = 0;
-	printf("%d\n", poly->nvertex);
-	printf("vertex:\n");
-	while (poly->n[i] != 0)
+	if (obj->npoly > 0)
 	{
-		printf("%s\n", parse_vec(*startPtr));
-		printf("%f\n", poly->s[0]->x);
-		printf("%s\n",parse_vec(*poly->s[i]));
-		i++;
+		while (i < obj->npoly)
+		{
+			j = 0;
+			while (j < obj->poly[i]->ns)
+			{
+				free(obj->poly[i]->s[j]);
+				free(obj->poly[i]->e[j]);
+				j++;;
+			}	
+			free(obj->poly[i]->s);
+			free(obj->poly[i]->e);
+			free(obj->poly[i]);
+			obj->poly[i] = NULL;
+			i++;
+		}
+		free(obj->poly);
 	}
-	i = 0;
-	printf("edges:\n");
-	while (poly->n[i] != 0)
-	{
-		printf("%s\n",parse_vec(*poly->e[i]));
-		i++;
-	}*/
 }

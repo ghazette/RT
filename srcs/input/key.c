@@ -13,6 +13,46 @@
 
 #include "../../includes/rtv1.h"
 
+void	move_composed(t_obj **obj, char c, int sign)
+{
+	int i;
+	int j;
+	double *ptr_s;
+	double *ptr_e;
+
+	i = 0;
+	while (i < (*obj)->npoly)
+	{
+		j = 0;
+		while (j < (*obj)->poly[i]->ns)
+		{
+			if (c == 'x')
+			{
+				ptr_s = &(*obj)->poly[i]->s[j]->x;
+				ptr_e = &(*obj)->poly[i]->e[j]->x;
+			}
+			if (c == 'y')
+			{
+				ptr_s = &(*obj)->poly[i]->s[j]->y;
+				ptr_e = &(*obj)->poly[i]->e[j]->y;
+			}
+			if (c == 'z')
+			{
+				ptr_s = &(*obj)->poly[i]->s[j]->z;
+				ptr_e = &(*obj)->poly[i]->e[j]->z;
+			}
+			if (sign == ADD)
+				(*ptr_s)++;
+			else if (sign == SUB)
+				(*ptr_s)--;
+			j++;
+			ptr_s = 0;
+		}
+		calc_edge((*obj)->poly[i], 0);
+		i++;
+	}
+}
+
 void	key_up(t_mlx *mlx)
 {
 	if (mlx->interf->focus)
@@ -22,7 +62,11 @@ void	key_up(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'y', ADD);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.y++;
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.y++;
@@ -43,12 +87,16 @@ void	key_down(t_mlx *mlx)
 		inter_select_down(mlx);
 	else
 	{
+
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
 			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'y', SUB);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.y--;
-				vec3_reverse(&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
+				vec3_reverse(
+						&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
 			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
@@ -71,7 +119,12 @@ void	key_right(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type ==
+					COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'x', ADD);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.x++;
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.x++;
@@ -93,7 +146,11 @@ void	key_left(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'x', SUB);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.x--;
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.x--;

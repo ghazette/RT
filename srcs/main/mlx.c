@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:11:09 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/19 13:05:55 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,18 +31,21 @@ t_mlx			*mlx_init_all(char *window_name)
 		&mlx->bpp, &mlx->line, &mlx->ed);
 	mlx->line_cnt = 0;
 	mlx->aa = 1.0;
+	mlx->effect = 0;
 	return (mlx);
 }
 
 static int		cpy_texture(t_sce *scene, t_sce *src, int i)
 {
 	size_t	size;
+
 	if (src->objs[i]->texture.data)
 	{
 		size = (4 * src->objs[i]->texture.width) * src->objs[i]->texture.height;
 		if (!(scene->objs[i]->texture.data = malloc(sizeof(char) * size)))
 			return (0);
-		ft_memcpy(scene->objs[i]->texture.data, src->objs[i]->texture.data, size);
+		ft_memcpy(scene->objs[i]->texture.data, src->objs[i]->texture.data,
+					size);
 		scene->objs[i]->texture.width = src->objs[i]->texture.width;
 		scene->objs[i]->texture.height = src->objs[i]->texture.height;
 	}
@@ -51,28 +54,24 @@ static int		cpy_texture(t_sce *scene, t_sce *src, int i)
 	return (1);
 }
 
-static t_poly *poly_cpy(t_poly *poly, t_poly *src)
+static void poly_cpy(t_poly **poly, t_poly *src)
 {
 	int i;
 	
 	i = 0;
-	poly = malloc(sizeof(t_poly));
-	poly->s = malloc(sizeof(t_vec3) * src->ns);
-	poly->e = malloc(sizeof(t_vec3) * src->ns);
-	poly->ns = src->ns;
-	poly->n = src->n;
-	// printf("ns: %d\n", src->ns);
-	while (i < poly->ns)
+	(*poly) = malloc(sizeof(t_poly));
+	(*poly)->s = malloc(sizeof(t_vec3*) * src->ns);
+	(*poly)->e = malloc(sizeof(t_vec3*) * src->ns);
+	(*poly)->ns = src->ns;
+	vec3_cpy(&(*poly)->n, &src->n);
+	while (i < (*poly)->ns)
 	{
-		poly->s[i] = malloc(sizeof(t_vec3));
-		poly->e[i] = malloc(sizeof(t_vec3));
-		// printf("s %d : s: %f %f %f\n", i, src->s[i]->x, src->s[i]->y, src->s[i]->z);
-		poly->s[i] = vector3d(poly->s[i], src->s[i]->x, src->s[i]->y, src->s[i]->z);
-		poly->e[i] = vector3d(poly->e[i], src->e[i]->x, src->e[i]->y, src->e[i]->z);
-		// printf("i: %d\n", i);
+		(*poly)->s[i] = malloc(sizeof(t_vec3));
+		(*poly)->e[i] = malloc(sizeof(t_vec3));
+		vec3_cpy((*poly)->s[i], src->s[i]);
+		vec3_cpy((*poly)->e[i], src->e[i]);
 		i++;
 	}
-	return (poly);
 }
 
 static int		obj_cpy(t_sce *scene, t_sce *src)
@@ -87,29 +86,41 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 		scene->objs[i] = (t_obj*)malloc(sizeof(t_obj));
 		scene->objs[i]->id = src->objs[i]->id;
 		scene->objs[i]->type = src->objs[i]->type;
-		// scene->objs[i]->poly = src->objs[i]->poly;
 		if (scene->objs[i]->type == COMPOSED)
 		{
-			scene->objs[i]->poly = malloc(sizeof(src->objs[i]->poly));
+			scene->objs[i]->form = src->objs[i]->form;
+			scene->objs[i]->poly = (t_poly**)malloc(sizeof(t_poly*) * src->objs[i]->npoly);
 			scene->objs[i]->npoly = src->objs[i]->npoly;
 			int j = 0;
 			while (j < scene->objs[i]->npoly)
 			{
-				scene->objs[i]->poly[j] = poly_cpy(scene->objs[i]->poly[j], src->objs[i]->poly[j]);
+				poly_cpy(&scene->objs[i]->poly[j], src->objs[i]->poly[j]);
 				j++;
 			}
 		}
-		// exit(0);
 		if (!(scene->objs[i]->name = ft_strdup(src->objs[i]->name)))
 			return (0);
+
 		scene->objs[i]->radius = src->objs[i]->radius;
-		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x, src->objs[i]->pos.y, src->objs[i]->pos.z);
-		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x, src->objs[i]->dir.y, src->objs[i]->dir.z);
-		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x, src->objs[i]->rot.y, src->objs[i]->rot.z);
-		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x, src->objs[i]->color.y, src->objs[i]->color.z);
+		vector3d(&(scene->objs[i]->pos), src->objs[i]->pos.x,
+					src->objs[i]->pos.y, src->objs[i]->pos.z);
+		vector3d(&(scene->objs[i]->dir), src->objs[i]->dir.x,
+					src->objs[i]->dir.y, src->objs[i]->dir.z);
+		vector3d(&(scene->objs[i]->rot), src->objs[i]->rot.x,
+					src->objs[i]->rot.y, src->objs[i]->rot.z);
+		vector3d(&(scene->objs[i]->color), src->objs[i]->color.x,
+					src->objs[i]->color.y, src->objs[i]->color.z);
 		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
-		vector3d(&(scene->objs[i]->material.color), src->objs[i]->material.color.x, src->objs[i]->material.color.y, src->objs[i]->material.color.z);
-		vector3d(&(scene->objs[i]->material.specular), src->objs[i]->material.specular.x, src->objs[i]->material.specular.y, src->objs[i]->material.specular.z);
+		scene->objs[i]->material.reflectivity =
+					src->objs[i]->material.reflectivity;
+		vector3d(&(scene->objs[i]->material.color),
+					src->objs[i]->material.color.x,
+					src->objs[i]->material.color.y,
+					src->objs[i]->material.color.z);
+		vector3d(&(scene->objs[i]->material.specular),
+					src->objs[i]->material.specular.x,
+					src->objs[i]->material.specular.y,
+					src->objs[i]->material.specular.z);
 		scene->objs[i]->render_func = src->objs[i]->render_func;
 		if (!(cpy_texture(scene, src, i)))
 			return (0);
@@ -150,6 +161,7 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	mlx->line = src->line;
 	mlx->ed = src->ed;
 	mlx->aa = src->aa;
+	mlx->effect = src->effect;
 	if (!(mlx->scene = scene_cpy(src->scene)))
 		return (NULL);
 	return (mlx);

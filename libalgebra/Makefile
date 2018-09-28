@@ -13,7 +13,7 @@
 
 NAME		=	libalgebra.a
 HEADER		=   ./includes/
-FILENAMES   =   ft_memset.c matrix.c vector.c vector2.c vector3.c
+FILENAMES   =   ft_memset.c matrix.c vector.c vector2.c vector3.c vector4.c
 
 SOURCES     =   $(addprefix srcs/, $(FILENAMES))
 OBJECTS     =   $(addprefix build/, $(FILENAMES:.c=.o))

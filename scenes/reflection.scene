@@ -1,0 +1,68 @@
+#SCENE TEST0
+CAMERA
+{
+    position 0 100 -800
+    rotation 0 0 0
+    lookat 0 0 0
+    focal 1
+}
+
+AA1
+
+OBJECT
+{
+    name SPH_R
+    type SPHERE
+    rotation 0 0 0
+    position 80 0 -50
+    ambient 2
+    radius 30
+    specular 120 120 120
+    color 255 0 0
+}
+
+OBJECT
+{
+    name SPH_G
+    type SPHERE
+    rotation 0 0 0
+    position 0 0 -50
+    ambient 2
+    radius 30
+    specular 120 120 120
+    color 0 255 0
+}
+
+OBJECT
+{
+    name SPH_B
+    type SPHERE
+    rotation 0 0 0
+    position -80 0 -50
+    ambient 2
+    radius 30
+    specular 120 120 120
+    color 0 0 255
+}
+
+OBJECT
+{
+    name CYL
+    type CYLINDER
+    rotation 0 0 0
+    position 0 0 150
+    ambient 2
+    radius 30
+    specular 120 120 120
+    color 85 98 156
+}
+
+SPOT
+{
+    ambient 2
+    position 0 0 -200
+    name SPOT0
+    type SPOT
+    specular 255 200 200
+    color 200 200 200
+}

@@ -20,7 +20,11 @@ static void	key_minus(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'z', SUB);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.z--;
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.z--;
@@ -41,7 +45,11 @@ static void	key_plus(t_mlx *mlx)
 		if (mlx->interf->id_select_obj != -1)
 		{
 			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
+					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'z', ADD);
 				mlx->scene->objs[mlx->interf->id_select_obj]->pos.z++;
+			}
 			else
 				mlx->scene->spot[mlx->interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.z++;
@@ -55,16 +63,14 @@ static void	key_plus(t_mlx *mlx)
 	}
 }
 
-static void	antialiasing_key(t_mlx *mlx, int key)
+static void	ft_effect_key(t_mlx *mlx, int key)
 {
-	if (key == PAGE_UP)
+	if (key == PAGE_UP && mlx->aa < 4)
 		mlx->aa *= 2;
-	if (key == PAGE_DOWN)
+	if (key == PAGE_DOWN && mlx->aa > 1)
 		mlx->aa /= 2;
-	if (mlx->aa < 1)
-		mlx->aa = 1;
-	if (mlx->aa > 8)
-		mlx->aa = 8;
+	if (key == F)
+		mlx->effect = (mlx->effect < 6) ? mlx->effect += 1 : 0;
 }
 
 int			key_func(int key, void *p)
@@ -86,7 +92,7 @@ int			key_func(int key, void *p)
 		key_minus(mlx);
 	if (key == LESS)
 		key_plus(mlx);
-	antialiasing_key(mlx, key);
+	ft_effect_key(mlx, key);
 	key_rot(mlx, key);
 	if (key == L)
 		mlx->scene->light = (mlx->scene->light) ? 0 : 1;
