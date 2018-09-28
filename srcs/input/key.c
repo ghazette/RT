@@ -40,53 +40,51 @@ void	mv_cmp(t_obj **obj, char c, int sign)
 	}
 }
 
-void	key_up(t_mlx *mlx)
+void	key_up(t_mlx *mlx, t_interface *interf)
 {
-	t_interface *interf;
-
-	interf = mlx->interf;
-	if (mlx->interf->focus)
+	if (interf->focus)
 		inter_select_up(mlx);
-	if (interf->id_select_obj != -1)
-	{
-		if (interf->id_select_obj < mlx->scene->nb_obj)
-		{
-			if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
-				mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'y', ADD);
-			mlx->scene->objs[interf->id_select_obj]->pos.y++;
-		}
-		else
-			mlx->scene->spot[interf->id_select_obj -
-				mlx->scene->nb_obj]->pos.y++;
-	}
 	else
 	{
-		mlx->scene->cam->pos.y += 5;
-		mlx->scene->cam->lookat.y += 5;
-		init_camera(mlx);
-		render(mlx);
+		if (interf->id_select_obj != -1)
+		{
+			if (interf->id_select_obj < mlx->scene->nb_obj)
+			{
+				if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'y', ADD);
+				mlx->scene->objs[interf->id_select_obj]->pos.y++;
+			}
+			else
+				mlx->scene->spot[interf->id_select_obj -
+					mlx->scene->nb_obj]->pos.y++;
+		}
+		else
+		{
+			mlx->scene->cam->pos.y += 5;
+			mlx->scene->cam->lookat.y += 5;
+			init_camera(mlx);
+			render(mlx);
+		}
 	}
 }
 
-void	key_down(t_mlx *mlx)
+void	key_down(t_mlx *mlx, t_interface *interf)
 {
-	if (mlx->interf->focus)
+	if (interf->focus)
 		inter_select_down(mlx);
 	else
 	{
-
-		if (mlx->interf->id_select_obj != -1)
+		if (interf->id_select_obj != -1)
 		{
-			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			if (interf->id_select_obj < mlx->scene->nb_obj)
 			{
-				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
-					mv_cmp(&mlx->scene->objs[mlx->interf->id_select_obj], 'y', SUB);
-				mlx->scene->objs[mlx->interf->id_select_obj]->pos.y--;
-				vec3_reverse(
-						&(mlx->scene->objs[mlx->interf->id_select_obj]->dir));
+				if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'y', SUB);
+				mlx->scene->objs[interf->id_select_obj]->pos.y--;
+				vec3_reverse(&(mlx->scene->objs[interf->id_select_obj]->dir));
 			}
 			else
-				mlx->scene->spot[mlx->interf->id_select_obj -
+				mlx->scene->spot[interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.y--;
 		}
 		else
@@ -99,21 +97,21 @@ void	key_down(t_mlx *mlx)
 	}
 }
 
-void	key_right(t_mlx *mlx)
+void	key_right(t_mlx *mlx, t_interface *interf)
 {
-	if (!mlx->interf->focus)
+	if (!interf->focus)
 	{
-		if (mlx->interf->id_select_obj != -1)
+		if (interf->id_select_obj != -1)
 		{
-			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			if (interf->id_select_obj < mlx->scene->nb_obj)
 			{
-				if (mlx->scene->objs[mlx->interf->id_select_obj]->type ==
+				if (mlx->scene->objs[interf->id_select_obj]->type ==
 					COMPOSED)
-					mv_cmp(&mlx->scene->objs[mlx->interf->id_select_obj], 'x', ADD);
-				mlx->scene->objs[mlx->interf->id_select_obj]->pos.x++;
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'x', ADD);
+				mlx->scene->objs[interf->id_select_obj]->pos.x++;
 			}
 			else
-				mlx->scene->spot[mlx->interf->id_select_obj -
+				mlx->scene->spot[interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.x++;
 		}
 		else
@@ -126,20 +124,20 @@ void	key_right(t_mlx *mlx)
 	}
 }
 
-void	key_left(t_mlx *mlx)
+void	key_left(t_mlx *mlx, t_interface *interf)
 {
-	if (!mlx->interf->focus)
+	if (!interf->focus)
 	{
-		if (mlx->interf->id_select_obj != -1)
+		if (interf->id_select_obj != -1)
 		{
-			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			if (interf->id_select_obj < mlx->scene->nb_obj)
 			{
-				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
-					mv_cmp(&mlx->scene->objs[mlx->interf->id_select_obj], 'x', SUB);
-				mlx->scene->objs[mlx->interf->id_select_obj]->pos.x--;
+				if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'x', SUB);
+				mlx->scene->objs[interf->id_select_obj]->pos.x--;
 			}
 			else
-				mlx->scene->spot[mlx->interf->id_select_obj -
+				mlx->scene->spot[interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.x--;
 		}
 		else

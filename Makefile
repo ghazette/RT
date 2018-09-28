@@ -28,7 +28,7 @@ FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
 FILENAMES   +=  parsing/file_reader.c parsing/parse.c
 FILENAMES   +=  obj_parser/obj_reader.c interface/interface2.c main/obj_cpy.c
 FILENAMES   +=  effects/filters.c effects/reflection.c effects/refraction.c
-
+FILENAMES   +=  obj_parser/obj_reader.c obj_parser/obj_help.c
 
 OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 

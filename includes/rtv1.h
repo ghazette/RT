@@ -329,10 +329,10 @@ int					export_scene(t_mlx *mlx);
 void				left_click(t_mlx *mlx, int x, int y);
 void				scroll_up(t_mlx *mlx, int x, int y);
 void				scroll_down(t_mlx *mlx, int x, int y);
-void				key_up(t_mlx *mlx);
-void				key_down(t_mlx *mlx);
-void				key_right(t_mlx *mlx);
-void				key_left(t_mlx *mlx);
+void				key_up(t_mlx *mlx, t_interface *interf);
+void				key_down(t_mlx *mlx, t_interface *interf);
+void				key_right(t_mlx *mlx, t_interface *interf);
+void				key_left(t_mlx *mlx, t_interface *interf);
 void				key_rot(t_mlx *mlx, int key);
 void				mv_cmp(t_obj **obj, char c, int sign);
 
@@ -350,5 +350,11 @@ int					fetch_obj(char *path, t_obj **obj);
 int					calc_cube(t_obj *obj);
 int					calc_edge(t_poly *poly, int calcnormal);
 void				free_poly(t_obj *obj);
+int					get_obj_vertex(int fd, int vertex,
+	t_obj **obj, t_vec3 ***s);
+int					get_obj_normal(int fd, int normal,
+	t_obj **obj, t_vec3 ***n);
+int					get_obj_data(char *path, int *vertex,
+	int *normal, int *face);
 
 #endif
