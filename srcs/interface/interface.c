@@ -53,12 +53,8 @@ static void		display_object(t_mlx *mlx)
 		y = display_spot(mlx, mlx->scene->spot[i], str, y);
 }
 
-static void		display_scene(t_mlx *mlx)
+static void		display_scene_next(t_mlx *mlx, char *str)
 {
-	char str[200];
-	char *nb;
-
-	ft_bzero(str, 200);
 	if (mlx->interf->offset + BTNHEIGHT + 5 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 5 +
 			mlx->interf->offset, 0xFFFFFF, "SCENE");
@@ -66,6 +62,15 @@ static void		display_scene(t_mlx *mlx)
 	if (mlx->interf->offset + BTNHEIGHT + 20 > BTNHEIGHT)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 20 +
 			mlx->interf->offset, 0xFFFFFF, str);
+}
+
+static void		display_scene(t_mlx *mlx)
+{
+	char str[200];
+	char *nb;
+
+	ft_bzero(str, 200);
+	display_scene_next(mlx, str);
 	if (!(nb = ft_itoa(WIN_W)))
 		return ;
 	ft_strcat(ft_strcpy(str, "resolution: "), nb);
@@ -85,26 +90,6 @@ static void		display_scene(t_mlx *mlx)
 		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, BTNHEIGHT + 50 +
 			mlx->interf->offset, 0xFFFFFF, str);
 	ft_strdel(&nb);
-}
-
-static void		display_camera(t_mlx *mlx)
-{
-	char	str[200];
-	char	*vec;
-	double	color;
-
-	ft_bzero(str, 200);
-	color = (mlx->interf->id_select_obj == -1) ? 0xFF0000 : 0x0000FF;
-	if (mlx->interf->offset + 70 + BTNHEIGHT > BTNHEIGHT)
-		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, 70 + BTNHEIGHT +
-			mlx->interf->offset, color, "CAMERA");
-	if (!(vec = parse_vec(mlx->scene->cam->pos)))
-		return ;
-	ft_strcat(ft_strcpy(str, "position: "), vec);
-	ft_strdel(&vec);
-	if (mlx->interf->offset + BTNHEIGHT + 85 > BTNHEIGHT)
-		mlx_string_put(mlx->mlx, mlx->win, WIN_W + 2, 85 + BTNHEIGHT +
-			mlx->interf->offset, 0xFFFFFF, str);
 }
 
 int				display_interface(t_mlx *mlx)

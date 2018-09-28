@@ -20,13 +20,15 @@ LIBAL_DIR   =   ./libalgebra
 LIBMP_DIR   =   ./libbmp
 
 FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c main/utils2.c
-FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c main/effect.c
+FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c
 FILENAMES   +=  input/click.c input/key.c input/key_input.c input/key_rot.c
 FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
 FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c objects/composed.c
 FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
 FILENAMES   +=  parsing/file_reader.c parsing/parse.c
-FILENAMES   +=  obj_parser/obj_reader.c
+FILENAMES   +=  obj_parser/obj_reader.c interface/interface2.c main/obj_cpy.c
+FILENAMES   +=  effects/filters.c effects/reflection.c effects/refraction.c
+
 
 OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 
@@ -94,6 +96,7 @@ build:
 	@mkdir build/objects
 	@mkdir build/parsing
 	@mkdir build/obj_parser
+	@mkdir build/effects
 
 $(NAME): $(OBJECTS)
 	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tObject Files\033[0m \

@@ -18,7 +18,6 @@ int			inter_cpy(t_interinfo *dest, t_interinfo *src)
 	vector3d(&dest->intersect, src->intersect.x,
 		src->intersect.y, src->intersect.z);
 	vector3d(&dest->normal, src->normal.x, src->normal.y, src->normal.z);
-	dest->dist = src->dist;
 	return (1);
 }
 

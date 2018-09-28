@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 18:21:03 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 13:17:50 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/28 14:44:04 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,9 +24,11 @@ void	transform_composed(t_obj **obj, double mat[3][3])
 		j = 0;
 		while (j < (*obj)->poly[i]->ns)
 		{
-			vec3_sub((*obj)->poly[i]->s[j], &(*obj)->pos, (*obj)->poly[i]->s[j]);
+			vec3_sub((*obj)->poly[i]->s[j], &(*obj)->pos,
+					(*obj)->poly[i]->s[j]);
 			vec3_transform((*obj)->poly[i]->s[j], mat);
-			vec3_add((*obj)->poly[i]->s[j], &(*obj)->pos, (*obj)->poly[i]->s[j]);
+			vec3_add((*obj)->poly[i]->s[j],
+					&(*obj)->pos, (*obj)->poly[i]->s[j]);
 			j++;
 		}
 		calc_edge((*obj)->poly[i], 1);
@@ -34,13 +36,24 @@ void	transform_composed(t_obj **obj, double mat[3][3])
 	}
 }
 
-void	rotate(t_obj *obj)
+void	rotate_next(t_obj **obj)
 {
 	double matz[3][3];
+
+	if ((*obj)->rot.z != 0)
+	{
+		init_matrix(OZ_ROTATION, matz, (*obj)->rot.z);
+		if ((*obj)->type == COMPOSED)
+			transform_composed(obj, matz);
+		else
+			vec3_transform(&(*obj)->dir, matz);
+	}
+}
+
+void	rotate(t_obj *obj)
+{
 	double matx[3][3];
 	double maty[3][3];
-	int i = 0;
-	int j = 0;
 
 	if (obj->rot.x != 0)
 	{
@@ -58,12 +71,5 @@ void	rotate(t_obj *obj)
 		else
 			vec3_transform(&obj->dir, maty);
 	}
-	if (obj->rot.z != 0)
-	{
-		init_matrix(OZ_ROTATION, matz, obj->rot.z);
-		if (obj->type == COMPOSED)
-			transform_composed(&obj, matz);
-		else
-			vec3_transform(&(obj)->dir, matz);
-	}
+	rotate_next(&obj);
 }

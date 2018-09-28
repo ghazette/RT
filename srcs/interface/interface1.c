@@ -55,9 +55,10 @@ int				inter_select_up(t_mlx *mlx)
 {
 	if (mlx->interf->id_select_obj == -1)
 		return (1);
-	else {
+	else
+	{
 		mlx->interf->id_select_obj--;
-		scroll_down(mlx, WIN_W + 1, BTNHEIGHT  + 1);
+		scroll_down(mlx, WIN_W + 1, BTNHEIGHT + 1);
 	}
 	return (0);
 }
@@ -67,8 +68,8 @@ int				inter_select_down(t_mlx *mlx)
 	if (mlx->interf->id_select_obj < mlx->scene->nb_obj +
 		mlx->scene->nb_spot - 1)
 		mlx->interf->id_select_obj++;
-		if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
-			scroll_up(mlx, WIN_W + 1, BTNHEIGHT  + 1);
+	if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+		scroll_up(mlx, WIN_W + 1, BTNHEIGHT + 1);
 	return (0);
 }
 

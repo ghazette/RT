@@ -26,7 +26,6 @@
 # include <time.h>
 # define PI 3.14159265359
 # define MAX(a, b) (a < b ? b : a)
-# define DEGTORAD(DEG) (DEG * M_PI / 180)
 # define WIN_W 1280
 # define WIN_H 960
 # define INTER_WIDTH 250
@@ -40,9 +39,7 @@
 # define NO_REFLECT 0x106
 # define CONCAT_COLOR 0x107
 # define REFRACT 0x108
-# define REFRACT_AIR 1.0
-# define REFRACT_PYREX 1.474
-# define REFRACT_WATER 1.33
+# define AIR 1.0
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 # define RGB mlx->rgb
@@ -66,7 +63,6 @@ typedef struct		s_interface
 
 typedef struct		s_intersectinfo
 {
-	double			dist;
 	t_vec3			intersect;
 	t_vec3			normal;
 }					t_interinfo;
@@ -175,16 +171,17 @@ typedef struct		s_mlx
 	int				aax;
 	int				aay;
 	int				line;
+	int				aaoff;
 	int				effect;
 	int				line_cnt;
 	char			*pixel_img;
 	void			*mlx;
 	void			*win;
 	void			*img;
-	int				aaoff;
-	double			ambient;
+	double			p;
 	double			aa;
 	double			reg;
+	double			ambient;
 	t_sce			*scene;
 	t_vec3			rgb;
 	t_vec3			vdir;
@@ -218,20 +215,44 @@ typedef struct		s_phong
 	t_material		material;
 }					t_phong;
 
+typedef struct		s_inbound
+{
+	int				c;
+	int				i;
+	int				j;
+	double			t;
+	double			a;
+	double			b;
+	double			dist;
+	double			tmpdist;
+	t_vec3			vp;
+	t_vec3			vc;
+	t_vec3			tmp;
+	t_interinfo		interinfo_tmp;
+}					t_inbound;
+
 /*
 ** GENERAL
 */
 
+int					obj_cpy(t_sce *scene, t_sce *src);
+int					inter_cpy(t_interinfo *dest, t_interinfo *src);
+int					intersect(t_mlx *mlx, t_vec3 *view, t_vec3 vdir);
+int					is_refract(t_mlx *mlx);
 int					get_thread_number(char *th);
 char				*rand_string(int len);
 void				usage(void);
+void				reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset);
 void				render(t_mlx *mlx);
 void				rotate(t_obj *obj);
 void				ft_effect(t_mlx *mlx, int effect);
-int					inter_cpy(t_interinfo *dest, t_interinfo *src);
+void				ft_reflect(t_mlx *mlx, double *coeff);
+void				ft_refract(t_mlx *mlx);
+void				ft_average(t_mlx *mlx, t_vec3 *reg, double coeff);
 void				print_poly(t_poly *poly);
 void				init_camera(t_mlx *mlx);
 void				draw_point(int x, int y, t_mlx *mlx, int color);
+void				view_correction(t_mlx *mlx, t_vec3 *view, int type);
 double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
@@ -293,6 +314,7 @@ int					inter_select_down(t_mlx *mlx);
 char				*get_type(int type);
 char				*parse_vec(t_vec3 v);
 void				display_focus(t_mlx *mlx);
+void				display_camera(t_mlx *mlx);
 void				export_button(t_mlx *mlx, int color);
 void				clear_interface(t_mlx *mlx);
 
@@ -321,7 +343,7 @@ void				mv_cmp(t_obj **obj, char c, int sign);
 void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 
 /*
-**	OBJ PARSER
+**	.obj PARSER
 */
 
 int					fetch_obj(char *path, t_obj **obj);

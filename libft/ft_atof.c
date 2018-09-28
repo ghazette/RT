@@ -13,7 +13,18 @@
 
 #include "includes/libft.h"
 
-double		ft_atof(const char *str)
+static double	ft_atof_next(int i, char *const *split, double ret, double expo)
+{
+	while (split[1][i])
+	{
+		ret += (double)(split[1][i] - '0') / expo;
+		i++;
+		expo *= 10;
+	}
+	return (ret);
+}
+
+double			ft_atof(const char *str)
 {
 	int		i;
 	int		neg;
@@ -33,12 +44,7 @@ double		ft_atof(const char *str)
 			ft_free2d(&split);
 			return (ret);
 		}
-		while (split[1][i])
-		{
-			ret += (double)(split[1][i] - '0') / expo;
-			i++;
-			expo *= 10;
-		}
+		ret = ft_atof_next(i, split, ret, expo);
 		ret = (neg) ? -ret : ret;
 		ft_free2d(&split);
 		return (ret);

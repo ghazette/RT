@@ -66,6 +66,5 @@ void			light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 		if (obj->texture.data != NULL)
 			apply_texture(mlx->scene->interinfo, obj);
 		phong_calc(phong);
-
 	}
 }

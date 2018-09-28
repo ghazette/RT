@@ -77,7 +77,7 @@ char			**ft_splitwhitespace(char const *s)
 	if (!s)
 		return (NULL);
 	size = wordcount((char*)s);
-	if (!(ret = (char**)malloc(sizeof(char*) * (size + 1))))
+	if (!(ret = (char **)malloc(sizeof(char*) * (size + 1))))
 		return (NULL);
 	ret[size] = 0;
 	while (s[i])
