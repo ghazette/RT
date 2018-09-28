@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:49:26 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/19 13:05:55 by rlossy      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:52:56 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ t_mlx			*mlx_init_all(char *window_name)
 	if (!(mlx = (t_mlx*)malloc(sizeof(t_mlx))))
 		return (NULL);
 	mlx->mlx = mlx_init();
-	if (!(mlx->interf = (t_interface*)malloc(sizeof(t_interface))))
+	if (!(mlx->interf = malloc(sizeof(t_interface))))
 		return (NULL);
 	if (!(mlx->win = mlx_new_window(mlx->mlx, WIN_W +
 		INTER_WIDTH, WIN_H, window_name)))
@@ -32,6 +32,8 @@ t_mlx			*mlx_init_all(char *window_name)
 	mlx->line_cnt = 0;
 	mlx->aa = 1.0;
 	mlx->effect = 0;
+	mlx->ambient = 0.1;
+	mlx->aaoff = 0;
 	return (mlx);
 }
 
@@ -113,6 +115,8 @@ static int		obj_cpy(t_sce *scene, t_sce *src)
 		scene->objs[i]->material.ambient = src->objs[i]->material.ambient;
 		scene->objs[i]->material.reflectivity =
 					src->objs[i]->material.reflectivity;
+		scene->objs[i]->material.refraction =
+					src->objs[i]->material.refraction;
 		vector3d(&(scene->objs[i]->material.color),
 					src->objs[i]->material.color.x,
 					src->objs[i]->material.color.y,

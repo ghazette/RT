@@ -1,7 +1,7 @@
 #SCENE TEST0
 CAMERA
 {
-    position 0 100 -800
+    position 0 100 -400
     rotation 0 0 0
     lookat 0 0 0
     focal 1
@@ -17,8 +17,9 @@ OBJECT
     position 80 0 -50
     ambient 2
     radius 30
+    refraction 0.7
     specular 120 120 120
-    color 255 0 0
+    color 100 0 0
 }
 
 OBJECT
@@ -29,6 +30,7 @@ OBJECT
     position 0 0 -50
     ambient 2
     radius 30
+    reflection 0.6
     specular 120 120 120
     color 0 255 0
 }
@@ -40,6 +42,7 @@ OBJECT
     rotation 0 0 0
     position -80 0 -50
     ambient 2
+    reflection 0.6
     radius 30
     specular 120 120 120
     color 0 0 255
@@ -53,6 +56,20 @@ OBJECT
     position 0 0 150
     ambient 2
     radius 30
+    reflection 0.6
+    specular 120 120 120
+    color 85 98 156
+}
+
+OBJECT
+{
+    name plan
+    type PLANE
+    rotation 0 0 0
+    position 0 0 200
+    ambient 2
+    radius 30
+    reflection 0.6
     specular 120 120 120
     color 85 98 156
 }

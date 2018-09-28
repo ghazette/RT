@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 16:41:55 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:44:55 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,11 +39,16 @@
 # define OBJ_FROMFILE 0x200
 # define NO_REFLECT 0x106
 # define CONCAT_COLOR 0x107
+# define REFRACT 0x108
+# define REFRACT_AIR 1.0
+# define REFRACT_PYREX 1.474
+# define REFRACT_WATER 1.33
 # define BTNHEIGHT 40
 # define SUN_POWER 80
 # define RGB mlx->rgb
 # define FILTER mlx->filter
 # define THREADS 8
+# define MAX_ITERATION 5
 
 typedef struct		s_filter
 {
@@ -70,6 +75,7 @@ typedef struct		s_material
 {
 	double			ambient;
 	double			reflectivity;
+	double			refraction;
 	t_vec3			color;
 	t_vec3			specular;
 }					t_material;
@@ -175,6 +181,8 @@ typedef struct		s_mlx
 	void			*mlx;
 	void			*win;
 	void			*img;
+	int				aaoff;
+	double			ambient;
 	double			aa;
 	double			reg;
 	t_sce			*scene;
@@ -304,7 +312,7 @@ void				key_down(t_mlx *mlx);
 void				key_right(t_mlx *mlx);
 void				key_left(t_mlx *mlx);
 void				key_rot(t_mlx *mlx, int key);
-void				move_composed(t_obj **obj, char c, int sign);
+void				mv_cmp(t_obj **obj, char c, int sign);
 
 /*
 ** TEXTURE

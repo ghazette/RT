@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 15:31:37 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 11:05:03 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:45:14 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,18 +15,21 @@
 
 static void	key_minus(t_mlx *mlx)
 {
-	if (!mlx->interf->focus)
+	t_interface *interf;
+
+	interf = mlx->interf;
+	if (!interf->focus)
 	{
-		if (mlx->interf->id_select_obj != -1)
+		if (interf->id_select_obj != -1)
 		{
-			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			if (interf->id_select_obj < mlx->scene->nb_obj)
 			{
-				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
-					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'z', SUB);
-				mlx->scene->objs[mlx->interf->id_select_obj]->pos.z--;
+				if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'z', SUB);
+				mlx->scene->objs[interf->id_select_obj]->pos.z--;
 			}
 			else
-				mlx->scene->spot[mlx->interf->id_select_obj -
+				mlx->scene->spot[interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.z--;
 		}
 		else
@@ -40,18 +43,21 @@ static void	key_minus(t_mlx *mlx)
 
 static void	key_plus(t_mlx *mlx)
 {
-	if (!mlx->interf->focus)
+	t_interface *interf;
+
+	interf = mlx->interf;
+	if (!interf->focus)
 	{
-		if (mlx->interf->id_select_obj != -1)
+		if (interf->id_select_obj != -1)
 		{
-			if (mlx->interf->id_select_obj < mlx->scene->nb_obj)
+			if (interf->id_select_obj < mlx->scene->nb_obj)
 			{
-				if (mlx->scene->objs[mlx->interf->id_select_obj]->type == COMPOSED)
-					move_composed(&mlx->scene->objs[mlx->interf->id_select_obj], 'z', ADD);
-				mlx->scene->objs[mlx->interf->id_select_obj]->pos.z++;
+				if (mlx->scene->objs[interf->id_select_obj]->type == COMPOSED)
+					mv_cmp(&mlx->scene->objs[interf->id_select_obj], 'z', ADD);
+				mlx->scene->objs[interf->id_select_obj]->pos.z++;
 			}
 			else
-				mlx->scene->spot[mlx->interf->id_select_obj -
+				mlx->scene->spot[interf->id_select_obj -
 					mlx->scene->nb_obj]->pos.z++;
 		}
 		else
@@ -65,10 +71,13 @@ static void	key_plus(t_mlx *mlx)
 
 static void	ft_effect_key(t_mlx *mlx, int key)
 {
-	if (key == PAGE_UP && mlx->aa < 4)
-		mlx->aa *= 2;
-	if (key == PAGE_DOWN && mlx->aa > 1)
-		mlx->aa /= 2;
+	if (!mlx->aaoff)
+	{
+		if (key == PAGE_UP && mlx->aa < 4)
+			mlx->aa *= 2;
+		if (key == PAGE_DOWN && mlx->aa > 1)
+			mlx->aa /= 2;
+	}
 	if (key == F)
 		mlx->effect = (mlx->effect < 6) ? mlx->effect += 1 : 0;
 }

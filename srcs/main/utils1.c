@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/18 16:43:42 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 10:31:14 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,7 +63,8 @@ t_obj		*new_object(void)
 	vector3d(&obj->material.specular, 200.0 / 255.0, 200.0 / 255.0,
 		150.0 / 255.0);
 	obj->material.ambient = 0.03;
-	obj->material.reflectivity = 00;
+	obj->material.reflectivity = 0.0;
+	obj->material.refraction = 0.0;
 	return (obj);
 }
 
@@ -76,7 +77,7 @@ t_spot		*new_spot(void)
 	spot->name = NULL;
 	vector3d(&spot->pos, 0, 0, 0);
 	vector3d(&spot->color, 1, 1, 1);
-	vector3d(&spot->material.specular, 0, 0, 0);
+	vector3d(&spot->material.specular, 0.3, 0.3, 0.3);
 	spot->material.ambient = 0.05;
 	return (spot);
 }

@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/21 13:59:22 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 10:33:31 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 11:07:06 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,6 +44,14 @@ int			fetch_data(t_mlx *mlx, int fd)
 		ft_strdel(&line);
 		return (1);
 	}
+	if (line[0] == 'A' && line[1] == 'M' && line[2] == 'B')
+	{
+		mlx->ambient = (double)ft_atoi(line + 3) / 100.0;
+		if (mlx->ambient < 0)
+			mlx->ambient = 0.1;
+		ft_strdel(&line);
+		return (1);
+	}
 	ft_strdel(&line);
 	return (0);
 }
@@ -56,6 +64,8 @@ static int	set_obj_spot(t_mlx *mlx, char *fn)
 		return (0);
 	if (!(mlx->scene->objs = (t_obj**)malloc(sizeof(t_obj*) * nb[0])))
 		return (0);
+	if (!nb[1])
+		nb[1] = 1;
 	if (!(mlx->scene->spot = (t_spot**)malloc(sizeof(t_spot*) * nb[1])))
 		return (0);
 	return (1);
@@ -107,6 +117,20 @@ int			init_scene(t_mlx *mlx, char *fn, int fd)
 	return (0);
 }
 
+int			check_spot(t_mlx *mlx, t_sce *sce)
+{
+	if (!sce->nb_spot)
+	{
+		if (!(sce->spot[0] = new_spot()))
+			return (0);
+		if (!(sce->spot[0]->name = ft_strdup("NONE")))
+			return (0);
+		sce->nb_spot++;
+		sce->spot[0]->material.ambient = mlx->ambient;
+	}
+	return (1);
+}
+
 int			open_file(t_mlx *mlx, char *fn)
 {
 	int		fd;
@@ -128,7 +152,7 @@ int			open_file(t_mlx *mlx, char *fn)
 	}
 	close(fd);
 	ft_strdel(&line);
-	if (!err)
+	if (!err || !check_spot(mlx, mlx->scene))
 		return (0);
 	err = -1;
 	while (++err < mlx->scene->nb_spot)

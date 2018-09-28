@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 16:17:44 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/19 13:00:22 by rlossy      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 11:51:28 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ void	phong_calc(t_phong *phong)
 	vec3_scale(&phong->obj->color, v, MULT, &res);
 	vec3_mult(&phong->spot->color, &res, &material.color);
 	if (phong->is_shadow)
-		vec3_scale(&material.color, 3.0, DIV, &material.color);
+		vec3_scale(&material.color, 2, DIV, &material.color);
 	vec3_add(&phong->material.color, &material.color, &phong->material.color);
 	if (!phong->is_shadow)
 	{

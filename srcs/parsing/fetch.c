@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/19 12:58:29 by rlossy      ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/27 16:48:45 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,7 +70,7 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 				return (0);
 		}
 	if (!ft_strcmp(split[0], "radius"))
-		obj->radius = ft_atoi(split[1]);
+		obj->radius = llabs(ft_atoi(split[1]));
 	if (!ft_strcmp(split[0], "specular"))
 	{
 		if (ft_heightlen(split) == 4)
@@ -81,16 +81,21 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 		}
 	}
 	if (!ft_strcmp(split[0], "ambient"))
-		if ((obj->material.ambient = (double)ft_atoi(split[1]) / 100.0) < 0)
+		if ((obj->material.ambient = fabs((double)ft_atoi(split[1]) / 100.0) < 0))
 			return (0);
 	if (!ft_strcmp(split[0], "height"))
-		obj->height = ft_atoi(split[1]);
+		obj->height = llabs(ft_atoi(split[1]));
 	if (!ft_strcmp(split[0], "width"))
 		obj->width = ft_atoi(split[1]);
 	if (!ft_strcmp(split[0], "depth"))
 		obj->depth = ft_atoi(split[1]);
 	if (!ft_strcmp(split[0], "src"))
 		return (fetch_obj(split[1], &obj));
+		obj->width = llabs(ft_atoi(split[1]));
+	if (!ft_strcmp(split[0], "reflection"))
+		obj->material.reflectivity = fabs(ft_atof(split[1]));
+	if (!ft_strcmp(split[0], "refraction"))
+		obj->material.refraction = fabs(ft_atof(split[1]));
 	ft_free2d(&split);
 	return (1);
 }
@@ -238,7 +243,7 @@ static int calc_poly(t_obj *obj)
 	return (0);
 }
 
-static int		check_object(t_obj *obj)
+static int		check_object(int *aaoff, t_obj *obj)
 {
 	if (!obj->name)
 		if (!(obj->name = ft_strdup("NONE")))
@@ -257,8 +262,15 @@ static int		check_object(t_obj *obj)
 		else
 			return (0);
 	}
+	if (obj->type == CONE)
+		obj->material.refraction = 0;
+	if (obj->material.refraction > 0.0)
+		obj->material.reflectivity = 1.0;
+	if (obj->material.refraction > 0.0 || obj->material.reflectivity > 0.0)
+		*aaoff = 1;
 	return (1);
 }
+
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
@@ -273,7 +285,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 		if (!ft_strcmp(line, "}"))
 		{
 			mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
-			if (!check_object(mlx->scene->objs[mlx->scene->nb_obj]))
+			if (!check_object(&mlx->aaoff, mlx->scene->objs[mlx->scene->nb_obj]))
 				return (0);
 			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= SPHERE)
 				rotate(mlx->scene->objs[mlx->scene->nb_obj]);
