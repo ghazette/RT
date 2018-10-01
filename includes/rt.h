@@ -105,12 +105,12 @@ typedef struct		s_obj
 	int				id;
 	int				type;
 	int				form;
-	char			*name;
-	double			radius;
-	int				height;
 	int				width;
 	int				depth;
 	int				npoly;
+	int				height;
+	char			*name;
+	double			radius;
 	t_poly			**poly;
 	t_vec3			pos;
 	t_vec3			dir;

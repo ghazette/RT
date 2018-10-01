@@ -76,13 +76,21 @@ static void	ft_effect_key(t_mlx *mlx, int key)
 		mlx->effect = (mlx->effect < 6) ? mlx->effect += 1 : 0;
 }
 
+static void	ft_quit(t_mlx *mlx)
+{
+	mlx_destroy_image(mlx->mlx, mlx->img);
+	mlx_clear_window(mlx->mlx, mlx->win);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	exit(0);
+}
+
 int			key_func(int key, void *p)
 {
 	t_mlx *mlx;
 
 	mlx = (t_mlx*)p;
 	if (key == ESC)
-		exit(0);
+		ft_quit(mlx);
 	if (key == UP)
 		key_up(mlx, mlx->interf);
 	if (key == DOWN)
