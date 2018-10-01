@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 int		main(int ac, char **av)
 {
@@ -20,7 +20,7 @@ int		main(int ac, char **av)
 	srand(getpid());
 	if (ac == 2)
 	{
-		if (!(mlx = mlx_init_all("RTv1")))
+		if (!(mlx = mlx_init_all("RT")))
 			exit(1);
 		if (!open_file(mlx, av[1]))
 		{

@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 static void	key_minus(t_mlx *mlx, t_interface *interf)
 {

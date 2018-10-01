@@ -1,50 +1,50 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   rtv1.h                                           .::    .:/ .      .::   */
+/*   rt.h                                             .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: rlossy <rlossy@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/03/20 14:58:40 by ghazette     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 16:44:55 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Created: 2018/10/01 14:35:02 by rlossy       #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/01 15:03:02 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef RTV1_H
-# define RTV1_H
+#ifndef RT_H
+# define RT_H
+# include <time.h>
+# include <math.h>
+# include <fcntl.h>
+# include <pthread.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include "keycode.h"
 # include "../minilibx_macos/mlx.h"
-# include "../libalgebra/includes/libalgebra.h"
 # include "../libft/includes/libft.h"
 # include "../libbmp/includes/libbmp.h"
-# include "keycode.h"
-# include <pthread.h>
-# include <math.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <time.h>
+# include "../libalgebra/includes/libalgebra.h"
 # define PI 3.14159265359
+# define AIR 1.0
 # define MAX(a, b) (a < b ? b : a)
+# define RGB mlx->rgb
+# define CONE 0x103
+# define CUBE 0x105
 # define WIN_W 1280
 # define WIN_H 960
-# define INTER_WIDTH 250
-# define SPHERE 0x100
 # define PLANE 0x101
-# define CYLINDER 0x102
-# define CONE 0x103
-# define COMPOSED 0x104
-# define CUBE 0x105
-# define OBJ_FROMFILE 0x200
-# define NO_REFLECT 0x106
-# define CONCAT_COLOR 0x107
-# define REFRACT 0x108
-# define AIR 1.0
-# define BTNHEIGHT 40
-# define SUN_POWER 80
-# define RGB mlx->rgb
+# define SPHERE 0x100
 # define FILTER mlx->filter
 # define THREADS 8
+# define REFRACT 0x108
+# define CYLINDER 0x102
+# define COMPOSED 0x104
+# define BTNHEIGHT 40
+# define SUN_POWER 80
+# define NO_REFLECT 0x106
+# define INTER_WIDTH 250
+# define CONCAT_COLOR 0x107
+# define OBJ_FROMFILE 0x200
 # define MAX_ITERATION 5
 
 typedef struct		s_filter
@@ -231,6 +231,18 @@ typedef struct		s_inbound
 	t_interinfo		interinfo_tmp;
 }					t_inbound;
 
+typedef struct		s_cube
+{
+	int				index[4];
+	double			x;
+	double			y;
+	double			z;
+	double			h;
+	double			w;
+	double			d;
+	t_vec3			p[8];
+}					t_cube;
+
 /*
 ** GENERAL
 */
@@ -238,25 +250,27 @@ typedef struct		s_inbound
 int					obj_cpy(t_sce *scene, t_sce *src);
 int					inter_cpy(t_interinfo *dest, t_interinfo *src);
 int					intersect(t_mlx *mlx, t_vec3 *view, t_vec3 vdir);
-int					is_refract(t_mlx *mlx);
-int					get_thread_number(char *th);
 char				*rand_string(int len);
 void				usage(void);
 void				reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset);
 void				render(t_mlx *mlx);
 void				rotate(t_obj *obj);
-void				ft_effect(t_mlx *mlx, int effect);
-void				ft_reflect(t_mlx *mlx, double *coeff);
-void				ft_refract(t_mlx *mlx);
 void				ft_average(t_mlx *mlx, t_vec3 *reg, double coeff);
-void				print_poly(t_poly *poly);
 void				init_camera(t_mlx *mlx);
 void				draw_point(int x, int y, t_mlx *mlx, int color);
 void				view_correction(t_mlx *mlx, t_vec3 *view, int type);
-double				is_sphere(t_obj *obj, t_vec3 *c2);
 t_mlx				*mlx_cpy(t_mlx *src);
 t_mlx				*mlx_init_all(char *window_name);
 t_vec3				*calc_dir_vec(t_mlx *mlx, t_vec3 *vdir, double x, double y);
+
+/*
+** Visual Effects
+*/
+
+void				ft_effect(t_mlx *mlx, int effect);
+void				ft_reflect(t_mlx *mlx, double *coeff);
+void				ft_refract(t_mlx *mlx);
+int					is_refract(t_mlx *mlx);
 
 /*
 ** OBJECT RENDER
@@ -277,10 +291,11 @@ int					render_composed(t_interinfo *interinfo, t_vec3 *view,
 ** PARSING
 */
 
-int					open_file(t_mlx *mlx, char *fn);
 int					init_vec(t_vec3 *pos, char **data);
-int					check_file(char *fn);
 int					check_dir(char *fn);
+int					open_file(t_mlx *mlx, char *fn);
+int					check_file(char *fn);
+int					fetch_data(t_mlx *mlx, int fd);
 
 /*
 ** FETCHING
@@ -289,6 +304,9 @@ int					check_dir(char *fn);
 int					get_nb_obj(char *fn, int ret[2]);
 int					fetch_spot(t_mlx *mlx, t_spot **spot, int fd);
 int					new_camera(t_mlx *mlx);
+int					type_define(char *type, t_obj *obj);
+int					form_define(char *form, t_obj *obj);
+int					check_object(int *aaoff, t_obj *obj);
 int					fetch_camera(t_mlx *mlx, int fd);
 int					fetch_object(t_mlx *mlx, int fd);
 t_obj				*new_object();
@@ -325,16 +343,15 @@ void				clear_interface(t_mlx *mlx);
 int					key_func(int key, void *p);
 int					mouse_func(int button, int x, int y, t_mlx *mlx);
 int					motion_func(int x, int y, t_mlx *mlx);
-int					export_scene(t_mlx *mlx);
-void				left_click(t_mlx *mlx, int x, int y);
-void				scroll_up(t_mlx *mlx, int x, int y);
-void				scroll_down(t_mlx *mlx, int x, int y);
 void				key_up(t_mlx *mlx, t_interface *interf);
-void				key_down(t_mlx *mlx, t_interface *interf);
-void				key_right(t_mlx *mlx, t_interface *interf);
-void				key_left(t_mlx *mlx, t_interface *interf);
-void				key_rot(t_mlx *mlx, int key);
 void				mv_cmp(t_obj **obj, char c, int sign);
+void				key_rot(t_mlx *mlx, int key);
+void				key_down(t_mlx *mlx, t_interface *interf);
+void				key_left(t_mlx *mlx, t_interface *interf);
+void				key_right(t_mlx *mlx, t_interface *interf);
+void				scroll_up(t_mlx *mlx, int x, int y);
+void				left_click(t_mlx *mlx, int x, int y);
+void				scroll_down(t_mlx *mlx, int x, int y);
 
 /*
 ** TEXTURE
@@ -349,12 +366,12 @@ void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 int					fetch_obj(char *path, t_obj **obj);
 int					calc_cube(t_obj *obj);
 int					calc_edge(t_poly *poly, int calcnormal);
+int					get_obj_data(char *path, int *vertex, int *normal,
+									int *face);
+int					get_obj_normal(int fd, int normal, t_obj **obj,
+									t_vec3 ***n);
+int					get_obj_vertex(int fd, int vertex, t_obj **obj,
+									t_vec3 ***s);
 void				free_poly(t_obj *obj);
-int					get_obj_vertex(int fd, int vertex,
-	t_obj **obj, t_vec3 ***s);
-int					get_obj_normal(int fd, int normal,
-	t_obj **obj, t_vec3 ***n);
-int					get_obj_data(char *path, int *vertex,
-	int *normal, int *face);
 
 #endif

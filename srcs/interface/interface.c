@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 int				display_obj_attr(t_mlx *mlx, t_obj *obj, char *str, int y)
 {

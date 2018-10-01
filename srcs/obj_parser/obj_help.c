@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   obj_reader.c                                     .::    .:/ .      .::   */
+/*   obj_help.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*   By: rlossy <rlossy@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/09/07 13:03:47 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/19 12:46:10 by rlossy      ###    #+. /#+    ###.fr     */
+/*   Created: 2018/10/01 13:32:25 by rlossy       #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/01 13:32:25 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 int				get_obj_vertex(int fd, int vertex, t_obj **obj, t_vec3 ***s)
 {

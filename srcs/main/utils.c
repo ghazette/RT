@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 char		*get_type(int type)
 {
@@ -54,7 +54,7 @@ char		*parse_vec(t_vec3 v)
 
 void		usage(void)
 {
-	ft_printf("usage: ./rtv1 <FILE_PATH>\n");
+	ft_printf("usage: ./RT <FILE_PATH>\n");
 }
 
 int			check_dir(char *fn)

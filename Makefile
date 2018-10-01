@@ -19,16 +19,18 @@ LIBX_DIR	=	./minilibx_macos
 LIBAL_DIR   =   ./libalgebra
 LIBMP_DIR   =   ./libbmp
 
-FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c main/utils2.c
-FILENAMES   +=  main/utils1.c main/camera.c main/light.c main/phong.c
-FILENAMES   +=  input/click.c input/key.c input/key_input.c input/key_rot.c
-FILENAMES   +=  input/mouse_input.c interface/interface.c interface/interface1.c
-FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c objects/composed.c
-FILENAMES   +=  objects/sphere.c parsing/fetch.c parsing/fetch2.c
-FILENAMES   +=  parsing/file_reader.c parsing/parse.c
-FILENAMES   +=  obj_parser/obj_reader.c interface/interface2.c main/obj_cpy.c
+FILENAMES	=	main/main.c main/mlx.c main/ray.c main/rotate.c main/utils.c
+FILENAMES   +=  main/utils2.c main/utils1.c main/camera.c main/light.c
+FILENAMES   +=  main/phong.c main/obj_cpy.c input/click.c input/key.c
+FILENAMES   +=  input/key_input.c input/key_rot.c input/mouse_input.c
 FILENAMES   +=  effects/filters.c effects/reflection.c effects/refraction.c
-FILENAMES   +=  obj_parser/obj_reader.c obj_parser/obj_help.c
+FILENAMES   +=  objects/cone.c objects/cylinder.c objects/plane.c
+FILENAMES   +=  objects/composed.c objects/sphere.c parsing/calc.c
+FILENAMES   +=  parsing/fetch.c parsing/fetch2.c parsing/fetch_data.c
+FILENAMES   +=  parsing/file_reader.c parsing/parse.c parsing/define_type.c
+FILENAMES   +=  interface/interface.c interface/interface1.c
+FILENAMES   +=  interface/interface2.c obj_parser/obj_reader.c
+FILENAMES   +=  obj_parser/obj_help.c
 
 OBJECTS		=	$(addprefix build/, $(FILENAMES:.c=.o))
 
@@ -48,7 +50,7 @@ LBMP_FT     =	$(LIBMP_DIR)
 LIBMP_LNK	=	-L $(LBMP_FT) -l bmp
 LIBMP_INC	=	-I $(LBMP_FT)/libbmp.h $(LBMP_FT)/bmp.h
 
-FLAGS		=	-O2 -g
+FLAGS		=	-O2 -Wall -Wextra -Werror -g
 FLAGX		=	-framework OpenGL -framework AppKit
 
 LOADIR		=	./extra/Progress_Bar-for-Makefile
@@ -92,11 +94,11 @@ build:
 	@mkdir build/
 	@mkdir build/main
 	@mkdir build/input
-	@mkdir build/interface
+	@mkdir build/effects
 	@mkdir build/objects
 	@mkdir build/parsing
+	@mkdir build/interface
 	@mkdir build/obj_parser
-	@mkdir build/effects
 
 $(NAME): $(OBJECTS)
 	@printf "\n\033[1m\033[34m\t\t\t\t⥷ $@⭃\t\tObject Files\033[0m \

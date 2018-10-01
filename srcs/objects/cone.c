@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 static void		cone_calc_normal(t_interinfo *interinfo, t_obj *obj,
 	double angle)

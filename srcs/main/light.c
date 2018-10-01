@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 static int		is_light_blocked(t_mlx *mlx, t_vec3 *view, t_vec3 vdir, int id)
 {

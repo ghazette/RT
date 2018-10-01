@@ -11,52 +11,25 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
-static int		type_define(char *type, t_obj *obj)
+static int		fetch_help_next(t_obj *obj, char ***split)
 {
-	if (!ft_strcmp("SPHERE", type))
-	{
-		obj->render_func = render_sphere;
-		return (SPHERE);
-	}
-	if (!ft_strcmp("CYLINDER", type))
-	{
-		obj->render_func = render_cylinder;
-		vector3d(&obj->dir, 0, 1, 0);
-		return (CYLINDER);
-	}
-	if (!ft_strcmp("CONE", type))
-	{
-		obj->render_func = render_cone;
-		vector3d(&obj->dir, 0, 1, 0);
-		return (CONE);
-	}
-	if (!ft_strcmp("PLANE", type))
-	{
-		obj->render_func = render_plane;
-		vector3d(&obj->dir, 0, 0, -1);
-		return (PLANE);
-	}
-	if (!ft_strcmp("COMPOSED", type))
-	{
-		obj->render_func = render_composed;
-		vector3d(&obj->dir, 0, 0, 1);
-		return (COMPOSED);
-	}
-	return (0);
-}
-
-static int		form_define(char *form, t_obj *obj)
-{
-	if (!ft_strcmp("CUBE", form))
-	{
-		obj->npoly = 6;
-		return (CUBE);
-	}
-	if (!ft_strcmp("OBJ_FROMFILE", form))
-		return (OBJ_FROMFILE);
-	return (0);
+	if (!ft_strcmp((*split)[0], "height"))
+		obj->height = llabs(ft_atoi((*split)[1]));
+	if (!ft_strcmp((*split)[0], "width"))
+		obj->width = ft_atoi((*split)[1]);
+	if (!ft_strcmp((*split)[0], "depth"))
+		obj->depth = ft_atoi((*split)[1]);
+	if (!ft_strcmp((*split)[0], "src"))
+		return (fetch_obj((*split)[1], &obj));
+	obj->width = llabs(ft_atoi((*split)[1]));
+	if (!ft_strcmp((*split)[0], "reflection"))
+		obj->material.reflectivity = fabs(ft_atof((*split)[1]));
+	if (!ft_strcmp((*split)[0], "refraction"))
+		obj->material.refraction = fabs(ft_atof((*split)[1]));
+	ft_free2d(split);
+	return (1);
 }
 
 static int		fetch_object_array_help(t_obj *obj, char **split)
@@ -81,23 +54,9 @@ static int		fetch_object_array_help(t_obj *obj, char **split)
 		}
 	}
 	if (!ft_strcmp(split[0], "ambient"))
-		if ((obj->material.ambient = fabs((double)ft_atoi(split[1]) / 100.0) < 0))
+		if ((obj->material.ambient = fabs(ft_atof(split[1])) < 0))
 			return (0);
-	if (!ft_strcmp(split[0], "height"))
-		obj->height = llabs(ft_atoi(split[1]));
-	if (!ft_strcmp(split[0], "width"))
-		obj->width = ft_atoi(split[1]);
-	if (!ft_strcmp(split[0], "depth"))
-		obj->depth = ft_atoi(split[1]);
-	if (!ft_strcmp(split[0], "src"))
-		return (fetch_obj(split[1], &obj));
-		obj->width = llabs(ft_atoi(split[1]));
-	if (!ft_strcmp(split[0], "reflection"))
-		obj->material.reflectivity = fabs(ft_atof(split[1]));
-	if (!ft_strcmp(split[0], "refraction"))
-		obj->material.refraction = fabs(ft_atof(split[1]));
-	ft_free2d(&split);
-	return (1);
+	return (fetch_help_next(obj, &split));
 }
 
 static int		fetch_object_array(t_obj *obj, char **split)
@@ -129,59 +88,17 @@ static int		fetch_object_array(t_obj *obj, char **split)
 	return (fetch_object_array_help(obj, split));
 }
 
-static		t_poly *new_poly(t_poly *poly, int ns, t_vec3 *p, int *index)
+static int		fetch_obj_next(t_mlx *mlx, char **line)
 {
-	int i;
-
-	i = 0;
-	poly = malloc(sizeof(t_poly));
-	poly->ns = ns;
-	poly->s = malloc(sizeof(t_vec3*) * ns);
-	while (i < ns)
-	{
-		poly->s[i] = malloc(sizeof(t_vec3));
-		poly->s[i] = vector3d(poly->s[i], p[index[i]].x, p[index[i]].y, p[index[i]].z);
-		i++;
-	}
-	calc_edge(poly, 1);
-	return (poly);
-}
-
-static int calc_poly(t_obj *obj)
-{
-	if (obj->form == CUBE)
-		calc_cube(obj);
-	return (0);
-}
-
-static int		check_object(int *aaoff, t_obj *obj)
-{
-	if (!obj->name)
-		if (!(obj->name = ft_strdup("NONE")))
-			return (0);
-	if (!obj->type)
+	mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
+	if (!check_object(&mlx->aaoff, mlx->scene->objs[mlx->scene->nb_obj]))
 		return (0);
-	if (obj->type == COMPOSED)
-	{
-		obj->width = (!obj->width) ? 1 : obj->width;
-		obj->height = (!obj->height) ? 1 : obj->height;
-		obj->depth = (!obj->depth) ? 1 : obj->depth;
-		if (obj->form == CUBE)
-			calc_poly(obj);
-		else if (obj->form == OBJ_FROMFILE)
-			return (1);
-		else
-			return (0);
-	}
-	if (obj->type == CONE)
-		obj->material.refraction = 0;
-	if (obj->material.refraction > 0.0)
-		obj->material.reflectivity = 1.0;
-	if (obj->material.refraction > 0.0 || obj->material.reflectivity > 0.0)
-		*aaoff = 1;
+	if (mlx->scene->objs[mlx->scene->nb_obj]->type >= SPHERE)
+		rotate(mlx->scene->objs[mlx->scene->nb_obj]);
+	mlx->scene->nb_obj++;
+	ft_strdel(line);
 	return (1);
 }
-
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
@@ -194,16 +111,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 			if (!(mlx->scene->objs[mlx->scene->nb_obj] = new_object()))
 				return (0);
 		if (!ft_strcmp(line, "}"))
-		{
-			mlx->scene->objs[mlx->scene->nb_obj]->id = mlx->scene->nb_obj;
-			if (!check_object(&mlx->aaoff, mlx->scene->objs[mlx->scene->nb_obj]))
-				return (0);
-			if (mlx->scene->objs[mlx->scene->nb_obj]->type >= SPHERE)
-				rotate(mlx->scene->objs[mlx->scene->nb_obj]);
-			mlx->scene->nb_obj++;
-			ft_strdel(&line);
-			return (1);
-		}
+			return (fetch_obj_next(mlx, &line));
 		if (!ft_strcmp(line, ""))
 			return (0);
 		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj],

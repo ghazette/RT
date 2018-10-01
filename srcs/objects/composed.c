@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/rtv1.h"
+#include "../../includes/rt.h"
 
 static void			inoutside(t_interinfo *interinfo, t_poly *poly,
 								t_vec3 *view, t_inbound *inbd)
