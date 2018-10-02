@@ -141,5 +141,6 @@ void			render(t_mlx *mlx)
 	i = -1;
 	while (++i < THREADS)
 		pthread_join(th[i], NULL);
+	free(p);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }

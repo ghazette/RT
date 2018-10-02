@@ -74,13 +74,15 @@ static void		obj_cpy_next(t_sce *scene, t_sce *src, int i)
 	scene->objs[i]->render_func = src->objs[i]->render_func;
 }
 
-static void		obj_polycpy(const t_sce *scene, const t_sce *src, int i, int j)
+static void		obj_polycpy(const t_sce *scene, const t_sce *src, int i)
 {
+	int j;
+
+	j = -1;
 	scene->objs[i]->form = src->objs[i]->form;
 	scene->objs[i]->poly = (t_poly**)malloc(sizeof(t_poly*)
 											* src->objs[i]->npoly);
 	scene->objs[i]->npoly = src->objs[i]->npoly;
-	j = -1;
 	while (++j < scene->objs[i]->npoly)
 		poly_cpy(&scene->objs[i]->poly[j], src->objs[i]->poly[j]);
 }
@@ -88,7 +90,6 @@ static void		obj_polycpy(const t_sce *scene, const t_sce *src, int i, int j)
 int				obj_cpy(t_sce *scene, t_sce *src)
 {
 	int	i;
-	int j;
 
 	i = -1;
 	if (!(scene->objs = (t_obj**)malloc(sizeof(t_obj*) * scene->nb_obj)))
@@ -99,7 +100,7 @@ int				obj_cpy(t_sce *scene, t_sce *src)
 		scene->objs[i]->id = src->objs[i]->id;
 		scene->objs[i]->type = src->objs[i]->type;
 		if (scene->objs[i]->type == COMPOSED)
-			obj_polycpy(scene, src, i, j);
+			obj_polycpy(scene, src, i);
 		if (!(scene->objs[i]->name = ft_strdup(src->objs[i]->name)))
 			return (0);
 		obj_cpy_next(scene, src, i);

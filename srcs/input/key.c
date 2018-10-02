@@ -35,7 +35,7 @@ void	mv_cmp(t_obj **obj, char c, int sign)
 			j++;
 			ptr_s = 0;
 		}
-		calc_edge((*obj)->poly[i], 0);
+		calc_edge((*obj)->poly[i], 0, 0);
 		i++;
 	}
 }

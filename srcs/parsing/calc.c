@@ -18,42 +18,44 @@ static t_poly	*new_poly(t_poly *poly, int ns, t_vec3 *p, int *index)
 	int i;
 
 	i = -1;
-	poly = malloc(sizeof(t_poly));
+	if (!(poly = malloc(sizeof(t_poly))))
+		return (poly);
 	poly->ns = ns;
 	poly->s = malloc(sizeof(t_vec3*) * ns);
 	while (++i < ns)
 	{
-		poly->s[i] = malloc(sizeof(t_vec3));
+		if (!(poly->s[i] = malloc(sizeof(t_vec3))))
+			return (poly);
 		poly->s[i] = vector3d(poly->s[i], p[index[i]].x, p[index[i]].y,
 								p[index[i]].z);
 	}
-	calc_edge(poly, 1);
+	calc_edge(poly, 1, 1);
 	return (poly);
 }
 
-int				calc_edge(t_poly *poly, int calcnormal)
+int				calc_edge(t_poly *poly, int calcnormal, int realloc)
 {
 	int		i;
 	t_vec3	v0;
 	t_vec3	v1;
 
-	i = 1;
-	poly->e = malloc(sizeof(t_vec3*) * poly->ns);
-	while (i < poly->ns)
+	i = 0;
+	if (realloc)
+		if (!(poly->e = malloc(sizeof(t_vec3*) * poly->ns)))
+			return (0);
+	while (++i < poly->ns)
 	{
-		poly->e[i - 1] = malloc(sizeof(t_vec3));
+		if (realloc)
+			if (!(poly->e[i - 1] = malloc(sizeof(t_vec3))))
+				return (0);
 		vec3_sub(poly->s[i - 1], poly->s[i], poly->e[i - 1]);
-		i++;
 	}
-	poly->e[i - 1] = malloc(sizeof(t_vec3));
+	if (realloc)
+		if (!(poly->e[i - 1] = malloc(sizeof(t_vec3))))
+			return (0);
 	poly->e[i - 1] = vec3_sub(poly->s[i - 1], poly->s[0], poly->e[i - 1]);
 	if (calcnormal)
-	{
-		vec3_sub(poly->e[1], poly->e[0], &v0);
-		vec3_sub(poly->e[2], poly->e[0], &v1);
-		vec3_crossproduct(&v0, &v1, &poly->n);
-		vec3_normalize(&poly->n);
-	}
+		ft_calc_edge_normal(poly);
 	return (1);
 }
 

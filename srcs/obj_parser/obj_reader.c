@@ -20,7 +20,7 @@ static int		prep_poly(t_obj **obj)
 	i = 0;
 	while (i < (*obj)->npoly)
 	{
-		calc_edge((*obj)->poly[i], 1);
+		calc_edge((*obj)->poly[i], 1, 1);
 		i++;
 	}
 	return (1);

@@ -31,7 +31,7 @@ void	transform_composed(t_obj **obj, double mat[3][3])
 					&(*obj)->pos, (*obj)->poly[i]->s[j]);
 			j++;
 		}
-		calc_edge((*obj)->poly[i], 1);
+		calc_edge((*obj)->poly[i], 1, 0);
 		i++;
 	}
 }

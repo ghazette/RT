@@ -365,7 +365,7 @@ void				apply_sphere_texture(t_interinfo *interinfo, t_obj *obj);
 
 int					fetch_obj(char *path, t_obj **obj);
 int					calc_cube(t_obj *obj);
-int					calc_edge(t_poly *poly, int calcnormal);
+int					calc_edge(t_poly *poly, int calcnormal, int realloc);
 int					get_obj_data(char *path, int *vertex, int *normal,
 									int *face);
 int					get_obj_normal(int fd, int normal, t_obj **obj,
@@ -373,5 +373,6 @@ int					get_obj_normal(int fd, int normal, t_obj **obj,
 int					get_obj_vertex(int fd, int vertex, t_obj **obj,
 									t_vec3 ***s);
 void				free_poly(t_obj *obj);
+void				ft_calc_edge_normal(t_poly *poly);
 
 #endif
