@@ -53,10 +53,7 @@ int				calc_edge(t_poly *poly, int calcnormal, int realloc)
 			return (0);
 	poly->e[i - 1] = vec3_sub(poly->s[i - 1], poly->s[0], poly->e[i - 1]);
 	if (calcnormal <= 0)
-	{
-		printf("calculation normal\n");
 		ft_calc_edge_normal(poly);
-	}
 	return (1);
 }
 
