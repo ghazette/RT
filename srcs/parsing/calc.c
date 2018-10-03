@@ -29,7 +29,7 @@ static t_poly	*new_poly(t_poly *poly, int ns, t_vec3 *p, int *index)
 		poly->s[i] = vector3d(poly->s[i], p[index[i]].x, p[index[i]].y,
 								p[index[i]].z);
 	}
-	calc_edge(poly, 1, 1);
+	calc_edge(poly, 0, 1);
 	return (poly);
 }
 
