@@ -1,0 +1,60 @@
+#SCENE oblig3
+CAMERA
+{
+    position 0 50 -100
+    rotation 0 0 0
+    lookat 0 25 0
+    focal 1
+}
+
+AA1
+
+OBJECT
+{
+    name sphere_1
+    type SPHERE
+    position 0 0 60
+    rotation 0 0 0
+    radius 10
+    ambient 3
+    specular 200 200 200
+    color 255 215 0
+}
+
+OBJECT
+{
+    name bottom
+    type PLANE
+    position 0 -20 0
+    rotation 90 0 0
+    ambient 1
+    specular 170 170 170
+    color 200 200 200
+}
+
+SPOT
+{
+    name spot1
+    position 0 30 40
+    ambient 3
+    specular 100 100 100
+    color 255 255 255
+}
+
+SPOT
+{
+    name spot2
+    position 15 30 40
+    ambient 3
+    specular 150 150 150
+    color 255 255 255
+}
+
+SPOT
+{
+    name spot3
+    position -15 30 40
+    ambient 3
+    specular 200 200 200
+    color 255 255 255
+}

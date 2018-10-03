@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 16:24:31 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 11:51:21 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 15:35:01 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -66,5 +66,6 @@ void			light_intersect(t_mlx *mlx, t_obj *obj, t_spot *spot,
 		if (obj->texture.data != NULL)
 			apply_texture(mlx->scene->interinfo, obj);
 		phong_calc(phong);
+		phong->is_shadow = 0;
 	}
 }

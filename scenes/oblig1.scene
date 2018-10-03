@@ -1,0 +1,100 @@
+#SCENE oblig1
+CAMERA
+{
+    position 0 15 100
+    rotation 0 0 0
+    lookat 0 0 0
+    focal 1
+}
+
+AA1
+
+AMB5
+
+OBJECT
+{
+    name sphere_1
+    type SPHERE
+    position -30 0 -10
+    rotation 0 0 0
+    radius 5
+    ambient 3
+    specular 200 200 200
+    color 255 0 0
+}
+
+OBJECT
+{
+    name sphere_2
+    type SPHERE
+    position 20 -8 -10
+    rotation 0 0 0
+    radius 5
+    ambient 3
+    specular 255 255 255
+    color 0 255 0
+}
+
+OBJECT
+{
+    name cylinder
+    type CYLINDER
+    position 0 0 -35
+    rotation 0 0 45
+    radius 6
+    ambient 3
+    specular 200 200 200
+    color 255 0 255
+}
+
+OBJECT
+{
+    name cone
+    type CONE
+    position -13 -5 -35
+    rotation 0 0 -45
+    radius 20
+    ambient 3
+    specular 255 255 255
+    color 255 255 102
+}
+
+OBJECT
+{
+    name background
+    type PLANE
+    position 0 0 -100
+    rotation 0 0 0
+    ambient 2
+    specular 0 200 255
+    color 0 191 255
+}
+
+OBJECT
+{
+    name bottom
+    type PLANE
+    position 0 -20 0
+    rotation 90 0 0
+    ambient 1
+    specular 170 170 170
+    color 200 200 200
+}
+
+SPOT
+{
+    name spotleft
+    position -20 10 30
+    ambient 5
+    specular 170 170 170
+    color 255 255 255
+}
+
+SPOT
+{
+    name spotright
+    position 18 10 30
+    ambient 5
+    specular 170 170 170
+    color 255 255 255
+}
