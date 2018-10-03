@@ -13,7 +13,7 @@ OBJECT
     type COMPOSED
     position 0 0 0
     color 0 200 100
-    src obj/glock.obj
+    src obj/tst.obj
     ambient 2
 }
 

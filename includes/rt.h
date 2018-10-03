@@ -243,6 +243,13 @@ typedef struct		s_cube
 	t_vec3			p[8];
 }					t_cube;
 
+typedef struct		s_fetch
+{
+	int				i[2];
+	char			*line;
+	char			**split;
+}					t_fetch;
+
 /*
 ** GENERAL
 */
@@ -296,6 +303,7 @@ int					check_dir(char *fn);
 int					open_file(t_mlx *mlx, char *fn);
 int					check_file(char *fn);
 int					fetch_data(t_mlx *mlx, int fd);
+int					ft_parser_secure(char *line, char ***split);
 
 /*
 ** FETCHING
@@ -309,6 +317,7 @@ int					form_define(char *form, t_obj *obj);
 int					check_object(int *aaoff, t_obj *obj);
 int					fetch_camera(t_mlx *mlx, int fd);
 int					fetch_object(t_mlx *mlx, int fd);
+int					fetch_spot_array_help(t_spot *spot, char **split);
 t_obj				*new_object();
 t_spot				*new_spot();
 

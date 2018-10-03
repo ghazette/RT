@@ -102,9 +102,9 @@ static int		fetch_obj_next(t_mlx *mlx, char **line)
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
+	int		i;
 	char	*line;
 	char	**split;
-	int		i;
 
 	i = 0;
 	while (get_next_line(fd, &line) > 0)
@@ -118,16 +118,11 @@ int				fetch_object(t_mlx *mlx, int fd)
 		}
 		if (!i)
 			return (0);
-		if (ft_strchr(line, '}') && i)
+		if (ft_strchr(line, '}'))
 			return (fetch_obj_next(mlx, &line));
-		if (!ft_strcmp(line, ""))
+		if (!(ft_parser_secure(line, &split)))
 			return (0);
-		if (!(split = ft_splitwhitespace(line)))
-			return (0);
-		if (!(split[0]))
-			return (0);
-		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj],
-			split))
+		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj], split))
 			return (0);
 		ft_strdel(&line);
 	}
