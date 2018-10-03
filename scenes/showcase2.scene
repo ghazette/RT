@@ -97,7 +97,7 @@ OBJECT
 
 OBJECT
 {
-    name KORO0
+    name KORO
     type SPHERE
 	radius 3
     position -10 9 10
