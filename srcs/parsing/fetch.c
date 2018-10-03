@@ -18,12 +18,11 @@ static int		fetch_help_next(t_obj *obj, char ***split)
 	if (!ft_strcmp((*split)[0], "height"))
 		obj->height = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "width"))
-		obj->width = ft_atoi((*split)[1]);
+		obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "depth"))
-		obj->depth = ft_atoi((*split)[1]);
+		obj->depth = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "src"))
 		fetch_obj((*split)[1], &obj);
-	obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "reflection"))
 		obj->material.reflectivity = fabs(ft_atof((*split)[1]));
 	if (!ft_strcmp((*split)[0], "refraction"))

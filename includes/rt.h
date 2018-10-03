@@ -109,6 +109,7 @@ typedef struct		s_obj
 	int				depth;
 	int				npoly;
 	int				height;
+	int				havenormal;
 	char			*name;
 	double			radius;
 	t_poly			**poly;

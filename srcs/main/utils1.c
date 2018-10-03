@@ -54,13 +54,13 @@ t_obj		*new_object(void)
 	obj->depth = 0;
 	obj->form = 0;
 	obj->npoly = 0;
+	obj->havenormal = 0;
 	obj->poly = NULL;
 	vector3d(&obj->pos, 0, 0, 0);
 	vector3d(&obj->rot, 0, 0, 0);
 	vector3d(&obj->dir, 0, 0, 0);
 	vector3d(&obj->color, 0, 0, 0);
-	vector3d(&obj->material.specular, 200.0 / 255.0, 200.0 / 255.0,
-		150.0 / 255.0);
+	vector3d(&obj->material.specular, 0.78, 0.78, 0.59);
 	obj->material.ambient = 0.03;
 	obj->material.reflectivity = 0.0;
 	obj->material.refraction = 0.0;
