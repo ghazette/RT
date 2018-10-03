@@ -36,8 +36,6 @@ static t_poly	*new_poly(t_poly *poly, int ns, t_vec3 *p, int *index)
 int				calc_edge(t_poly *poly, int calcnormal, int realloc)
 {
 	int		i;
-	t_vec3	v0;
-	t_vec3	v1;
 
 	i = 0;
 	if (realloc)

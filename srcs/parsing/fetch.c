@@ -22,7 +22,7 @@ static int		fetch_help_next(t_obj *obj, char ***split)
 	if (!ft_strcmp((*split)[0], "depth"))
 		obj->depth = ft_atoi((*split)[1]);
 	if (!ft_strcmp((*split)[0], "src"))
-		return (fetch_obj((*split)[1], &obj));
+		fetch_obj((*split)[1], &obj);
 	obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "reflection"))
 		obj->material.reflectivity = fabs(ft_atof((*split)[1]));
@@ -104,7 +104,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 {
 	char *line;
 
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		mlx->line_cnt++;
 		if (!ft_strcmp(line, "{"))

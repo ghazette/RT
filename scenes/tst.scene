@@ -11,9 +11,9 @@ OBJECT
 {
     name BIATCH
     type COMPOSED
-    form CUBE
     position 0 0 0
     color 0 200 100
+    src obj/glock.obj
     ambient 2
 }
 

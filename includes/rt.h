@@ -373,6 +373,7 @@ int					get_obj_normal(int fd, int normal, t_obj **obj,
 int					get_obj_vertex(int fd, int vertex, t_obj **obj,
 									t_vec3 ***s);
 void				free_poly(t_obj *obj);
+void				free_polydata(const int *cnt, t_vec3 ***polydata);
 void				ft_calc_edge_normal(t_poly *poly);
 
 #endif

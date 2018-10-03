@@ -78,6 +78,7 @@ static void	ft_effect_key(t_mlx *mlx, int key)
 
 static void	ft_quit(t_mlx *mlx)
 {
+	free(mlx);
 	mlx_destroy_image(mlx->mlx, mlx->img);
 	mlx_clear_window(mlx->mlx, mlx->win);
 	mlx_destroy_window(mlx->mlx, mlx->win);

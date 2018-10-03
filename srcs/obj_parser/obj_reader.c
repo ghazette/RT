@@ -13,14 +13,17 @@
 
 #include "../../includes/rt.h"
 
-static int		prep_poly(t_obj **obj)
+static int		prep_poly(t_obj **obj, int havenormal)
 {
 	int i;
 
 	i = 0;
 	while (i < (*obj)->npoly)
 	{
-		calc_edge((*obj)->poly[i], 1, 1);
+		if (havenormal)
+			calc_edge((*obj)->poly[i], 0, 1);
+		else
+			calc_edge((*obj)->poly[i], 1, 1);
 		i++;
 	}
 	return (1);
@@ -73,7 +76,7 @@ int				set_obj_face(int fd, t_obj **obj, t_vec3 ***pdata, int cnt[3])
 	line = NULL;
 	if (!((*obj)->poly = (t_poly**)malloc(sizeof(t_poly*) * (cnt[0]))))
 		return (0);
-	while ((get_next_line(fd, &line) > 0) || i == cnt[0])
+	while ((i < cnt[0]) && (get_next_line(fd, &line) > 0))
 	{
 		if (line[0] == 'f' && line[1] == ' ')
 		{
@@ -84,10 +87,10 @@ int				set_obj_face(int fd, t_obj **obj, t_vec3 ***pdata, int cnt[3])
 			vec3_cpy(&(*obj)->poly[i]->n, pdata[1][ft_atoi(split[1][1]) - 1]);
 			if (!(polyloop(&(*obj)->poly[i], &split, &pdata, cnt[1])))
 				return (0);
-			ft_strdel(&line);
-			ft_free2d(&split[0]);
+			ft_free3d(&split);
 			i++;
 		}
+		ft_strdel(&line);
 	}
 	return (1);
 }
@@ -98,7 +101,7 @@ int				fetch_obj(char *path, t_obj **obj)
 	int		cnt[3];
 	t_vec3	***polydata;
 
-	polydata = malloc(sizeof(t_vec3**) * 2);
+	polydata = malloc(sizeof(t_vec3 **) * 2);
 	cnt[0] = 0;
 	cnt[1] = 0;
 	cnt[2] = 0;
@@ -108,13 +111,14 @@ int				fetch_obj(char *path, t_obj **obj)
 		return (0);
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (0);
-	if (!(get_obj_vertex(fd, cnt[1], obj, &polydata[0]))
-		|| (!(get_obj_normal(fd, cnt[2], obj, &polydata[1])))
-		|| (!(set_obj_face(fd, obj, polydata, cnt))))
+	if (!(get_obj_vertex(fd, cnt[1], obj, &polydata[0])) ||
+		(!(get_obj_normal(fd, cnt[2], obj, &polydata[1]))) ||
+		(!(set_obj_face(fd, obj, polydata, cnt))))
 		return (0);
 	(*obj)->npoly = cnt[0];
-	if (!(prep_poly(obj)))
+	if (!(prep_poly(obj, cnt[2])))
 		return (0);
+	free_polydata(cnt, polydata);
 	(*obj)->form = OBJ_FROMFILE;
 	return (1);
 }

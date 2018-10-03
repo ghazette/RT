@@ -23,7 +23,7 @@ int				get_obj_vertex(int fd, int vertex, t_obj **obj, t_vec3 ***s)
 	line = NULL;
 	if (!((*s) = (t_vec3**)malloc(sizeof(t_vec3*) * vertex)))
 		return (0);
-	while ((get_next_line(fd, &line) > 0) || i == vertex)
+	while ((i < vertex) && (get_next_line(fd, &line) > 0))
 	{
 		if (line[0] == 'v' && line[1] == ' ')
 		{
@@ -34,10 +34,10 @@ int				get_obj_vertex(int fd, int vertex, t_obj **obj, t_vec3 ***s)
 				return (0);
 			vector3d((*s)[i], atof(split[1]) + (*obj)->pos.x,
 				atof(split[2]) + (*obj)->pos.y, atof(split[3]) + (*obj)->pos.z);
-			ft_strdel(&line);
 			ft_free2d(&split);
 			i++;
 		}
+		ft_strdel(&line);
 	}
 	return (1);
 }
@@ -52,7 +52,7 @@ int				get_obj_normal(int fd, int normal, t_obj **obj, t_vec3 ***n)
 	line = NULL;
 	if (!(*n = (t_vec3**)malloc(sizeof(t_vec3*) * normal)))
 		return (0);
-	while ((get_next_line(fd, &line) > 0) || i == normal)
+	while ((i < normal) && (get_next_line(fd, &line) > 0))
 	{
 		if (line[0] == 'v' && line[1] == 'n')
 		{
@@ -63,10 +63,10 @@ int				get_obj_normal(int fd, int normal, t_obj **obj, t_vec3 ***n)
 				return (0);
 			vector3d((*n)[i], atof(split[1]), atof(split[2]),
 					atof(split[3]));
-			ft_strdel(&line);
 			ft_free2d(&split);
 			i++;
 		}
+		ft_strdel(&line);
 	}
 	return (1);
 }
@@ -93,4 +93,27 @@ int				get_obj_data(char *path, int *vertex, int *normal, int *face)
 		return (0);
 	close(fd);
 	return (1);
+}
+
+void			free_polydata(const int *cnt, t_vec3 ***polydata)
+{
+	int f;
+	int i;
+	int j;
+
+	i = 0;
+	f = 1;
+	while (i < 2)
+	{
+		j = 0;
+		while (j < cnt[f])
+		{
+			free(polydata[i][j]);
+			j++;
+		}
+		f++;
+		free(polydata[i]);
+		i++;
+	}
+	free(polydata);
 }
