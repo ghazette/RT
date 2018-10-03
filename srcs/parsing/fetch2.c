@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 11:37:24 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/11 18:03:57 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 12:05:37 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,28 +53,40 @@ int			fetch_spot(t_mlx *mlx, t_spot **spot, int fd)
 {
 	char	*line;
 	char	**split;
+	int 	i[2];
 
+	ft_bzero(&i, sizeof(int) * 2);
 	line = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (mlx->line_cnt++ > -1 && !ft_strcmp(line, "{"))
+		if (mlx->line_cnt++ > -1 && ft_strchr(line, '{'))
+		{
+			i[0] = 1;
 			if (!(*spot = new_spot()))
 				return (0);
-		if (!ft_strcmp(line, "}"))
+		}
+		if (ft_strchr(line, '}') && i[0])
 		{
+			i[1] = 1;
 			if (!(*spot)->name && !((*spot)->name = ft_strdup("NONE")))
 				return (0);
 			ft_strdel(&line);
 			return (mlx->scene->light = 1);
 		}
-		if (!ft_strcmp(line, "") || !(split = ft_strsplit(line, ' ')))
+		if (!ft_strcmp(line, ""))
+			return (0);
+		if (!(split = ft_splitwhitespace(line)))
+			return (0);
+		if (!(split[0]))
 			return (0);
 		if (!(fetch_spot_array(*spot, split)))
 			return (0);
 		ft_free2d(&split);
 		ft_strdel(&line);
 	}
-	return (1);
+	if (i[0] && i[1])
+		return (1);
+	return (0);
 }
 
 static int	fetch_camera_array(t_cam *cam, char **split)
@@ -110,14 +122,18 @@ int			fetch_camera(t_mlx *mlx, int fd)
 	while (get_next_line(fd, &line))
 	{
 		mlx->line_cnt++;
-		if (!ft_strcmp(line, "}"))
+		if (ft_strchr(line, '{') && ft_strchr(line, '}'))
+			return (0);
+		if (ft_strchr(line, '}'))
 		{
 			ft_strdel(&line);
 			return (1);
 		}
 		if (!ft_strcmp(line, ""))
 			return (0);
-		if (!(split = ft_strsplit(line, ' ')))
+		if (!(split = ft_splitwhitespace(line)))
+			return (0);
+		if (!(split[0]))
 			return (0);
 		fetch_camera_array(mlx->scene->cam, split);
 		ft_free2d(&split);
