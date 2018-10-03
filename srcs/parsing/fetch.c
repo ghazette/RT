@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 16:48:45 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 12:12:52 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -101,20 +101,27 @@ static int		fetch_obj_next(t_mlx *mlx, char **line)
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
-	char *line;
+	int		i;
+	char	*line;
+	char	**split;
 
+	i = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		mlx->line_cnt++;
-		if (!ft_strcmp(line, "{"))
+		if (ft_strchr(line, '{'))
+		{
+			i = 1;
 			if (!(mlx->scene->objs[mlx->scene->nb_obj] = new_object()))
 				return (0);
-		if (!ft_strcmp(line, "}"))
-			return (fetch_obj_next(mlx, &line));
-		if (!ft_strcmp(line, ""))
+		}
+		if (!i)
 			return (0);
-		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj],
-			ft_splitwhitespace(line)))
+		if (ft_strchr(line, '}'))
+			return (fetch_obj_next(mlx, &line));
+		if (!(ft_parser_secure(line, &split)))
+			return (0);
+		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj], split))
 			return (0);
 		ft_strdel(&line);
 	}
