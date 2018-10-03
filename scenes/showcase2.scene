@@ -109,7 +109,7 @@ OBJECT
 
 OBJECT
 {
-    name KORO0
+    name DeathStar
     type SPHERE
 	radius 3
     position 10 9 10
