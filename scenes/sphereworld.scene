@@ -1,7 +1,7 @@
 #SCENE WORLDOF
 CAMERA
 {
-    position 0 500 -500
+    position 0 300 -200
     rotation 5 -5 0
     lookat 0 0 0
     focal 1
@@ -31,6 +31,7 @@ OBJECT
     radius 10
     ambient 2
     specular 80 80 80
+    reflection 0.6
     color 255 170 150
 }
 
@@ -48,14 +49,15 @@ OBJECT
 
 OBJECT
 {
-    name SPHERE1
+    name SPHERE1_2
     type SPHERE
-    position -30 15 0
+    position -50 15 0
     rotation 0 0 0
     radius 10
     ambient 2
     specular 80 80 80
-    color 255 170 150
+    reflection 0.5
+    color 255 127 200
 }
 
 OBJECT

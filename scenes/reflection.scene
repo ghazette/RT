@@ -13,20 +13,18 @@ OBJECT
 {
     name SPH_R
     type SPHERE
-    rotation 0 0 0
     position 80 0 -50
     ambient 2
     radius 30
-    refraction 0.7
+    reflection 0.2
     specular 120 120 120
-    color 100 0 0
+    color 255 0 0
 }
 
 OBJECT
 {
     name SPH_G
     type SPHERE
-    rotation 0 0 0
     position 0 0 -50
     ambient 2
     radius 30
@@ -39,10 +37,9 @@ OBJECT
 {
     name SPH_B
     type SPHERE
-    rotation 0 0 0
     position -80 0 -50
     ambient 2
-    reflection 0.6
+    reflection 0.9
     radius 30
     specular 120 120 120
     color 0 0 255
@@ -52,11 +49,9 @@ OBJECT
 {
     name CYL
     type CYLINDER
-    rotation 0 0 0
     position 0 0 150
     ambient 2
     radius 30
-    reflection 0.6
     specular 120 120 120
     color 85 98 156
 }
@@ -69,9 +64,9 @@ OBJECT
     position 0 0 200
     ambient 2
     radius 30
-    reflection 0.6
-    specular 120 120 120
-    color 85 98 156
+    refraction 1.4
+    specular 200 200 200
+    color 200 200 200
 }
 
 SPOT

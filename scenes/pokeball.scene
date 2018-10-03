@@ -1,7 +1,7 @@
 #SCENE TEST0
 CAMERA
 {
-    position -40 -35 -99
+    position -40 -25 -50
     rotation 5 0 0
     lookat 0 -80 90
     focal 1
@@ -15,7 +15,7 @@ OBJECT
 {
     name SPHERE
     type SPHERE
-    position 8 -93 80
+    position 12 -91 80
     rotation 0 0 0
     radius 1
     ambient 2
@@ -28,7 +28,7 @@ OBJECT
     name TESTING
     type SPHERE
     refraction 1.474
-    position 0 -83 50
+    position 0 -77 50
     rotation 0 0 0
     radius 10
     ambient 0
