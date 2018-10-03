@@ -98,6 +98,7 @@ int				obj_cpy(t_sce *scene, t_sce *src)
 	{
 		scene->objs[i] = (t_obj*)malloc(sizeof(t_obj));
 		scene->objs[i]->id = src->objs[i]->id;
+		scene->objs[i]->havenormal = src->objs[i]->havenormal;
 		scene->objs[i]->type = src->objs[i]->type;
 		if (scene->objs[i]->type == COMPOSED)
 			obj_polycpy(scene, src, i);

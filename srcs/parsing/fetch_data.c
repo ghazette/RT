@@ -13,6 +13,25 @@
 
 #include "../../includes/rt.h"
 
+int			ft_parser_secure(char *line, char ***split)
+{
+	if (!ft_strcmp(line, ""))
+		return (0);
+	if (!((*split) = ft_splitwhitespace(line)))
+		return (0);
+	if (!(split[0]))
+		return (0);
+	return (1);
+}
+
+int			fetch_spot_array_help(t_spot *spot, char **split)
+{
+	if (!ft_strcmp(split[0], "position"))
+		if (!(init_vec(&(spot->pos), split)))
+			return (0);
+	return (1);
+}
+
 static int	fetch_data_next(t_mlx *mlx, char **line)
 {
 	if ((*line)[0] == 'A' && (*line)[1] == 'A')

@@ -13,17 +13,14 @@
 
 #include "../../includes/rt.h"
 
-static int		prep_poly(t_obj **obj, int havenormal)
+static int		prep_poly(t_obj **obj)
 {
 	int i;
 
 	i = 0;
 	while (i < (*obj)->npoly)
 	{
-		if (havenormal)
-			calc_edge((*obj)->poly[i], 0, 1);
-		else
-			calc_edge((*obj)->poly[i], 1, 1);
+		calc_edge((*obj)->poly[i], (*obj)->havenormal, 1);
 		i++;
 	}
 	return (1);
@@ -109,6 +106,7 @@ int				fetch_obj(char *path, t_obj **obj)
 		return (0);
 	if (!(get_obj_data(path, &cnt[1], &cnt[2], &cnt[0])))
 		return (0);
+	(*obj)->havenormal = cnt[2] - 1;
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (0);
 	if (!(get_obj_vertex(fd, cnt[1], obj, &polydata[0])) ||
@@ -116,7 +114,7 @@ int				fetch_obj(char *path, t_obj **obj)
 		(!(set_obj_face(fd, obj, polydata, cnt))))
 		return (0);
 	(*obj)->npoly = cnt[0];
-	if (!(prep_poly(obj, cnt[2])))
+	if (!(prep_poly(obj)))
 		return (0);
 	free_polydata(cnt, polydata);
 	(*obj)->form = OBJ_FROMFILE;

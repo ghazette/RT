@@ -18,12 +18,11 @@ static int		fetch_help_next(t_obj *obj, char ***split)
 	if (!ft_strcmp((*split)[0], "height"))
 		obj->height = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "width"))
-		obj->width = ft_atoi((*split)[1]);
+		obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "depth"))
-		obj->depth = ft_atoi((*split)[1]);
+		obj->depth = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "src"))
 		fetch_obj((*split)[1], &obj);
-	obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "reflection"))
 		obj->material.reflectivity = fabs(ft_atof((*split)[1]));
 	if (!ft_strcmp((*split)[0], "refraction"))
@@ -102,9 +101,9 @@ static int		fetch_obj_next(t_mlx *mlx, char **line)
 
 int				fetch_object(t_mlx *mlx, int fd)
 {
+	int		i;
 	char	*line;
 	char	**split;
-	int		i;
 
 	i = 0;
 	while (get_next_line(fd, &line) > 0)
@@ -118,16 +117,11 @@ int				fetch_object(t_mlx *mlx, int fd)
 		}
 		if (!i)
 			return (0);
-		if (ft_strchr(line, '}') && i)
+		if (ft_strchr(line, '}'))
 			return (fetch_obj_next(mlx, &line));
-		if (!ft_strcmp(line, ""))
+		if (!(ft_parser_secure(line, &split)))
 			return (0);
-		if (!(split = ft_splitwhitespace(line)))
-			return (0);
-		if (!(split[0]))
-			return (0);
-		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj],
-			split))
+		if (!fetch_object_array(mlx->scene->objs[mlx->scene->nb_obj], split))
 			return (0);
 		ft_strdel(&line);
 	}

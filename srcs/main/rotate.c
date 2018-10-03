@@ -22,6 +22,7 @@ void	transform_composed(t_obj **obj, double mat[3][3])
 	while (i < (*obj)->npoly)
 	{
 		j = 0;
+		vec3_transform(&(*obj)->poly[i]->n, mat);
 		while (j < (*obj)->poly[i]->ns)
 		{
 			vec3_sub((*obj)->poly[i]->s[j], &(*obj)->pos,

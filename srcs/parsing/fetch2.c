@@ -6,20 +6,12 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 11:37:24 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/03 12:05:37 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 14:22:51 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/rt.h"
-
-static int	fetch_spot_array_help(t_spot *spot, char **split)
-{
-	if (!ft_strcmp(split[0], "position"))
-		if (!(init_vec(&(spot->pos), split)))
-			return (0);
-	return (1);
-}
 
 static int	fetch_spot_array(t_spot *spot, char **split)
 {
@@ -49,42 +41,42 @@ static int	fetch_spot_array(t_spot *spot, char **split)
 	return (fetch_spot_array_help(spot, split));
 }
 
+static int	fetch_spot_next(t_mlx *mlx, t_spot **spot, t_fetch *f)
+{
+	if (mlx->line_cnt++ > -1 && ft_strchr(f->line, '{'))
+	{
+		f->i[0] = 1;
+		if (!(*spot = new_spot()))
+			return (0);
+	}
+	return (1);
+}
+
 int			fetch_spot(t_mlx *mlx, t_spot **spot, int fd)
 {
-	char	*line;
-	char	**split;
-	int 	i[2];
+	t_fetch	f;
 
-	ft_bzero(&i, sizeof(int) * 2);
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
+	ft_bzero(&f, sizeof(t_fetch));
+	while (get_next_line(fd, &f.line) > 0)
 	{
-		if (mlx->line_cnt++ > -1 && ft_strchr(line, '{'))
+		if (!(fetch_spot_next(mlx, spot, &f)))
+			return (0);
+		if (ft_strchr(f.line, '}') && f.i[0])
 		{
-			i[0] = 1;
-			if (!(*spot = new_spot()))
-				return (0);
-		}
-		if (ft_strchr(line, '}') && i[0])
-		{
-			i[1] = 1;
+			f.i[1] = 1;
 			if (!(*spot)->name && !((*spot)->name = ft_strdup("NONE")))
 				return (0);
-			ft_strdel(&line);
+			ft_strdel(&f.line);
 			return (mlx->scene->light = 1);
 		}
-		if (!ft_strcmp(line, ""))
+		if (!(ft_parser_secure(f.line, &f.split)))
 			return (0);
-		if (!(split = ft_splitwhitespace(line)))
+		if (!(fetch_spot_array(*spot, f.split)))
 			return (0);
-		if (!(split[0]))
-			return (0);
-		if (!(fetch_spot_array(*spot, split)))
-			return (0);
-		ft_free2d(&split);
-		ft_strdel(&line);
+		ft_free2d(&f.split);
+		ft_strdel(&f.line);
 	}
-	if (i[0] && i[1])
+	if (f.i[0] && f.i[1])
 		return (1);
 	return (0);
 }
@@ -129,11 +121,7 @@ int			fetch_camera(t_mlx *mlx, int fd)
 			ft_strdel(&line);
 			return (1);
 		}
-		if (!ft_strcmp(line, ""))
-			return (0);
-		if (!(split = ft_splitwhitespace(line)))
-			return (0);
-		if (!(split[0]))
+		if (!(ft_parser_secure(line, &split)))
 			return (0);
 		fetch_camera_array(mlx->scene->cam, split);
 		ft_free2d(&split);
