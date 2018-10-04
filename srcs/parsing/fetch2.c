@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 11:37:24 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/03 14:22:51 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/04 09:35:21 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -111,7 +111,7 @@ int			fetch_camera(t_mlx *mlx, int fd)
 	char *line;
 	char **split;
 
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		mlx->line_cnt++;
 		if (ft_strchr(line, '{') && ft_strchr(line, '}'))
