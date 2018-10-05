@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/21 13:59:22 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/04 09:32:43 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 11:01:17 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,7 +59,7 @@ int			init_scene(t_mlx *mlx, char *fn, int fd)
 	if (!(split = ft_strsplit(line, ' ')))
 		return (0);
 	ft_strdel(&line);
-	if (!ft_strcmp(split[0], "#SCENE"))
+	if (split[0] && !ft_strcmp(split[0], "#SCENE"))
 	{
 		if (!(mlx->scene = malloc(sizeof(t_sce))))
 			return (0);

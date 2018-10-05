@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/01 13:43:48 by rlossy       #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/03 12:03:22 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 11:45:12 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,7 @@ int			ft_parser_secure(char *line, char ***split)
 		return (0);
 	if (!((*split) = ft_splitwhitespace(line)))
 		return (0);
-	if (!(split[0]))
+	if (!(*split[0]))
 		return (0);
 	return (1);
 }

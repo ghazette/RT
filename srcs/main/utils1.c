@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/23 23:35:52 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 10:31:14 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 11:32:44 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -87,7 +87,7 @@ int			new_camera(t_mlx *mlx)
 
 	if (!(cam = malloc(sizeof(t_cam))))
 		return (0);
-	vector3d(&cam->pos, 0, 0, -100);
+	vector3d(&cam->pos, 0, 0, 100);
 	vector3d(&cam->rot, 0, 0, 0);
 	vector3d(&cam->lookat, 0, 0, 1);
 	cam->viewplane_dist = 1;

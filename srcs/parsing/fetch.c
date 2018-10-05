@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:08:00 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/03 12:12:52 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 11:52:43 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -109,7 +109,7 @@ int				fetch_object(t_mlx *mlx, int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		mlx->line_cnt++;
-		if (ft_strchr(line, '{'))
+		if (!i && ft_strchr(line, '{'))
 		{
 			i = 1;
 			if (!(mlx->scene->objs[mlx->scene->nb_obj] = new_object()))

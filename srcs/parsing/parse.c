@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/06 12:10:55 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 10:33:29 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 13:38:58 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,12 @@ int		init_vec(t_vec3 *v, char **data)
 {
 	if (ft_heightlen(data) != 4)
 		return (0);
+	if (data[1])
+		data[1][6] = 0;
+	if (data[2])
+		data[2][6] = 0;
+	if (data[3])
+		data[3][6] = 0;
 	v->x = ft_atoi(data[1]);
 	v->y = ft_atoi(data[2]);
 	v->z = ft_atoi(data[3]);

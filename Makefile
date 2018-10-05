@@ -50,7 +50,7 @@ LBMP_FT     =	$(LIBMP_DIR)
 LIBMP_LNK	=	-L $(LBMP_FT) -l bmp
 LIBMP_INC	=	-I $(LBMP_FT)/libbmp.h $(LBMP_FT)/bmp.h
 
-FLAGS		=	-O2 -Wall -Wextra -Werror -g
+FLAGS		=	-O2 -Wall -Wextra -Werror -g -Ofast
 FLAGX		=	-framework OpenGL -framework AppKit
 
 LOADIR		=	./extra/Progress_Bar-for-Makefile

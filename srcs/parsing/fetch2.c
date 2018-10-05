@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 11:37:24 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/10/04 09:35:21 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/05 11:55:31 by ghazette    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,7 @@ static int	fetch_spot_array(t_spot *spot, char **split)
 
 static int	fetch_spot_next(t_mlx *mlx, t_spot **spot, t_fetch *f)
 {
-	if (mlx->line_cnt++ > -1 && ft_strchr(f->line, '{'))
+	if (!f->i[0] && mlx->line_cnt++ > -1 && ft_strchr(f->line, '{'))
 	{
 		f->i[0] = 1;
 		if (!(*spot = new_spot()))
@@ -91,7 +91,11 @@ static int	fetch_camera_array(t_cam *cam, char **split)
 		vec3_normalize(&cam->npos);
 	}
 	if (!ft_strcmp(split[0], "focal"))
+	{
 		cam->viewplane_dist = ft_atoi(split[1]);
+		if (cam->viewplane_dist < 1)
+			cam->viewplane_dist = 1;
+	}
 	if (!ft_strcmp(split[0], "resolution"))
 	{
 		cam->res[0] = ft_atoi(split[1]);
