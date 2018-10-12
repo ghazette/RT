@@ -21,7 +21,7 @@ static int		fetch_help_next(t_obj *obj, char ***split)
 		obj->width = llabs(ft_atoi((*split)[1]));
 	if (!ft_strcmp((*split)[0], "depth"))
 		obj->depth = llabs(ft_atoi((*split)[1]));
-	if (!ft_strcmp((*split)[0], "src"))
+	if (!ft_strcmp((*split)[0], "src") && !obj->npoly)
 		fetch_obj((*split)[1], &obj);
 	if (!ft_strcmp((*split)[0], "reflection"))
 		obj->material.reflectivity = fabs(ft_atof((*split)[1]));
