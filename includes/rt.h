@@ -32,6 +32,7 @@
 # define CUBE 0x105
 # define WIN_W 1280
 # define WIN_H 960
+# define LIMIT 1000
 # define PLANE 0x101
 # define SPHERE 0x100
 # define FILTER mlx->filter

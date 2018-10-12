@@ -19,12 +19,12 @@ int		init_vec(t_vec3 *v, char **data)
 
 	if (ft_heightlen(data) != 4)
 		return (0);
-	tmp[0] = ft_atoi(data[1]) > 1000 ? 1000 : ft_atoi(data[1]);
-	tmp[0] = ft_atoi(data[1]) < -1000 ? -1000 : tmp[0];
-	tmp[1] = ft_atoi(data[2]) > 1000 ? 1000 : ft_atoi(data[2]);
-	tmp[1] = ft_atoi(data[2]) < -1000 ? -1000 : tmp[1];
-	tmp[2] = ft_atoi(data[3]) > 1000 ? 1000 : ft_atoi(data[3]);
-	tmp[2] = ft_atoi(data[3]) < -1000 ? -1000 : tmp[2];
+	tmp[0] = ft_atoi(data[1]) > LIMIT ? LIMIT : ft_atoi(data[1]);
+	tmp[0] = ft_atoi(data[1]) < -LIMIT ? -LIMIT : tmp[0];
+	tmp[1] = ft_atoi(data[2]) > LIMIT ? LIMIT : ft_atoi(data[2]);
+	tmp[1] = ft_atoi(data[2]) < -LIMIT ? -LIMIT : tmp[1];
+	tmp[2] = ft_atoi(data[3]) > LIMIT ? LIMIT : ft_atoi(data[3]);
+	tmp[2] = ft_atoi(data[3]) < -LIMIT ? -LIMIT : tmp[2];
 	v->x = tmp[0];
 	v->y = tmp[1];
 	v->z = tmp[2];
