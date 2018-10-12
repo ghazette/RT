@@ -92,9 +92,9 @@ static int	fetch_camera_array(t_cam *cam, char **split)
 	}
 	if (!ft_strcmp(split[0], "focal"))
 	{
-		cam->viewplane_dist = ft_atoi(split[1]);
-		if (cam->viewplane_dist < 1)
-			cam->viewplane_dist = 1;
+		cam->viewplane_dist = ft_atoi(split[1]) < 1 ? 1 : ft_atoi(split[1]);
+		cam->viewplane_dist =
+				cam->viewplane_dist > 10 ? 10 : cam->viewplane_dist;
 	}
 	if (!ft_strcmp(split[0], "resolution"))
 	{
