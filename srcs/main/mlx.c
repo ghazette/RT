@@ -75,6 +75,35 @@ t_mlx			*mlx_cpy(t_mlx *src)
 	return (mlx);
 }
 
+void			free_mlx(t_mlx *mlx)
+{
+	int i;
+
+	i = -1;
+	while (++i < mlx->scene->nb_obj)
+	{
+		if (mlx->scene->objs[i]->texture.data)
+			free(mlx->scene->objs[i]->texture.data);
+		free(mlx->scene->objs[i]->name);
+		if (mlx->scene->objs[i]->type == COMPOSED)
+			free_poly(mlx->scene->objs[i]);
+		free(mlx->scene->objs[i]);
+	}
+	free(mlx->scene->objs);
+	i = -1;
+	while (++i < mlx->scene->nb_spot)
+	{
+		free(mlx->scene->spot[i]->name);
+		free(mlx->scene->spot[i]);
+	}
+	free(mlx->scene->spot);
+	free(mlx->scene->interinfo);
+	free(mlx->scene->cam);
+	free(mlx->scene->name);
+	free(mlx->scene);
+	free(mlx->interf);
+}
+
 void			draw_point(int x, int y, t_mlx *mlx, int color)
 {
 	int	i;

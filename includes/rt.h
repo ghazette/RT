@@ -264,6 +264,7 @@ void				usage(void);
 void				reset(t_phong *phong, t_mlx *mlxfree, t_mlx *mlxreset);
 void				render(t_mlx *mlx);
 void				rotate(t_obj *obj);
+void				free_mlx(t_mlx *mlx);
 void				ft_average(t_mlx *mlx, t_vec3 *reg, double coeff);
 void				init_camera(t_mlx *mlx);
 void				draw_point(int x, int y, t_mlx *mlx, int color);
