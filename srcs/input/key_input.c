@@ -6,7 +6,7 @@
 /*   By: ghazette <ghazette@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 15:31:37 by mkulhand     #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/27 16:45:14 by ghazette    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/19 12:35:33 by rlossy      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -107,8 +107,6 @@ int			key_func(int key, void *p)
 		key_plus(mlx, mlx->interf);
 	ft_effect_key(mlx, key);
 	key_rot(mlx, key);
-	if (key == L)
-		mlx->scene->light = (mlx->scene->light) ? 0 : 1;
 	display_interface(mlx);
 	return (1);
 }
